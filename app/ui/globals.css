@@ -3,6 +3,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --primario: #DA0100;
+  --secundario: #FFC500;
+  --fundo: #F4F6F8;
+  --texto: #4A5A6A;
+  --confianca: #205072;
+  --conforto: #B4C99C;
+  --preto: #000;
 }
 
 @theme inline {
@@ -14,8 +22,14 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #070707;
     --foreground: #ededed;
+
+    --primario: #FF3B3B;
+    --fundo: #121212;
+    --texto: #D1D5DB;
+    --confianca: #4A90A2;
+    --conforto: #6B8F71;
   }
 }
 

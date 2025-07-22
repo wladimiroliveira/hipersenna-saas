@@ -1,0 +1,58 @@
+:root {
+  --bg-gray-100: #f3f4f6;
+  --bg-gray-200: #e5e7eb;
+}
+
+/* NavBar */
+.navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: var(--bg-gray-100);
+  padding: 11px 150px;
+
+}
+
+/* Logo */
+
+.navigation .logo_container {
+  display: flex;
+  align-items: center;
+  background: var(--bg-gray-200);
+  gap: 5px;
+}
+
+.navigation .text_container p {
+  text-transform: uppercase;
+  color: transparent;
+  font-weight: 600;
+}
+
+/* Links */
+
+.links_container {
+  display: flex;
+  align-items: center;
+  background: var(--bg-gray-200);
+}
+
+.links_container .list_links {
+  display: flex;
+  gap: 30px;
+  font-weight: 600;
+  color: transparent;
+}
+
+.links_container .list_links .list_item {
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.links_container .list_links .list_item_ativo {
+  text-transform: uppercase;
+  background: transparent;
+  padding: 10px 15px;
+  border-radius: 5px;
+  color: transparent;
+}

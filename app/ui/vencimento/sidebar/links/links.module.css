@@ -1,0 +1,20 @@
+.linkBotao {
+  display: flex;
+  background: var(--confianca);
+  padding: 10px 15px;
+  text-transform: uppercase;
+  color: var(--background);
+  justify-content: space-between;
+  font-weight: 600;
+  border-radius: 10px;
+  font-size: 12px;
+  align-items: center;
+
+  text-decoration: none; /* remove sublinhado */
+  width: 210px;           /* faz o link ocupar 100% do container pai */
+}
+
+.linkBotao:hover {
+  cursor: pointer;        /* adiciona mãozinha no hover */
+  opacity: 0.9;           /* efeito de hover opcional */
+}
