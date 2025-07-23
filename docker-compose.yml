@@ -7,19 +7,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - '3000:3000'
-    volumes:
-      - .:/app
+    # Remova o volume ou configure como abaixo
+    # volumes:
+    #   - .:/app:cached
+    #   - /app/node_modules
     environment:
       - NODE_ENV=development
-    command: npm run dev
-
-  # Uncomment the following service for production
-  # web:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - '3000:3000'
-  #   environment:
-  #     - NODE_ENV=production
-  #   command: npm start
+    command: pnpm start

@@ -1,14 +1,9 @@
-:root {
-  --bg-gray-100: #f3f4f6;
-  --bg-gray-200: #e5e7eb;
-}
-
 /* NavBar */
 .navigation {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background: var(--bg-gray-100);
+  background: #f3f4f6;
   padding: 11px 150px;
 
 }
@@ -18,7 +13,7 @@
 .navigation .logo_container {
   display: flex;
   align-items: center;
-  background: var(--bg-gray-200);
+  background: #e5e7eb;
   gap: 5px;
 }
 
@@ -33,7 +28,7 @@
 .links_container {
   display: flex;
   align-items: center;
-  background: var(--bg-gray-200);
+  background: #e5e7eb;
 }
 
 .links_container .list_links {
