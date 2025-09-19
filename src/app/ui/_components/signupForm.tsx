@@ -11,6 +11,16 @@ import { Button } from '@/components/button'
 import { Input } from '@/components/input'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/form'
 
+/* Shadcn */
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+
 import { authClient } from '@/lib/authClients'
 
 const signupSchema = z
@@ -145,7 +155,21 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Filial</FormLabel>
               <FormControl>
-                <Input placeholder='Insira sua filial' type='number' {...field} disabled={isLoading} />                
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className='w-[180px]'>
+                    <SelectValue placeholder='Filial'/>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value='1'>Matriz</SelectItem>
+                    <SelectItem value='2'>Faruk</SelectItem>
+                    <SelectItem value='3'>Carajás</SelectItem>
+                    <SelectItem value='4'>VS10</SelectItem>
+                    <SelectItem value='5'>Xinguara</SelectItem>
+                    <SelectItem value='6'>DP6</SelectItem>
+                    <SelectItem value='7'>Cidade Jardim</SelectItem>
+                    <SelectItem value='8'>Canaã</SelectItem>
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -159,7 +183,21 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Nível de Acesso</FormLabel>
               <FormControl>
-                <Input placeholder='Insira seu nível de acesso' type='number' {...field} disabled={isLoading} />                
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className='w-[180px]'>
+                    <SelectValue placeholder='Nível de acesso'/>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value='1'>Admin</SelectItem>
+                    <SelectItem value='2'>TI</SelectItem>
+                    <SelectItem value='3'>Gerente</SelectItem>
+                    <SelectItem value='4'>Encarregado</SelectItem>
+                    <SelectItem value='5'>Fiscal de Caixa</SelectItem>
+                    <SelectItem value='6'>Operador(a) de Caixa</SelectItem>
+                    <SelectItem value='7'>Estoquista</SelectItem>
+                    <SelectItem value='8'>Repositor</SelectItem>
+                  </SelectContent>
+                </Select>              
               </FormControl>
               <FormMessage />
             </FormItem>
