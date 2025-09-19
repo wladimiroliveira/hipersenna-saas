@@ -13,7 +13,7 @@ export default async function Page() {
   }
 
   return (
-    <div className='flex flex-col w-full items-center mt-4'>
+    <div className='w-full mt-8 mb-8'>
       <SignupForm />
     </div>
   );

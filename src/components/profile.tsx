@@ -11,7 +11,7 @@ import { ButtonSignOut } from './signout-button';
 
 export function Profile() {
   return (
-    <div>
+    <div className='flex flex-col items-center'>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Image

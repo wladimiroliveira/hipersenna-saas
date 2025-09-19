@@ -17,7 +17,7 @@ export function ButtonSignOut() {
   }
 
   return (
-    <Button onClick={signOut}>
+    <Button onClick={signOut} className='w-full'>
       Sair
     </Button>
   );

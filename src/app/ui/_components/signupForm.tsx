@@ -92,7 +92,7 @@ export function SignupForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} 
-        className='space-y-6 bg-primaria max-w-[377px] rounded-sm border-1 border-secundaria p-4'
+        className='space-y-6 bg-primaria max-w-[377px] m-auto rounded-sm border-1 border-secundaria p-4'
       >
         <FormField
           control={form.control}

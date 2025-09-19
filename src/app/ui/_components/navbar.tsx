@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 export default function NavBar({ tipoUsuario, module }: { tipoUsuario: string, module: string }){
   return (
     <nav 
-      className={`${estilos.navigation} grid relative bg-primaria w-full pt-4 pb-4 pl-8 pr-8 gap-4`}
+      className={`${estilos.navigation} grid relative bg-primaria w-full pt-2 pb-2 pl-16 pr-16 gap-4`}
     >
       <div 
         className={`${estilos.logo_container} flex items-center w-full gap-1`}
@@ -32,7 +32,7 @@ export default function NavBar({ tipoUsuario, module }: { tipoUsuario: string, m
         <h1 className='text-2xl uppercase font-bold tracking-widest text-secundaria'>{module}</h1>
       </div>
       <div 
-        className={`${estilos.menu_container} flex items-center w-full`}
+        className={`${estilos.menu_container} flex w-full`}
       >
         <Profile />
       </div>
