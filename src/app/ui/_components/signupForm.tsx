@@ -91,7 +91,9 @@ export function SignupForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+      <form onSubmit={form.handleSubmit(onSubmit)} 
+        className='space-y-6 bg-primaria max-w-[377px] rounded-sm border-1 border-secundaria p-4'
+      >
         <FormField
           control={form.control}
           name='name'
@@ -148,61 +150,63 @@ export function SignupForm() {
           )}
         />
         
-        <FormField
-          control={form.control}
-          name='branch_id'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Filial</FormLabel>
-              <FormControl>
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger className='w-[180px]'>
-                    <SelectValue placeholder='Filial'/>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value='1'>Matriz</SelectItem>
-                    <SelectItem value='2'>Faruk</SelectItem>
-                    <SelectItem value='3'>Carajás</SelectItem>
-                    <SelectItem value='4'>VS10</SelectItem>
-                    <SelectItem value='5'>Xinguara</SelectItem>
-                    <SelectItem value='6'>DP6</SelectItem>
-                    <SelectItem value='7'>Cidade Jardim</SelectItem>
-                    <SelectItem value='8'>Canaã</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        
-        <FormField
-          control={form.control}
-          name='access_level'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nível de Acesso</FormLabel>
-              <FormControl>
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger className='w-[180px]'>
-                    <SelectValue placeholder='Nível de acesso'/>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value='1'>Admin</SelectItem>
-                    <SelectItem value='2'>TI</SelectItem>
-                    <SelectItem value='3'>Gerente</SelectItem>
-                    <SelectItem value='4'>Encarregado</SelectItem>
-                    <SelectItem value='5'>Fiscal de Caixa</SelectItem>
-                    <SelectItem value='6'>Operador(a) de Caixa</SelectItem>
-                    <SelectItem value='7'>Estoquista</SelectItem>
-                    <SelectItem value='8'>Repositor</SelectItem>
-                  </SelectContent>
-                </Select>              
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className='flex flex-col gap-4 items-center'>
+          <FormField
+            control={form.control}
+            name='branch_id'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Filial</FormLabel>
+                <FormControl>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger className='w-[180px] bg-terciaria border-0'>
+                      <SelectValue placeholder='Filial'/>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value='1'>Matriz</SelectItem>
+                      <SelectItem value='2'>Faruk</SelectItem>
+                      <SelectItem value='3'>Carajás</SelectItem>
+                      <SelectItem value='4'>VS10</SelectItem>
+                      <SelectItem value='5'>Xinguara</SelectItem>
+                      <SelectItem value='6'>DP6</SelectItem>
+                      <SelectItem value='7'>Cidade Jardim</SelectItem>
+                      <SelectItem value='8'>Canaã</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <FormField
+            control={form.control}
+            name='access_level'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nível de Acesso</FormLabel>
+                <FormControl>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger className='w-[180px] bg-terciaria border-0'>
+                      <SelectValue placeholder='Nível de acesso'/>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value='1'>Admin</SelectItem>
+                      <SelectItem value='2'>TI</SelectItem>
+                      <SelectItem value='3'>Gerente</SelectItem>
+                      <SelectItem value='4'>Encarregado</SelectItem>
+                      <SelectItem value='5'>Fiscal de Caixa</SelectItem>
+                      <SelectItem value='6'>Operador(a) de Caixa</SelectItem>
+                      <SelectItem value='7'>Estoquista</SelectItem>
+                      <SelectItem value='8'>Repositor</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}

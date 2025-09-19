@@ -1,0 +1,36 @@
+.navigation {
+  grid-template-areas: 
+  'logo menu'
+  'titulo titulo';
+}
+
+.logo_container {
+  grid-area: logo;
+}
+
+.logo_container p {
+  line-height: normal;
+}
+
+.titulo_container {
+  grid-area: titulo;
+  justify-content: center;
+  align-items: center;
+}
+
+.titulo_container h1 {
+  line-height: normal;
+}
+
+.menu_container {
+  grid-area: menu;
+  justify-content: end;
+}
+
+@media screen and (width >= 30rem) {
+  .navigation {
+    grid-template-areas: 
+    'logo titulo menu';
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

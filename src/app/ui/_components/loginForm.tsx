@@ -39,11 +39,11 @@ export function LoginForm() {
     await authClient.signIn.username({
       username: formData.username,
       password: formData.password,
-      callbackURL: '/dashboard',
+      callbackURL: '/home',
     }, {
       onRequest: (ctx) => {},
       onSuccess: (ctx) => {
-        router.replace('/dashboard')
+        router.replace('/home')
       },
       onError: (ctx) => {
         if (ctx.error.code === "INVALID_EMAIL_OR_PASSWORD") {
@@ -54,16 +54,13 @@ export function LoginForm() {
 
   }
 
-  async function handleSignInWithGitHub () {
-    await authClient.signIn.social({
-      provider: 'github',
-      callbackURL: '/dashboard',
-    })
-  }
-
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='w-full m-auto space-y-6 bg-primaria rounded-sm border-1 border-secundaria p-4'
+        style={{
+          maxWidth: "377px"
+        }}
+      >
         <FormField
           control={form.control}
           name='username'

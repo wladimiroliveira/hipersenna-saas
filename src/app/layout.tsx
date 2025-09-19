@@ -15,9 +15,9 @@ export default function Layout({
   return (
     <html lang='pt-br'>
       <body className={`${roboto.className} antialiased`}>
-          <div className='grow md:overflow-y-hidden'>
-            {children}
-          </div>
+        <div className='grow md:overflow-y-hidden'>
+          {children}
+        </div>
       </body>
     </html>
   );
