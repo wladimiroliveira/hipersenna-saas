@@ -1,0 +1,23 @@
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #91aab4 0%,
+    #c3d4db 50%,
+    #91aab4 100%
+  );
+  background-size: 400% 400%;
+  animation-name: skeletonsAnimation;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes skeletonsAnimation {
+  from {
+    background-position: 0% 0%;
+  }
+
+  to {
+    background-position: 135% 0%;
+  }
+}

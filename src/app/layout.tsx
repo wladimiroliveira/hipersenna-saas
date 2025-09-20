@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { roboto } from '@/app/ui/fonts';
 
 export const metadata: Metadata = {
-  title: "HiperSenna",
+  title: "HIPERSENNA",
   description: "Excelência e qualidade",
 };
 
