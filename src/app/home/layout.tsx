@@ -14,6 +14,7 @@ export default async function Layout({
     headers: await headers()
   })
   const username = session?.user.username
+  const matricula = session?.user.matriculation
 
   if(!session) {
     redirect('/')
