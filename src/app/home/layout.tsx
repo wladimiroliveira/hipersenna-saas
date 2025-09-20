@@ -1,9 +1,9 @@
 import { roboto } from '@/app/ui/fonts';
 import NavBar from '../ui/_components/navbar';
+import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
-import { Braah_One } from 'next/font/google';
+import { Navigation } from '../ui/_components/navigation';
 
 export default async function Layout({ 
   children 
@@ -13,8 +13,9 @@ export default async function Layout({
   const session = await auth.api.getSession({
     headers: await headers()
   })
+  const username = session?.user.username
 
-  if (!session) {
+  if(!session) {
     redirect('/')
   }
 
@@ -22,10 +23,8 @@ export default async function Layout({
     <html lang='pt-br'>
       <body className={`${roboto.className} antialiased`}>
         <header>
-          <NavBar 
-            tipoUsuario={`${session.user.username}`}
-            module='HOME'
-          />
+          <NavBar username={`${username}`}/>
+          <Navigation />
         </header>
         <div className='grow md:overflow-y-hidden'>
           {children}
