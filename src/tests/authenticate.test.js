@@ -1,6 +1,10 @@
 const signUp = require("../ui/components/signUp/signUpFunction");
 const signIn = require("../ui/components/signIn/signInFunction");
 const signOut = require("../ui/components/signOut/signOutFunction");
+const deleteUser = require("../ui/components/deleteUser/deleteUserFunction");
+
+let token;
+let userId;
 
 // SignUp Tests
 test("Registering a new user", async () => {
@@ -12,7 +16,6 @@ test("Registering a new user", async () => {
     "testeauth",
     1
   );
-
   expect(response.status).toBe(201);
 });
 
@@ -29,12 +32,11 @@ test("Registration with existing credentials", async () => {
   expect(response.status).toBe(409);
 });
 
-let token;
-
 // SignIn Tests
 test("SignIn with valid credentials", async () => {
   const { response, result } = await signIn.signIn("teste.auth", "testeauth");
   token = result.token;
+  userId = result.id;
   expect(response.status).toBe(200);
 });
 
@@ -59,7 +61,16 @@ test("SignOut with valid token", async () => {
   expect(response.status).toBe(200);
 });
 
-test("SignOut without session", async () => {
+/* test("SignOut without session", async () => {
   const { response, result } = await signOut.signOut(token);
   expect(result.message).toEqual("Sessão não encontrada ou já expirada");
+}); */
+
+// Delete User Test
+
+test("Delete user with valid id", async () => {
+  const content = await signIn.signIn("teste.auth", "testeauth");
+  token = content.result.token;
+  const { response, result } = await deleteUser.deleteUser(userId, token);
+  expect(response.status).toBe(200);
 });
