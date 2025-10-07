@@ -2,6 +2,7 @@ const signUp = require("../ui/components/signUp/signUpFunction");
 const signIn = require("../ui/components/signIn/signInFunction");
 const signOut = require("../ui/components/signOut/signOutFunction");
 const deleteUser = require("../ui/components/deleteUser/deleteUserFunction");
+const getSession = require("../ui/components/getSession/getSessionFunction");
 
 let token;
 let userId;
@@ -36,6 +37,12 @@ test("SignIn with invalid password", async () => {
   expect(result.message).toEqual("Usuário ou senha inválidos!");
 });
 
+//GetSession
+test("GetSession with valid token", async () => {
+  const { response, result } = await getSession.getSession(token);
+  expect(response.status).toBe(200);
+});
+
 // SignOut Tests
 test("SignOut without token", async () => {
   const { response, result } = await signOut.signOut();
@@ -53,7 +60,6 @@ test("SignOut with valid token", async () => {
 }); */
 
 // Delete User Test
-
 test("Delete user with valid id", async () => {
   const content = await signIn.signIn("teste.auth", "testeauth");
   token = content.result.token;
