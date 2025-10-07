@@ -8,26 +8,12 @@ let userId;
 
 // SignUp Tests
 test("Registering a new user", async () => {
-  const { response, result } = await signUp.signUp(
-    "Teste Auth",
-    "teste.auth",
-    1,
-    1,
-    "testeauth",
-    1
-  );
+  const { response, result } = await signUp.signUp("Teste Auth", "teste.auth", 1, 1, "testeauth", 1);
   expect(response.status).toBe(201);
 });
 
 test("Registration with existing credentials", async () => {
-  const { response, result } = await signUp.signUp(
-    "Teste Auth",
-    "teste.auth",
-    1,
-    1,
-    "testeauth",
-    1
-  );
+  const { response, result } = await signUp.signUp("Teste Auth", "teste.auth", 1, 1, "testeauth", 1);
 
   expect(response.status).toBe(409);
 });
