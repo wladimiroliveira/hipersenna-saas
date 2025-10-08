@@ -1,4 +1,4 @@
-# MVP - 1: Sistema de gerenciamento de vencimentos
+# MVP: Sistema de gerenciamento de vencimentos
 
 ---
 
