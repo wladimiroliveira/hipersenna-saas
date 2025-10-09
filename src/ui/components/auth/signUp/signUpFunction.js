@@ -2,7 +2,7 @@ require("dotenv").config({ quiet: true });
 
 async function signUp(body, token) {
   try {
-    const response = await fetch(`${process.env.API_URL}/users/signup`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

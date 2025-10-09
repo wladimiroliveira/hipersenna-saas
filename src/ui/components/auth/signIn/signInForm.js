@@ -1,13 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { signUp } from "@/ui/components/auth/signUp/signUpFunction";
+import { SignUpSuccess } from "@/ui/components/auth/signUp/alertsSignUp";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
 import { Controller, useForm } from "react-hook-form";
 
-function SignInForm() {
+export function SignInForm() {
+  const [user, setUser] = useState("");
+  const [reply, setReply] = useState("");
+  const [showResponse, setShowResponse] = useState(false);
+
   const {
     register,
     handleSubmit: onSubmit,
@@ -15,8 +21,11 @@ function SignInForm() {
     control,
     formState: { errors },
   } = useForm();
-  const handleSubmit = (data) => {
-    console.log(data);
+  const handleSubmit = async (data) => {
+    const { response, result } = await signUp(data);
+    setUser(data.username);
+    setReply(response.status);
+    setShowResponse(true);
   };
   return (
     <form onSubmit={onSubmit(handleSubmit)} className="w-full max-w-md m-auto">
@@ -94,8 +103,7 @@ function SignInForm() {
         </FieldGroup>
         <Button>CADASTRAR</Button>
       </FieldSet>
+      <div className="pt-6">{showResponse && <SignUpSuccess username={user} response={response.status} />}</div>
     </form>
   );
 }
-
-export { SignInForm };
