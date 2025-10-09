@@ -61,19 +61,19 @@ test("SignIn with invalid password", async () => {
   expect(result.message).toEqual("Usuário ou senha inválidos!");
 });
 
-// GetSession
-test("GetSession with valid token", async () => {
-  const userInfos = await signIn(normalUser);
-  const { response, result } = await getSession(userInfos.result.token);
-  signOut(userInfos.result.token);
-  expect(response.status).toBe(200);
-});
-
 // GetUser
 test("GetUser with valid id", async () => {
   const admin = await signIn(adminUser);
   const { response, result } = await getUser(id, admin.result.token);
   signOut(admin.result.token);
+  expect(response.status).toBe(200);
+});
+
+// GetSession
+test("GetSession with valid token", async () => {
+  const userInfos = await signIn(normalUser);
+  const { response, result } = await getSession(userInfos.result.token);
+  signOut(userInfos.result.token);
   expect(response.status).toBe(200);
 });
 
