@@ -1,10 +1,10 @@
-const { signUp } = require("../../../ui/components/auth/signUp/signUpFunction");
-const { signIn } = require("../../../ui/components/auth/signIn/signInFunction");
-const { signOut } = require("../../../ui/components/auth/signOut/signOutFunction");
-const { deleteUser } = require("../../../ui/components/auth/deleteUser/deleteUserFunction");
-const { getSession } = require("../../../ui/components/auth/getSession/getSessionFunction");
-const { getUser } = require("../../../ui/components/auth/getUser/getUserFunction");
-const { editUser } = require("../../../ui/components/auth/editUser/editUserFunction");
+const { signUp } = require("../../../ui/models/auth/signUp/signUpFunction");
+const { signIn } = require("../../../ui/models/auth/signIn/signInFunction");
+const { signOut } = require("../../../ui/models/auth/signOut/signOutFunction");
+const { deleteUser } = require("../../../ui/models/auth/deleteUser/deleteUserFunction");
+const { getSession } = require("../../../ui/models/auth/getSession/getSessionFunction");
+const { getUser } = require("../../../ui/models/auth/getUser/getUserFunction");
+const { editUser } = require("../../../ui/models/auth/editUser/editUserFunction");
 
 const adminUser = {
   username: process.env.ADMIN_USER_USERNAME,
