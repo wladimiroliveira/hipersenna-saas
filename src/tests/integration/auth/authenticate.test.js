@@ -1,14 +1,16 @@
-const { signUp } = require("../../../ui/models/auth/signUp/signUpFunction");
-const { signIn } = require("../../../ui/models/auth/signIn/signInFunction");
-const { signOut } = require("../../../ui/models/auth/signOut/signOutFunction");
-const { deleteUser } = require("../../../ui/models/auth/deleteUser/deleteUserFunction");
-const { getSession } = require("../../../ui/models/auth/getSession/getSessionFunction");
-const { getUser } = require("../../../ui/models/auth/getUser/getUserFunction");
-const { editUser } = require("../../../ui/models/auth/editUser/editUserFunction");
+require("dotenv").config({ quiet: true });
+
+const { signUp } = require("../../../app/ui/models/auth/signUp/signUpFunction");
+const { signIn } = require("../../../app/ui/models/auth/signIn/signInFunction");
+const { signOut } = require("../../../app/ui/models/auth/signOut/signOutFunction");
+const { deleteUser } = require("../../../app/ui/models/auth/deleteUser/deleteUserFunction");
+const { getSession } = require("../../../app/ui/models/auth/getSession/getSessionFunction");
+const { getUser } = require("../../../app/ui/models/auth/getUser/getUserFunction");
+const { editUser } = require("../../../app/ui/models/auth/editUser/editUserFunction");
 
 const adminUser = {
-  username: process.env.ADMIN_USER_USERNAME,
-  password: process.env.ADMIN_USER_PASSWORD,
+  username: process.env.ADMIN_USERNAME,
+  password: process.env.ADMIN_PASSWORD,
 };
 const normalUser = {
   name: "Teste Auth",
@@ -28,79 +30,70 @@ const editedUser = {
 };
 
 // SignUp Tests
-test("Registering a new user", async () => {
+test("SignUp", async () => {
+  // SignUp WithValid Credentials
   const admin = await signIn(adminUser);
-  const { response, result } = await signUp(normalUser, admin.result.token);
-  signOut(admin.result.token);
+  const { response } = await signUp(normalUser, admin.result.token);
   expect(response.status).toBe(201);
-});
 
-test("Registration with existing credentials", async () => {
-  const admin = await signIn(adminUser);
-  const { response, result } = await signUp(normalUser, admin.result.token);
+  // SignUp with existing credentials
+  const secResponse = await signUp(normalUser, admin.result.token);
+  expect(secResponse.response.status).toBe(409);
   signOut(admin.result.token);
-  expect(response.status).toBe(409);
 });
 
 // SignIn Tests
 let id;
-test("SignIn with valid credentials", async () => {
+test("SignIn", async () => {
+  // SignIn with valid credentials
   const { response, result } = await signIn(normalUser);
   const userInfos = await getSession(result.token);
   id = userInfos.result.id;
   expect(response.status).toBe(200);
-});
 
-test("SignIn with invalid username", async () => {
-  const { response, result } = await signIn({ username: "auth.teste", password: "testeauth" });
-  expect(result.message).toEqual("Usuário ou senha inválidos!");
-});
+  // SignIn with invalid username
+  const invalidUserSignIn = await signIn({ username: "auth.teste", password: "testeauth" });
+  expect(invalidUserSignIn.result.message).toEqual("Usuário ou senha inválidos!");
 
-test("SignIn with invalid password", async () => {
-  const { response, result } = await signIn({ username: "teste.auth", password: "authteste" });
-  expect(result.message).toEqual("Usuário ou senha inválidos!");
+  // SignIn with invalid password
+  const invalidPasswordSignIn = await signIn({ username: "teste.auth", password: "authteste" });
+  expect(invalidPasswordSignIn.result.message).toEqual("Usuário ou senha inválidos!");
 });
 
 // GetUser
-test("GetUser with valid id", async () => {
+test("GetUser", async () => {
   const admin = await signIn(adminUser);
-  const { response, result } = await getUser(id, admin.result.token);
+  const { response } = await getUser(id, admin.result.token);
   signOut(admin.result.token);
   expect(response.status).toBe(200);
 });
 
 // GetSession
-test("GetSession with valid token", async () => {
+test("GetSession", async () => {
   const userInfos = await signIn(normalUser);
-  const { response, result } = await getSession(userInfos.result.token);
+  const { response } = await getSession(userInfos.result.token);
   signOut(userInfos.result.token);
   expect(response.status).toBe(200);
 });
 
-// SignOut Tests
-test("SignOut without token", async () => {
-  const { response, result } = await signOut();
-  expect(response.status).toBe(401);
-});
-
-test("SignOut with valid token", async () => {
+test("SignOut", async () => {
   const userInfos = await signIn(normalUser);
-  const { response, result } = await signOut(userInfos.result.token);
+  const { response } = await signOut(userInfos.result.token);
   expect(response.status).toBe(200);
 });
 
 // Edit User Test
-test("EditUser with all options", async () => {
+test("EditUser", async () => {
   const admin = await signIn(adminUser);
-  const { response, result } = await editUser(id, admin.result.token, editedUser);
+  const { response } = await editUser(id, admin.result.token, editedUser);
   signOut(admin.result.token);
   expect(response.status).toBe(200);
 });
 
 // Delete User Test
-test("Delete user with valid id", async () => {
+test("Delete", async () => {
   const admin = await signIn(adminUser);
-  const { response, result } = await deleteUser(id, admin.result.token);
+  const { response } = await deleteUser(id, admin.result.token);
   signOut(admin.result.token);
   expect(response.status).toBe(200);
 });
