@@ -3,7 +3,7 @@ require("dotenv").config({ quiet: true });
 async function signOut(token) {
   if (token) {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/signout`, {
+      const response = await fetch(`${process.env.API_URL}/users/signout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

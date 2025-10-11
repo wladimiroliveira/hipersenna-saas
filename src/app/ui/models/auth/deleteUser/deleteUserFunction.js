@@ -1,14 +1,14 @@
 require("dotenv").config({ quiet: true });
 
-async function editUser(id, token, body) {
+async function deleteUser(id, token) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
-      method: "PATCH",
+    const response = await fetch(`${process.env.API_URL}/users/${id}`, {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify({ null: null }),
     });
 
     const result = await response.json();
@@ -21,4 +21,4 @@ async function editUser(id, token, body) {
   }
 }
 
-exports.editUser = editUser;
+exports.deleteUser = deleteUser;

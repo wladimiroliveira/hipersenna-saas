@@ -1,25 +1,23 @@
 require("dotenv").config({ quiet: true });
 
-async function signUp(body, token) {
+async function signIn(body) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/signup`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
     });
 
     const result = await response.json();
-
     return {
-      response,
       result,
+      response,
     };
   } catch (err) {
-    return err;
+    console.error(err);
   }
 }
 
-exports.signUp = signUp;
+exports.signIn = signIn;

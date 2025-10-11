@@ -1,16 +1,18 @@
 require("dotenv").config({ quiet: true });
 
-async function getUser(id, token) {
+async function signUp(body, token) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
-      method: "GET",
+    const response = await fetch(`${process.env.API_URL}/users/signup`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify(body),
     });
 
     const result = await response.json();
+
     return {
       response,
       result,
@@ -20,4 +22,4 @@ async function getUser(id, token) {
   }
 }
 
-exports.getUser = getUser;
+exports.signUp = signUp;

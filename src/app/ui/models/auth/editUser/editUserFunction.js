@@ -1,13 +1,14 @@
 require("dotenv").config({ quiet: true });
 
-async function getSession(token) {
+async function editUser(id, token, body) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
-      method: "GET",
+    const response = await fetch(`${process.env.API_URL}/users/${id}`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify(body),
     });
 
     const result = await response.json();
@@ -20,4 +21,4 @@ async function getSession(token) {
   }
 }
 
-exports.getSession = getSession;
+exports.editUser = editUser;

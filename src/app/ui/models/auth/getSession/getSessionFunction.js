@@ -1,14 +1,13 @@
 require("dotenv").config({ quiet: true });
 
-async function deleteUser(id, token) {
+async function getSession(token) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
-      method: "DELETE",
+    const response = await fetch(`${process.env.API_URL}/users/me`, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ null: null }),
     });
 
     const result = await response.json();
@@ -21,4 +20,4 @@ async function deleteUser(id, token) {
   }
 }
 
-exports.deleteUser = deleteUser;
+exports.getSession = getSession;
