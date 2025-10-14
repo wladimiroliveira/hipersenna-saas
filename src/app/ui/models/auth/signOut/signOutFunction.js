@@ -13,7 +13,9 @@ async function signOut(token) {
       });
 
       const result = await response.json();
-
+      if (response.ok) {
+        await fetch(`${process.env.HOST_URL}/api/deletetoken`);
+      }
       return {
         response,
         result,
