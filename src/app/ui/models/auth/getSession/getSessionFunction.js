@@ -12,7 +12,7 @@ async function getSession() {
       },
     });
     if (!response.ok) {
-      await fetch(`${process.env.HOST_URL}/api/deletetoken`);
+      fetch(`${process.env.HOST_URL}/api/deletetoken`);
     }
     const result = await response.json();
     return {
