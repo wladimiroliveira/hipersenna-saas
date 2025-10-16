@@ -3,15 +3,16 @@ import { getSession } from "./app/ui/models/auth/getSession/getSessionFunction";
 
 export async function middleware(request) {
   const token = request.cookies.get("token")?.value;
-
+  const url = request.nextUrl.clone();
+  url.pathname = "/";
   // Se não tiver token, redireciona para /
   if (!token) {
-    return NextResponse.redirect(new URL(`${process.env.HOST_URL}/`, request.url));
+    return NextResponse.rewrite(url);
   }
 
   const session = await getSession(token);
   if (!session.response?.ok) {
-    const response = NextResponse.redirect(new URL(`${process.env.HOST_URL}/`, request.url));
+    const response = NextResponse.rewrite(url);
     response.cookies.delete("token");
     return response;
   }
