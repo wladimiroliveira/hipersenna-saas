@@ -4,7 +4,7 @@ export async function POST(request) {
   try {
     const body = await request.json();
     const cookieStore = await cookies();
-    const response = await fetch(`${process.env.API_URL}/auth/signin`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

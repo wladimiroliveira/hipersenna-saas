@@ -2,7 +2,7 @@ require("dotenv").config({ quiet: true });
 
 async function deleteUser(id, token) {
   try {
-    const response = await fetch(`${process.env.API_URL}/users/${id}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

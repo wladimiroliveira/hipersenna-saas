@@ -1,6 +1,6 @@
 async function getSession(token) {
   try {
-    const response = await fetch(`${process.env.API_URL}/users/me`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/jaon",
