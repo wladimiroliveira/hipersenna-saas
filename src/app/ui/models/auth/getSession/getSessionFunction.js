@@ -1,9 +1,5 @@
-const { cookies } = require("next/headers");
-
-async function getSession() {
+async function getSession(token) {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
     const response = await fetch(`${process.env.API_URL}/users/me`, {
       method: "GET",
       headers: {
