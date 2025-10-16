@@ -7,9 +7,6 @@ async function getSession(token) {
         Authorization: `Bearer ${token}`,
       },
     });
-    if (!response.ok) {
-      fetch(`${process.env.HOST_URL}/api/deletetoken`);
-    }
     const result = await response.json();
     return {
       response,
