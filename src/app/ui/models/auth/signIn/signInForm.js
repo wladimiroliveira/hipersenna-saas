@@ -8,11 +8,13 @@ import { signIn } from "./signInFunction";
 import { AlertAuth } from "@/app/ui/models/auth/alertsAuth";
 import { useForm } from "react-hook-form";
 import { redirect } from "next/navigation";
+import clsx from "clsx";
 
 export function SignInForm() {
   const [user, setUser] = useState("");
   const [reply, setReply] = useState({});
   const [showResponse, setShowResponse] = useState(false);
+  const [inputType, setInputType] = useState("password");
 
   const {
     register,
@@ -29,23 +31,61 @@ export function SignInForm() {
     }
   };
   return (
-    <form onSubmit={onSubmit(handleSubmit)} className="w-full max-w-md m-auto">
-      <FieldSet>
-        <FieldGroup>
-          <Field>
-            <FieldLabel htmlFor="username">Nome de Usuário</FieldLabel>
-            <FieldDescription>Escreva um nome de usuário único</FieldDescription>
-            <Input id="username" type="text" placeholder="Nome de Usuário" {...register("username")} />
-          </Field>
-          <Field>
-            <FieldLabel htmlFor="password">Senha</FieldLabel>
-            <FieldDescription>Digite uma senha de no mínimo 8 dígitos</FieldDescription>
-            <Input id="password" type="password" placeholder="********" {...register("password")} />
-          </Field>
-        </FieldGroup>
-        <Button>Entrar</Button>
-      </FieldSet>
-      <div className="pt-6">{showResponse && <AlertAuth response={reply[0].status} message={reply[1].message} />}</div>
-    </form>
+    <div className="w-[80%] m-auto">
+      <form onSubmit={onSubmit(handleSubmit)} className="w-full max-w-md m-auto">
+        <FieldSet>
+          <h2 className="text-2xl font-semibold text-primaria">Login</h2>
+          <FieldGroup className="gap-2">
+            <Field className="gap-0">
+              <FieldLabel htmlFor="username" className="font-normal text-base text-primaria">
+                Nome de Usuário
+              </FieldLabel>
+              <Input
+                id="username"
+                type="text"
+                placeholder="Nome de Usuário"
+                {...register("username")}
+                className="bg-[url(/signin/user.svg)] bg-no-repeat bg-[.7rem] pl-8 pr-8"
+              />
+            </Field>
+            <Field className="gap-0">
+              <FieldLabel htmlFor="password" className="font-normal text-base text-primaria">
+                Senha
+              </FieldLabel>
+              <div className="flex flex-row border-1 border-primaria rounded-md">
+                <Input
+                  id="password"
+                  type={inputType}
+                  placeholder="********"
+                  {...register("password")}
+                  className="bg-[url(/signin/lock.svg)] bg-no-repeat bg-[.7rem] pl-8 pr-8 border-0"
+                />
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (inputType === "password") {
+                      setInputType("text");
+                    } else {
+                      setInputType("password");
+                    }
+                  }}
+                  className={clsx(
+                    "bg-no-repeat bg-center w-[36px] h-[36px] bg-transparent hover:bg-transparent cursor-pointer",
+                    {
+                      "bg-[url(/signin/open-eye.svg)] bg-no-repeat bg-center": inputType === "password",
+                      "bg-[url(/signin/close-eye.svg)] bg-no-repeat bg-center": inputType === "text",
+                    },
+                  )}
+                ></button>
+              </div>
+            </Field>
+          </FieldGroup>
+          <Button>Login</Button>
+        </FieldSet>
+        <div className="pt-6">
+          {showResponse && <AlertAuth response={reply[0].status} message={reply[1].message} />}
+        </div>
+      </form>
+    </div>
   );
 }
