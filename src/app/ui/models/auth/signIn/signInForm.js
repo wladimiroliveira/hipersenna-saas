@@ -33,7 +33,7 @@ export function SignInForm() {
   return (
     <div className="w-[80%] m-auto">
       <form onSubmit={onSubmit(handleSubmit)} className="w-full max-w-md m-auto">
-        <FieldSet>
+        <FieldSet className="gap-6">
           <h2 className="text-2xl font-semibold text-primaria">Login</h2>
           <FieldGroup className="gap-2">
             <Field className="gap-0">

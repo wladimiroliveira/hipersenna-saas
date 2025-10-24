@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Home",
+    "id": "home",
+    "path": "/home"
+  },
+  {
+    "name": "Admin",
+    "id": "admin",
+    "path": "/home/admin"
+  },
+  {
+    "name": "Vencimento",
+    "id": "vencimento",
+    "path": "/home/vencimento"
+  },
+  {
+    "name": "Conhecimento",
+    "id": "conhecimento",
+    "path": "/home/conhecimento"
+  }
+]
