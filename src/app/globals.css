@@ -46,6 +46,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --shadow-underline: 0 1px 0 #fff;
+  --shadow-underline-primaria: 0 1px 0 var(--color-primaria);
   --shadow-underline-hover: 0 1px 0 #99a1af;
 }
 

@@ -1,6 +1,7 @@
 import { Navigation } from "@/app/ui/components/navigation";
 import { cookies } from "next/headers";
 import { getSession } from "../ui/models/auth/getSession/getSessionFunction";
+import { Footer } from "../ui/components/footer";
 
 export default async function Layout({ children }) {
   const cookieStore = await cookies();
@@ -13,7 +14,10 @@ export default async function Layout({ children }) {
           <Navigation username={session[1].username} token={token} />
         </nav>
       </header>
-      <div>{children}</div>
+      <div>
+        {children}
+        <Footer />
+      </div>
     </>
   );
 }

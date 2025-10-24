@@ -1,5 +1,6 @@
 import { ModulesContainer } from "@/app/ui/components/modulesContainer";
 import modules from "@/lib/files/modules.json";
+import { Footer } from "@/app/ui/components/footer";
 
 export default async function Page() {
   return (
