@@ -22,10 +22,10 @@ export function Navigation({ username }) {
     <div className="flex flex-row gap-10 items-center justify-between bg-primaria pl-8 pr-8 pt-4 pb-4">
       <div
         className={clsx(
-          "flex flex-col gap-2 bg-secundaria text-center w-[190px] border-1 border-primaria p-4 rounded-xl right-4 top-16 absolute",
+          "transition-opacity flex flex-col gap-2 bg-secundaria text-center w-[190px] border-1 border-primaria p-4 rounded-xl right-4 top-16 absolute",
           {
-            block: showParam,
-            hidden: !showParam,
+            "opacity-100": showParam,
+            "opacity-0 pointer-events-none": !showParam,
           },
         )}
       >
@@ -47,9 +47,12 @@ export function Navigation({ username }) {
               <li key={path.id}>
                 <Link href={`${path.path}`} className="flex flex-row mt-1 items-center gap-2">
                   <span
-                    className={clsx("text-base text-secundaria font-semibold hover:text-gray-400 pb-0", {
-                      "shadow-underline hover:shadow-underline-hover": paths[paths.length - 1] === path.id,
-                    })}
+                    className={clsx(
+                      "transition-colors text-base text-secundaria font-semibold hover:text-gray-400 pb-0",
+                      {
+                        "shadow-underline hover:shadow-underline-hover": paths[paths.length - 1] === path.id,
+                      },
+                    )}
                   >
                     {path.name}
                   </span>
@@ -61,18 +64,18 @@ export function Navigation({ username }) {
       </div>
       <button className="flex flex-col justify-between w-[25px] h-[20px] cursor-pointer" onClick={showParams}>
         <div
-          className={clsx("h-[2px] w-full bg-secundaria", {
+          className={clsx("transition-transform h-[2px] w-full bg-secundaria", {
             "rotate-[45deg] translate-y-[10px]": showParam,
           })}
         ></div>
         <div
-          className={clsx("h-[2px] w-full bg-secundaria", {
-            hidden: showParam,
-            block: !showParam,
+          className={clsx("transition-opacity h-[2px] w-full bg-secundaria", {
+            "opacity-0": showParam,
+            "opacity-100": !showParam,
           })}
         ></div>
         <div
-          className={clsx("h-[2px] w-full bg-secundaria", {
+          className={clsx("transition-transform h-[2px] w-full bg-secundaria", {
             "rotate-[-45deg] translate-y-[-8px]": showParam,
           })}
         ></div>

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "admin",
+    "name": "Admin",
+    "description": "Gerencie e administre os recursos do sistema através deste módulo",
+    "path": "/home/admin",
+    "buttonText": "Acessar",
+    "submodules": [
+      {
+        "id": "usuarios",
+        "name": "Usuários",
+        "description": "Adicione, edite, ou remova usuários através deste menu",
+        "path": "/home/admin/users",
+        "buttonText": "Acessar",
+        "submodules": [
+          {
+            "id": "userlist",
+            "name": "Lista de Usuários",
+            "description": "Visualize todos os usuários através desta lista",
+            "path": "/home/admin/users/list",
+            "buttonText": "Visualizar"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "vencimento",
+    "name": "Vencimento",
+    "buttonText": "Acessar",
+    "description": "Analise, adicione ou solicite vistorias de vencimento através do módulo de vencimento",
+    "path": "/home/vencimento"
+  },
+  {
+    "id": "conhecimento",
+    "name": "Conhecimento",
+    "buttonText": "Acessar",
+    "description": "Se mantenha atualizado com relação aos processos mais importantes do seu setor através do módulo de conhecimento",
+    "path": "/home/conhecimento"
+  }
+]
