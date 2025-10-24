@@ -6,8 +6,9 @@ import Link from "next/link";
 import pathnames from "@/lib/files/pathnames.json";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { SignOutButton } from "./signOutButton";
 
-export function Navigation({ username }) {
+export function Navigation({ username, token }) {
   const pathName = usePathname();
   const paths = pathName.split("/");
   const [showParam, setShowParam] = useState(false);
@@ -31,10 +32,13 @@ export function Navigation({ username }) {
       >
         <span>{username}</span>
         <div className="w-full h-[1px] bg-primaria"></div>
-        <span className="flex m-auto text-terciaria cursor-pointer">
+        <SignOutButton
+          token={token}
+          className="flex m-auto text-terciaria rounded-md cursor-pointer pt-1 pb-1 pl-4 pr-4 transition-colors hover:bg-hover-terciaria"
+        >
           <img src="/navbar/logout.svg" />
           Sair
-        </span>
+        </SignOutButton>
       </div>
       <div className="flex gap-10 items-end">
         <Link href="/home" className="flex flex-row items-center gap-2">

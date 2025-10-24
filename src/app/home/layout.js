@@ -1,11 +1,16 @@
 import { Navigation } from "@/app/ui/components/navigation";
+import { cookies } from "next/headers";
+import { getSession } from "../ui/models/auth/getSession/getSessionFunction";
 
-export default function Layout({ children }) {
+export default async function Layout({ children }) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+  const session = await getSession(token);
   return (
     <>
       <header>
         <nav className="w-full">
-          <Navigation username="wladimir.moraes" />
+          <Navigation username={session[1].username} token={token} />
         </nav>
       </header>
       <div>{children}</div>

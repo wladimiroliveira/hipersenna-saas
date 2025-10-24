@@ -11,7 +11,7 @@ export async function middleware(request) {
   }
 
   const session = await getSession(token);
-  if (!session.response?.ok) {
+  if (!session[0]?.ok) {
     const response = NextResponse.rewrite(url);
     response.cookies.delete("token");
     return response;

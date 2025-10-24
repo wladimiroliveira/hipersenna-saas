@@ -8,10 +8,7 @@ async function getSession(token) {
       },
     });
     const result = await response.json();
-    return {
-      response,
-      result,
-    };
+    return [response, result];
   } catch (err) {
     console.error(err);
   }

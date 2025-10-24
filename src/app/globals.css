@@ -9,6 +9,7 @@
   --color-light-primaria: #25292e67;
   --color-secundaria: #fff;
   --color-terciaria: #cf3c3c;
+  --color-hover-terciaria: #cf3c3c52;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
