@@ -45,10 +45,7 @@ export function Navigation({ username }) {
           {pathnames.map((path) => {
             return (
               <li key={path.id}>
-                <Link
-                  href={`${process.env.NEXT_PUBLIC_HOST_URL}/${path.path}`}
-                  className="flex flex-row mt-1 items-center gap-2"
-                >
+                <Link href={`${path.path}`} className="flex flex-row mt-1 items-center gap-2">
                   <span
                     className={clsx("text-base text-secundaria font-semibold hover:text-gray-400 pb-0", {
                       "shadow-underline hover:shadow-underline-hover": paths[paths.length - 1] === path.id,
