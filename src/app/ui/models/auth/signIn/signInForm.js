@@ -11,8 +11,8 @@ import { redirect } from "next/navigation";
 import clsx from "clsx";
 
 export function SignInForm() {
-  const [user, setUser] = useState("");
   const [reply, setReply] = useState({});
+  const [clickSubmit, setClickSubmit] = useState(false);
   const [showResponse, setShowResponse] = useState(false);
   const [inputType, setInputType] = useState("password");
 
@@ -22,12 +22,16 @@ export function SignInForm() {
     formState: { errors },
   } = useForm();
   const handleSubmit = async (data) => {
-    const result = await signIn(data);
-    setUser(data.username);
-    setReply(result);
-    setShowResponse(true);
-    if (result[0].ok) {
-      redirect("/home");
+    if (!clickSubmit) {
+      setClickSubmit(true);
+      const result = await signIn(data);
+      setReply(result);
+      setShowResponse(true);
+      if (result[0].ok) {
+        redirect("/home");
+      } else {
+        setClickSubmit(false);
+      }
     }
   };
   return (
@@ -80,7 +84,23 @@ export function SignInForm() {
               </div>
             </Field>
           </FieldGroup>
-          <Button>Login</Button>
+          <Button
+            className={clsx("flex flex-row-reverse", {
+              "pointer-events-none bg-gray-600": clickSubmit === true,
+              "pointer-events-auto": clickSubmit === false,
+            })}
+          >
+            <div className="flex justify-end w-[45%]">
+              <svg
+                className={clsx("size-5 animate-spin border-3 border-secundaria border-t-primaria rounded-[50%]", {
+                  block: clickSubmit === true,
+                  hidden: clickSubmit === false,
+                })}
+                viewBox="0 0 24 24"
+              ></svg>
+            </div>
+            <div className="flex w-[55%] justify-end">Login</div>
+          </Button>
         </FieldSet>
         <div className="pt-6">
           {showResponse && <AlertAuth response={reply[0].status} message={reply[1].message} />}
