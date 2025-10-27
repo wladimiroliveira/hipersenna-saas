@@ -29,6 +29,7 @@ export function SignUpForm() {
         password: data.password,
         branch_id: parseInt(data.branch_id),
         winthor_id: parseInt(data.winthor_id),
+        access_level: parseInt(data.access_level),
       };
       const result = await signUp(userInfo);
       setReply(result);
@@ -76,8 +77,6 @@ export function SignUpForm() {
               className="mb-2"
             />
           </Field>
-        </FieldGroup>
-        <FieldGroup className="flex flex-row mb-4">
           <Field className="gap-0">
             <FieldLabel htmlFor="winthor_id" className="text-primaria">
               Matrícula
@@ -88,8 +87,11 @@ export function SignUpForm() {
               placeholder="Matrícula do winthor"
               {...register("winthor_id")}
               required
+              className="mb-2"
             />
           </Field>
+        </FieldGroup>
+        <FieldGroup className="flex flex-row mb-4">
           <Field className="gap-0">
             <FieldLabel htmlFor="branch_id" className="text-primaria">
               Filial
@@ -110,6 +112,32 @@ export function SignUpForm() {
                     <SelectItem value="5">Xinguara</SelectItem>
                     <SelectItem value="7">Cidade Jardim</SelectItem>
                     <SelectItem value="8">Canaã</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          </Field>
+          <Field className="gap-0">
+            <FieldLabel htmlFor="branch_id" className="text-primaria">
+              Nível de Acesso
+            </FieldLabel>
+            <Controller
+              name="access_level"
+              control={control}
+              render={({ field }) => (
+                <Select onValueChange={field.onChange} value={field.value} required>
+                  <SelectTrigger className="border-primaria">
+                    <SelectValue placeholder="Seleciona a filial" />
+                  </SelectTrigger>
+                  <SelectContent className="border-primaria">
+                    <SelectItem value="1">Admin</SelectItem>
+                    <SelectItem value="2">Ti</SelectItem>
+                    <SelectItem value="3">Gerente</SelectItem>
+                    <SelectItem value="4">Encarregado</SelectItem>
+                    <SelectItem value="5">Fiscal de Caixa</SelectItem>
+                    <SelectItem value="6">Operador(a) de Caixa</SelectItem>
+                    <SelectItem value="7">Estoquista</SelectItem>
+                    <SelectItem value="8">Repositor</SelectItem>
                   </SelectContent>
                 </Select>
               )}
