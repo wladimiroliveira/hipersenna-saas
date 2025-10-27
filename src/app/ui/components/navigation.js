@@ -54,7 +54,7 @@ export function Navigation({ username, token }) {
                     className={clsx(
                       "transition-colors text-base text-secundaria font-semibold hover:text-gray-400 pb-0",
                       {
-                        "shadow-underline hover:shadow-underline-hover": paths[paths.length - 1] === path.id,
+                        "shadow-underline hover:shadow-underline-hover": paths[1] === path.id,
                       },
                     )}
                   >

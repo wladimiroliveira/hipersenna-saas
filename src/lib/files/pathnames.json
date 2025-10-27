@@ -7,16 +7,16 @@
   {
     "name": "Admin",
     "id": "admin",
-    "path": "/home/admin"
+    "path": "/admin"
   },
   {
     "name": "Vencimento",
     "id": "vencimento",
-    "path": "/home/vencimento"
+    "path": "/vencimento"
   },
   {
     "name": "Conhecimento",
     "id": "conhecimento",
-    "path": "/home/conhecimento"
+    "path": "/conhecimento"
   }
 ]
