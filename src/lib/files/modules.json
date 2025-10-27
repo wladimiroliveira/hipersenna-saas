@@ -19,6 +19,13 @@
             "description": "Visualize todos os usuários através desta lista",
             "path": "/home/admin/users/list",
             "buttonText": "Visualizar"
+          },
+          {
+            "id": "createuser",
+            "name": "Criar Usuários",
+            "description": "Crie novos usuários através desse link",
+            "path": "/home/admin/users/create",
+            "buttonText": "Criar"
           }
         ]
       }
