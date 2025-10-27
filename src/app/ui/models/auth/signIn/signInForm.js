@@ -29,8 +29,6 @@ export function SignInForm() {
       setShowResponse(true);
       if (result[0].ok) {
         redirect("/home");
-      } else {
-        setClickSubmit(false);
       }
     }
   };

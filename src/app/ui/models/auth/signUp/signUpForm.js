@@ -8,9 +8,11 @@ import { AlertAuth } from "@/app/ui/models/auth/alertsAuth";
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { signUp } from "./signUpFunction";
+import clsx from "clsx";
 
 export function SignUpForm() {
   const [reply, setReply] = useState({});
+  const [clickSubmit, setClickSubmit] = useState(false);
   const [showResponse, setShowResponse] = useState(false);
   const {
     register,
@@ -19,44 +21,67 @@ export function SignUpForm() {
     control,
   } = useForm();
   const handleSubmit = async (data) => {
-    const userInfo = {
-      name: data.name,
-      username: data.username,
-      password: data.password,
-      branch_id: parseInt(data.branch_id),
-      winthor_id: parseInt(data.winthor_id),
-    };
-    const result = await signUp(userInfo);
-    setReply(result);
-    setShowResponse(true);
-    useEffect(() => {
-      console.log("reply atualizado:", reply);
-    }, [reply]);
+    if (!clickSubmit) {
+      setClickSubmit(true);
+      const userInfo = {
+        name: data.name,
+        username: data.username,
+        password: data.password,
+        branch_id: parseInt(data.branch_id),
+        winthor_id: parseInt(data.winthor_id),
+      };
+      const result = await signUp(userInfo);
+      setReply(result);
+      setShowResponse(true);
+      setClickSubmit(false);
+      useEffect(() => {
+        console.log("reply atualizado:", reply);
+      }, [reply]);
+    }
   };
   return (
-    <form onSubmit={onSubmit(handleSubmit)} className="w-full max-w-md m-auto">
-      <FieldSet>
-        <FieldGroup>
-          <Field>
-            <FieldLabel htmlFor="name">Nome Completo</FieldLabel>
-            <FieldDescription>Digite o nome completo do usuário</FieldDescription>
-            <Input id="name" type="text" placeholder="Nome completo" {...register("name")} required />
+    <form onSubmit={onSubmit(handleSubmit)} className="w-full max-w-md ml-auto mr-auto">
+      <FieldSet className="gap-0">
+        <FieldGroup className="gap-0">
+          <h2 className="text-2xl text-primaria font-semibold mb-4">Criar</h2>
+          <Field className="gap-0">
+            <FieldLabel htmlFor="name" className="text-primaria">
+              Nome Completo
+            </FieldLabel>
+            <Input id="name" type="text" placeholder="Nome completo" {...register("name")} required className="mb-2" />
           </Field>
-          <Field>
-            <FieldLabel htmlFor="username">Nome de Usuário</FieldLabel>
-            <FieldDescription>Escreva um nome de usuário único</FieldDescription>
-            <Input id="username" type="text" placeholder="Nome de Usuário" {...register("username")} required />
+          <Field className="gap-0">
+            <FieldLabel htmlFor="username" className="text-primaria">
+              Nome de Usuário
+            </FieldLabel>
+            <Input
+              id="username"
+              type="text"
+              placeholder="Nome de Usuário"
+              {...register("username")}
+              required
+              className="mb-2"
+            />
           </Field>
-          <Field>
-            <FieldLabel htmlFor="password">Senha</FieldLabel>
-            <FieldDescription>Digite uma senha de no mínimo 8 dígitos</FieldDescription>
-            <Input id="password" type="password" placeholder="********" {...register("password")} required />
+          <Field className="gap-0">
+            <FieldLabel htmlFor="password" className="text-primaria">
+              Senha
+            </FieldLabel>
+            <Input
+              id="password"
+              type="password"
+              placeholder="********"
+              {...register("password")}
+              required
+              className="mb-2"
+            />
           </Field>
         </FieldGroup>
-        <FieldGroup className="flex flex-row">
-          <Field>
-            <FieldLabel htmlFor="winthor_id">Matrícula</FieldLabel>
-            <FieldDescription>Digite a matrícula do usuário</FieldDescription>
+        <FieldGroup className="flex flex-row mb-4">
+          <Field className="gap-0">
+            <FieldLabel htmlFor="winthor_id" className="text-primaria">
+              Matrícula
+            </FieldLabel>
             <Input
               id="winthor_id"
               type="number"
@@ -65,18 +90,19 @@ export function SignUpForm() {
               required
             />
           </Field>
-          <Field>
-            <FieldLabel htmlFor="branch_id">Filial</FieldLabel>
-            <FieldDescription>Selecione a filial do usuário</FieldDescription>
+          <Field className="gap-0">
+            <FieldLabel htmlFor="branch_id" className="text-primaria">
+              Filial
+            </FieldLabel>
             <Controller
               name="branch_id"
               control={control}
               render={({ field }) => (
                 <Select onValueChange={field.onChange} value={field.value} required>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Filial" />
+                  <SelectTrigger className="border-primaria">
+                    <SelectValue placeholder="Seleciona a filial" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="border-primaria">
                     <SelectItem value="1">Matriz</SelectItem>
                     <SelectItem value="2">Faruk</SelectItem>
                     <SelectItem value="3">Carajás</SelectItem>
@@ -90,7 +116,23 @@ export function SignUpForm() {
             />
           </Field>
         </FieldGroup>
-        <Button>Cadastrar</Button>
+        <Button
+          className={clsx("flex flex-row-reverse", {
+            "pointer-events-none bg-gray-600": clickSubmit === true,
+            "pointer-events-auto": clickSubmit === false,
+          })}
+        >
+          <div className="flex justify-end w-[45%]">
+            <svg
+              className={clsx("size-5 animate-spin border-3 border-secundaria border-t-primaria rounded-[50%]", {
+                block: clickSubmit === true,
+                hidden: clickSubmit === false,
+              })}
+              viewBox="0 0 24 24"
+            ></svg>
+          </div>
+          <div className="flex w-[55%] justify-end">Cadastrar</div>
+        </Button>
       </FieldSet>
       <div className="pt-6">{showResponse && <AlertAuth response={reply[0].status} message={reply[1].message} />}</div>
     </form>
