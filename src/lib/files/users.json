@@ -1,0 +1,20 @@
+[
+  {
+    "name": "admin",
+    "username": "admim",
+    "branch_id": 1,
+    "access_level": 1
+  },
+  {
+    "name": "Wladimir Oliveira",
+    "username": "wladimir.oliveira",
+    "branch_id": 1,
+    "access_level": 1
+  },
+  {
+    "name": "Teste",
+    "username": "teste.usuario",
+    "branch_id": 2,
+    "access_level": 3
+  }
+]
