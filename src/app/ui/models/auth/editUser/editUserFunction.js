@@ -1,24 +1,15 @@
-require("dotenv").config({ quiet: true });
-
-async function editUser(id, token, body) {
+export async function editUser(id, body) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
+    const responseResult = await fetch("/api/edituser", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify([id, body]),
     });
-
-    const result = await response.json();
-    return {
-      response,
-      result,
-    };
+    const result = await responseResult.json();
+    return result;
   } catch (err) {
     return err;
   }
 }
-
-exports.editUser = editUser;

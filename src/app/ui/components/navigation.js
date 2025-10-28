@@ -23,7 +23,7 @@ export function Navigation({ username, token }) {
     <div className="flex flex-row gap-10 items-center justify-between bg-primaria pl-8 pr-8 pt-4 pb-4">
       <div
         className={clsx(
-          "transition-opacity flex flex-col gap-2 bg-secundaria text-center w-[190px] border-1 border-primaria p-4 rounded-xl right-4 top-16 absolute",
+          "transition-opacity flex flex-col gap-2 bg-secundaria z-1 text-center w-[190px] border-1 border-primaria p-4 rounded-xl right-4 top-16 absolute",
           {
             "opacity-100": showParam,
             "opacity-0 pointer-events-none": !showParam,

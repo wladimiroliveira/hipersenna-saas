@@ -4,7 +4,7 @@ import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-export function DataTable({ columns, data }) {
+export function DataTable({ columns, data, token }) {
   const table = useReactTable({
     data,
     columns,

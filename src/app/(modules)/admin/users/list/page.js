@@ -1,6 +1,5 @@
 import { DataTable } from "@/app/(modules)/admin/users/list/dataTable";
 import { columns } from "@/app/(modules)/admin/users/list/columns";
-import users from "@/lib/files/users.json";
 import { getAllUsers } from "@/app/ui/models/auth/getUser/getAllUsers";
 
 export default async function Page() {
