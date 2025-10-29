@@ -9,7 +9,7 @@ export default async function Layout({ children }) {
           <Navigation />
         </nav>
       </header>
-      <div className="pt-[64px]">
+      <div className="pt-[64px] max-w-[1060px] m-auto">
         {children}
         <Footer />
       </div>
