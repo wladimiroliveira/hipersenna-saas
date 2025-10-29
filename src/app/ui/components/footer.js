@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <div className="flex justify-between border-t-1 border-primaria p-4 ml-4 mr-4 pt-6 pb-6">
+    <div className="flex justify-between border-t-1 border-primaria p-4 ml-4 mr-4 mt-8 pt-6 pb-6">
       <ul className="flex flex-row gap-8">
         <li>
           <Link href="#" className="text-base font-semibold text-primaria uppercase">
