@@ -20,7 +20,17 @@ export function SignUpForm() {
     handleSubmit: onSubmit,
     formState: { errors },
     control,
-  } = useForm();
+    reset,
+  } = useForm({
+    defaultValues: {
+      name: "",
+      username: "",
+      password: "",
+      branch_id: "",
+      winthor_id: "",
+      access_level: "",
+    },
+  });
   const handleSubmit = async (data) => {
     if (!clickSubmit) {
       setClickSubmit(true);
@@ -36,9 +46,7 @@ export function SignUpForm() {
       setReply(result);
       setShowResponse(true);
       setClickSubmit(false);
-      useEffect(() => {
-        console.log("reply atualizado:", reply);
-      }, [reply]);
+      reset();
     }
   };
   return (
