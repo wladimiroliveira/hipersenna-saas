@@ -5,19 +5,14 @@ async function deleteUser(id, token) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ null: null }),
     });
 
     const result = await response.json();
-    return {
-      response,
-      result,
-    };
+    return { response, result };
   } catch (err) {
-    return err;
+    return { error: err.message };
   }
 }
 
