@@ -76,8 +76,8 @@ export function SignInForm() {
                   className={clsx(
                     "bg-no-repeat bg-center w-[36px] h-[36px] bg-transparent hover:bg-transparent cursor-pointer",
                     {
-                      "bg-[url(/signin/open-eye.svg)] bg-no-repeat bg-center": inputType === "password",
-                      "bg-[url(/signin/close-eye.svg)] bg-no-repeat bg-center": inputType === "text",
+                      "bg-[url(/signin/open-eye.svg)] bg-no-repeat bg-center": inputType === "text",
+                      "bg-[url(/signin/close-eye.svg)] bg-no-repeat bg-center": inputType === "password",
                     },
                   )}
                 ></button>

@@ -14,6 +14,7 @@ export function SignUpForm() {
   const [reply, setReply] = useState({});
   const [clickSubmit, setClickSubmit] = useState(false);
   const [showResponse, setShowResponse] = useState(false);
+  const [inputType, setInputType] = useState("password");
   const {
     register,
     handleSubmit: onSubmit,
@@ -68,14 +69,32 @@ export function SignUpForm() {
             <FieldLabel htmlFor="password" className="text-primaria">
               Senha
             </FieldLabel>
-            <Input
-              id="password"
-              type="password"
-              placeholder="********"
-              {...register("password")}
-              required
-              className="mb-2"
-            />
+            <div className="flex flex-row border-1 border-primaria rounded-md">
+              <Input
+                id="password"
+                type={inputType}
+                placeholder="********"
+                {...register("password")}
+                className="bg-[url(/signin/lock.svg)] bg-no-repeat bg-[.7rem] pl-8 pr-8 border-0"
+              />
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (inputType === "password") {
+                    setInputType("text");
+                  } else {
+                    setInputType("password");
+                  }
+                }}
+                className={clsx(
+                  "bg-no-repeat bg-center w-[36px] h-[36px] bg-transparent hover:bg-transparent cursor-pointer",
+                  {
+                    "bg-[url(/signin/open-eye.svg)] bg-no-repeat bg-center": inputType === "text",
+                    "bg-[url(/signin/close-eye.svg)] bg-no-repeat bg-center": inputType === "password",
+                  },
+                )}
+              ></button>
+            </div>
           </Field>
           <Field className="gap-0">
             <FieldLabel htmlFor="winthor_id" className="text-primaria">
