@@ -15,6 +15,10 @@ export const columns = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const value = row.getValue("id");
+      return <div className="pl-7">{value}</div>;
+    },
   },
   {
     accessorKey: "branch_id",
