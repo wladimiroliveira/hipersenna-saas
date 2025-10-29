@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, Save, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,21 +15,18 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Controller, useForm } from "react-hook-form";
 
 import branchs from "@/lib/files/branchs.json";
 import accessLevels from "@/lib/files/accessLevels.json";
 import { editUser } from "@/app/ui/models/auth/editUser/editUserFunction";
 
 export function EditUserMenu({ user }) {
-  const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [clickSubmit, setClickSubmit] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm({
+  const { register, handleSubmit, control } = useForm({
     defaultValues: {
       name: user.name,
       username: user.username,
@@ -39,6 +35,7 @@ export function EditUserMenu({ user }) {
     },
   });
 
+  // Função de edição
   const onSubmitForm = async (data) => {
     if (clickSubmit) return;
     setClickSubmit(true);
@@ -51,17 +48,38 @@ export function EditUserMenu({ user }) {
       access_level: parseInt(data.access_level),
     };
 
-    if (!userInfo.password || userInfo.password.trim() === "") {
-      delete userInfo.password;
-    }
-
-    console.log("Enviando:", userInfo);
+    if (!userInfo.password?.trim()) delete userInfo.password;
 
     const result = await editUser(user.id, userInfo);
-    console.log("Resposta:", result);
+    console.log("Resposta edição:", result);
 
     setClickSubmit(false);
-    setOpen(false);
+    setOpenEdit(false);
+  };
+
+  // ✅ Função de exclusão
+  const handleDelete = async () => {
+    try {
+      const res = await fetch("/api/deleteuser", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: user.id }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        console.log("Usuário excluído:", data);
+        setOpenDelete(false);
+        // opcional: recarregar a tabela
+        window.location.reload();
+      } else {
+        console.error("Erro ao excluir:", res.statusText);
+      }
+    } catch (err) {
+      console.error("Erro inesperado:", err);
+    }
   };
 
   return (
@@ -72,36 +90,39 @@ export function EditUserMenu({ user }) {
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent className="border-primaria" align="end">
           <DropdownMenuLabel>Ações</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => setOpen(true)}>Editar usuário</DropdownMenuItem>
-          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => setOpenEdit(true)}>Editar usuário</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setOpenDelete(true)}>
+            <span className="text-red-500 flex items-center gap-1">
+              <Trash2 size={14} /> Excluir usuário
+            </span>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator className="bg-primaria" />
           <DropdownMenuItem onClick={() => navigator.clipboard.writeText(user.id)}>
             Copiar ID do usuário
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Dialog open={open} onOpenChange={setOpen}>
+      {/* Modal de Edição */}
+      <Dialog open={openEdit} onOpenChange={setOpenEdit}>
         <DialogContent className="sm:max-w-[425px] text-primaria">
           <DialogHeader>
             <DialogTitle>Editar usuário</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleSubmit(onSubmitForm)} className="flex flex-col gap-2">
-            <div className="flex flex-col gap-1">
-              <Label htmlFor="name">Nome</Label>
-              <Input id="name" {...register("name")} />
-            </div>
-            <div className="flex flex-col gap-1">
-              <Label htmlFor="username">Nome de Usuário</Label>
-              <Input id="username" {...register("username")} />
-            </div>
-            <div className="flex flex-col gap-1">
-              <Label htmlFor="password">Senha</Label>
-              <Input id="password" type="password" {...register("password")} />
-            </div>
 
-            <div className="flex flex-row justify-between gap-4">
+          <form onSubmit={handleSubmit(onSubmitForm)} className="flex flex-col gap-2">
+            <Label>Nome</Label>
+            <Input {...register("name")} />
+
+            <Label>Usuário</Label>
+            <Input {...register("username")} />
+
+            <Label>Senha</Label>
+            <Input type="password" placeholder="********" {...register("password")} />
+
+            <div className="flex gap-4">
               <div className="flex-1">
                 <Label>Filial</Label>
                 <Controller
@@ -109,13 +130,13 @@ export function EditUserMenu({ user }) {
                   control={control}
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Seleciona a filial" />
+                      <SelectTrigger className="border-primaria w-full">
+                        <SelectValue placeholder="Selecionar" />
                       </SelectTrigger>
-                      <SelectContent>
-                        {branchs.map((branch) => (
-                          <SelectItem key={branch.id} value={`${branch.number}`}>
-                            {branch.name}
+                      <SelectContent className="border-primaria">
+                        {branchs.map((b) => (
+                          <SelectItem key={b.id} value={`${b.number}`}>
+                            {b.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -125,19 +146,19 @@ export function EditUserMenu({ user }) {
               </div>
 
               <div className="flex-1">
-                <Label>Nível de Acesso</Label>
+                <Label>Acesso</Label>
                 <Controller
                   name="access_level"
                   control={control}
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Selecione o nível" />
+                      <SelectTrigger className="border-primaria w-full">
+                        <SelectValue placeholder="Selecionar" />
                       </SelectTrigger>
-                      <SelectContent>
-                        {accessLevels.map((access) => (
-                          <SelectItem key={access.id} value={`${access.id}`}>
-                            {access.name}
+                      <SelectContent className="border-primaria">
+                        {accessLevels.map((a) => (
+                          <SelectItem key={a.id} value={`${a.id}`}>
+                            {a.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -147,12 +168,33 @@ export function EditUserMenu({ user }) {
               </div>
             </div>
 
-            <DialogFooter>
+            <DialogFooter className="flex justify-between pt-4">
               <Button type="submit" className="bg-primaria">
-                Salvar
+                Salvar <Save />
               </Button>
             </DialogFooter>
           </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* ✅ Modal de Confirmação de Exclusão */}
+      <Dialog open={openDelete} onOpenChange={setOpenDelete}>
+        <DialogContent className="sm:max-w-[400px] text-primaria">
+          <DialogHeader>
+            <DialogTitle>Excluir Usuário</DialogTitle>
+          </DialogHeader>
+          <p>
+            Tem certeza que deseja excluir o usuário <strong>{user.username}</strong>?
+          </p>
+          <DialogFooter className="flex justify-between pt-4">
+            <Button onClick={() => setOpenDelete(false)} variant="outline" className="border-primaria text-primaria">
+              Cancelar
+            </Button>
+            <Button onClick={handleDelete} className="bg-red-600 hover:bg-red-700 text-white">
+              Confirmar Exclusão
+              <Trash2 size={16} />
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

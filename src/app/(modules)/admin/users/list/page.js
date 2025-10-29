@@ -6,8 +6,12 @@ export default async function Page() {
   const usersDefine = await getAllUsers();
   return (
     <div className="min-h-[90vh]">
-      <h1>List Users</h1>
-      <DataTable columns={columns} data={usersDefine} />
+      <div className="p-12">
+        <h1 className="text-4xl text-primaria font-bold">Lista de Usuários</h1>
+      </div>
+      <div className="max-w-[1060px] m-auto">
+        <DataTable columns={columns} data={usersDefine} />
+      </div>
     </div>
   );
 }
