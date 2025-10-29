@@ -5,11 +5,11 @@ export default async function Layout({ children }) {
   return (
     <>
       <header>
-        <nav className="w-full">
+        <nav className="w-full fixed">
           <Navigation />
         </nav>
       </header>
-      <div>
+      <div className="pt-[64px]">
         {children}
         <Footer />
       </div>
