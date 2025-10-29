@@ -1,5 +1,7 @@
 "use client";
 
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import * as React from "react";
 import {
   columnDef,
@@ -45,6 +47,10 @@ export function DataTable({ columns, data }) {
       columnVisibility,
     },
   });
+
+  React.useEffect(() => {
+    table.setPageSize(10);
+  }, [table]);
 
   return (
     <div>
@@ -160,27 +166,55 @@ export function DataTable({ columns, data }) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          className="border-primaria text-primaria"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          <MoveLeft className="text-primaria" />
-          Anterior
-        </Button>
-        <Button
-          variant="outline"
-          className="border-primaria text-primaria"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Anterior
-          <MoveRightIcon className="text-primaria" />
-        </Button>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 py-4">
+        {/* 🔹 Seletor de tamanho de página */}
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-muted-foreground">Linhas por página:</span>
+          <Select
+            value={String(table.getState().pagination.pageSize)}
+            onValueChange={(value) => table.setPageSize(Number(value))}
+          >
+            <SelectTrigger className="w-[80px] border-primaria text-primaria focus:ring-primaria">
+              <SelectValue placeholder="Qtd" />
+            </SelectTrigger>
+            <SelectContent className="border-primaria">
+              {[5, 10, 20, 50].map((size) => (
+                <SelectItem key={size} value={String(size)}>
+                  {size}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* 🔹 Controles de paginação */}
+        <div className="flex items-center space-x-2">
+          <Button
+            variant="outline"
+            className="border-primaria text-primaria"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <MoveLeft className="text-primaria" />
+            Anterior
+          </Button>
+
+          <span className="text-sm">
+            Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
+          </span>
+
+          <Button
+            variant="outline"
+            className="border-primaria text-primaria"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Próxima
+            <MoveRightIcon className="text-primaria" />
+          </Button>
+        </div>
       </div>
     </div>
   );
