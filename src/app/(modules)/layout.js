@@ -5,7 +5,7 @@ export default async function Layout({ children }) {
   return (
     <>
       <header>
-        <nav className="w-full fixed">
+        <nav className="w-full fixed z-1">
           <Navigation />
         </nav>
       </header>
