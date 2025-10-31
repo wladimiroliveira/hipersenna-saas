@@ -46,7 +46,9 @@ export function SignUpForm() {
       setReply(result);
       setShowResponse(true);
       setClickSubmit(false);
-      reset();
+      if (result[0].ok) {
+        reset();
+      }
     }
   };
   return (

@@ -8,7 +8,7 @@ export default function Page() {
         <h1 className="text-4xl text-primaria font-bold">Vencimento</h1>
       </div>
       <div>
-        <ModulesContainer title="Módulos" modules={modules[1].submodules} />
+        <ModulesContainer title="Módulos Vencimento" modules={modules[1].submodules} />
       </div>
     </div>
   );
