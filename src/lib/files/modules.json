@@ -34,9 +34,18 @@
   {
     "id": "vencimento",
     "name": "Vencimento",
-    "buttonText": "Acessar",
     "description": "Analise, adicione ou solicite vistorias de vencimento através do módulo de vencimento",
-    "path": "/vencimento"
+    "path": "/vencimento",
+    "buttonText": "Acessar",
+    "submodules": [
+      {
+        "id": "analise",
+        "name": "Análise de Vencimento",
+        "description": "Realize a análise dos vencimentos de produtos através deste menu",
+        "path": "/vencimento/analise",
+        "buttonText": "Acessar"
+      }
+    ]
   },
   {
     "id": "conhecimento",
