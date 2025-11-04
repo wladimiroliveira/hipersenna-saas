@@ -24,10 +24,10 @@ export function SignInForm() {
   const handleSubmit = async (data) => {
     if (!clickSubmit) {
       setClickSubmit(true);
-      const result = await signIn(data);
-      setReply(result);
+      const signInValue = await signIn(data);
+      setReply(signInValue);
       setShowResponse(true);
-      if (result[0].ok) {
+      if (signInValue[0].status === 200) {
         redirect("/home");
       } else {
         setClickSubmit(false);
@@ -103,7 +103,7 @@ export function SignInForm() {
           </Button>
         </FieldSet>
         <div className="pt-6">
-          {showResponse && <AlertAuth response={reply[0].status} message={reply[1].message} />}
+          {showResponse && <AlertAuth response={reply[0].status} message={reply[0].message} />}
         </div>
       </form>
     </div>

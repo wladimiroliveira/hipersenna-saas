@@ -2,10 +2,15 @@ import { cookies } from "next/headers";
 
 export async function POST(request) {
   try {
+    let token;
     const body = await request.json();
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/signup`, {
+    if (!body.token) {
+      const cookieStore = await cookies();
+      token = cookieStore.get("token")?.value;
+    } else {
+      token = body.token;
+    }
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -13,14 +18,12 @@ export async function POST(request) {
       },
       body: JSON.stringify(body),
     });
-    const result = await response.json();
+    const responseValue = await responseResult.json();
     return Response.json([
       {
-        status: response.status,
-        ok: response.ok,
-        redirect: response.redirected,
+        status: responseResult.status,
+        ...responseValue,
       },
-      result,
     ]);
   } catch (err) {
     console.error(err);

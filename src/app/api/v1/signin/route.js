@@ -16,10 +16,8 @@ export async function POST(request) {
     return Response.json([
       {
         status: response.status,
-        ok: response.ok,
-        redirect: response.redirected,
+        ...result,
       },
-      result,
     ]);
   } catch (err) {
     console.error(err);

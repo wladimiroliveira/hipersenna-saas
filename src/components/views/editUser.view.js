@@ -60,7 +60,7 @@ export function EditUserMenu({ user }) {
   // ✅ Função de exclusão
   const handleDelete = async () => {
     try {
-      const res = await fetch("/api/deleteuser", {
+      const res = await fetch("/api/v1/deleteuser", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

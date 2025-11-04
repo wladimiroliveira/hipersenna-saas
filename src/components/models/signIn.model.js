@@ -1,19 +1,16 @@
-require("dotenv").config({ quiet: true });
-
-async function signIn(body) {
+export async function signIn(body) {
   try {
-    const responseResult = await fetch(`/api/signin`, {
+    const { username, password } = body;
+    const responseResult = await fetch(`/api/v1/signin`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        username,
+        password,
+      }),
     });
-    const result = await responseResult.json();
-    return result;
+    const responseValue = await responseResult.json();
+    return responseValue;
   } catch (err) {
     console.error(err);
   }
 }
-
-exports.signIn = signIn;

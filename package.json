@@ -8,8 +8,8 @@
     "start": "next start",
     "lint:check": "prettier --check .",
     "lint:fix": "prettier --write .",
-    "test": "jest",
-    "test:watch": "jest --watchAll tests/"
+    "test": "jest --runInBand",
+    "test:watch": "jest --watchAll --runInBand"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.3",

@@ -24,7 +24,7 @@ export function Navigation() {
 
   useEffect(() => {
     async function fetchSession() {
-      const res = await fetch("/api/session");
+      const res = await fetch("/api/v1/session");
       if (res.ok) {
         const data = await res.json();
         setUsername(data.username);
