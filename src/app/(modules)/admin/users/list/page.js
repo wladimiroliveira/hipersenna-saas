@@ -1,6 +1,6 @@
 import { DataTable } from "@/app/(modules)/admin/users/list/dataTable";
 import { columns } from "@/app/(modules)/admin/users/list/columns";
-import { getAllUsers } from "@/app/ui/models/auth/getUser/getAllUsers";
+import { getAllUsers } from "@/components/models/getAllUsers.model";
 
 export default async function Page() {
   const usersDefine = await getAllUsers();

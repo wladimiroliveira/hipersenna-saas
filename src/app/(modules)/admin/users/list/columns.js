@@ -1,6 +1,6 @@
 "use client";
 
-import { EditUserMenu } from "@/app/ui/components/edituserMenu";
+import { EditUserMenu } from "@/components/views/editUser.view";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 

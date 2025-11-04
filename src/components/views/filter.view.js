@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, Controller } from "react-hook-form";
@@ -12,6 +12,24 @@ import { PopoverContent } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
+
+export async function consultarDescricao(queryType, queryBody, token) {
+  let url;
+  if (queryType === "codigo") {
+    url = `${process.env.NEXT_PUBLIC_API_URL}/products/?codprod="${queryBody}"`;
+  } else if (queryType === "barras") {
+    url = `${process.env.NEXT_PUBLIC_API_URL}/products/?codauxiliar="${queryBody}"`;
+  } else {
+    url = `${process.env.NEXT_PUBLIC_API_URL}/products/?descricao="${queryBody}"`;
+  }
+
+  const descResult = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return descResult;
+}
 
 export function ValidityFilter() {
   const [openInsert, setOpenInsert] = useState(false);
@@ -42,6 +60,15 @@ export function ValidityFilter() {
       prodModality: "codigo",
     },
   });
+
+  useEffect(async () => {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+    const descResult = await consultarDescricao(prodModality, prodIdent, token);
+    console.log(descResult);
+    setProdDesc(descResult);
+  }, [prodModality, prodIdent]);
+
   const handleSubmit = async (data) => {
     if (!clickSubmit) {
       const fullData = {
@@ -221,6 +248,7 @@ export function ValidityFilter() {
                       className="cursor-pointer"
                       onClick={(e) => {
                         e.preventDefault();
+                        consultarDescricao(prodModality, prodIdent);
                         console.log(prodIdent);
                       }}
                     >

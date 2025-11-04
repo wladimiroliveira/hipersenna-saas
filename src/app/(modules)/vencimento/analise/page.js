@@ -1,4 +1,4 @@
-import { ValidityFilter } from "@/app/ui/models/vencimento/filter";
+import { ValidityFilter } from "@/components/views/filter.view";
 
 export default function Page() {
   return (

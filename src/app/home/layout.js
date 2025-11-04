@@ -1,5 +1,5 @@
-import { Navigation } from "@/app/ui/components/navigation";
-import { Footer } from "@/app/ui/components/footer";
+import { Navigation } from "@/components/views/navigation.view";
+import { Footer } from "@/components/views/footer.view";
 
 export default async function Layout({ children }) {
   return (

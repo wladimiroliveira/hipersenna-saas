@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { deleteUser } from "@/app/ui/models/auth/deleteUser/deleteUserFunction";
+import { deleteUser } from "@/components/models/deleteUser.model";
 
 export async function DELETE(request) {
   const { id } = await request.json();

@@ -1,5 +1,5 @@
 import "./globals.css";
-import { roboto } from "@/app/ui/fonts";
+import { roboto } from "@/components/fonts";
 
 export const metadata = {
   title: "GHS Sistema",

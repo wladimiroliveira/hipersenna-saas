@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { SignOutButton } from "./signOutButton";
+import { SignOutButton } from "@/components/models/signOutButton.model";
 import clsx from "clsx";
 import Link from "next/link";
 import Image from "next/image";

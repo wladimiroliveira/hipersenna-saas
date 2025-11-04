@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { getSession } from "@/app/ui/models/auth/getSession/getSessionFunction";
+import { getSession } from "@/components/models/getSession.model";
 
 export async function GET() {
   const cookieStore = await cookies();

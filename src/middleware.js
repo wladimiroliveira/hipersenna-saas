@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getSession } from "./app/ui/models/auth/getSession/getSessionFunction";
+import { getSession } from "@/components/models/getSession.model";
 
 export async function middleware(request) {
   const token = request.cookies.get("token")?.value;

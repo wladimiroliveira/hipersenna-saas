@@ -19,7 +19,7 @@ import { Controller, useForm } from "react-hook-form";
 
 import branchs from "@/lib/files/branchs.json";
 import accessLevels from "@/lib/files/accessLevels.json";
-import { editUser } from "@/app/ui/models/auth/editUser/editUserFunction";
+import { editUser } from "@/components/models/editUser.model";
 
 export function EditUserMenu({ user }) {
   const [openEdit, setOpenEdit] = useState(false);

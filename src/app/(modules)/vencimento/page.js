@@ -1,4 +1,4 @@
-import { ModulesContainer } from "@/app/ui/components/modulesContainer";
+import { ModulesContainer } from "@/components/views/modulesContainer.view";
 import modules from "@/lib/files/modules.json";
 
 export default function Page() {

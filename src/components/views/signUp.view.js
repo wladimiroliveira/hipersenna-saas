@@ -4,10 +4,10 @@ import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { AlertAuth } from "@/app/ui/models/auth/alertsAuth";
+import { AlertAuth } from "@/components/views/alertsAuth.view";
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { signUp } from "./signUpFunction";
+import { signUp } from "../models/signUp.model";
 import clsx from "clsx";
 
 export function SignUpForm() {
