@@ -1,16 +1,19 @@
-export async function signIn(body) {
+export async function signIn(data) {
   try {
-    const { username, password } = body;
+    const { username, password } = data[0];
     const responseResult = await fetch(`/api/v1/signin`, {
       method: "POST",
-      body: JSON.stringify({
-        username,
-        password,
-      }),
+      body: JSON.stringify([
+        {
+          username,
+          password,
+        },
+      ]),
     });
     const responseValue = await responseResult.json();
     return responseValue;
   } catch (err) {
     console.error(err);
+    throw err;
   }
 }

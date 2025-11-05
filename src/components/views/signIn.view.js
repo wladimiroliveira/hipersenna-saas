@@ -1,42 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
+import { useForm } from "react-hook-form";
+import { clsx } from "clsx";
+
+import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { signIn } from "@/components/models/signIn.model";
-import { AlertAuth } from "@/components/views/alertsAuth.view";
-import { useForm } from "react-hook-form";
-import { redirect } from "next/navigation";
-import clsx from "clsx";
 
-export function SignInForm() {
-  const [reply, setReply] = useState({});
-  const [clickSubmit, setClickSubmit] = useState(false);
-  const [showResponse, setShowResponse] = useState(false);
+export function SignInForm({ onSubmitData, loading }) {
   const [inputType, setInputType] = useState("password");
 
-  const {
-    register,
-    handleSubmit: onSubmit,
-    formState: { errors },
-  } = useForm();
-  const handleSubmit = async (data) => {
-    if (!clickSubmit) {
-      setClickSubmit(true);
-      const signInValue = await signIn(data);
-      setReply(signInValue);
-      setShowResponse(true);
-      if (signInValue[0].status === 200) {
-        redirect("/home");
-      } else {
-        setClickSubmit(false);
-      }
-    }
+  const { register, handleSubmit: onSubmit } = useForm();
+  const getData = (data) => {
+    onSubmitData([data]);
   };
   return (
     <div className="w-[80%] m-auto">
-      <form onSubmit={onSubmit(handleSubmit)} className="w-full max-w-md m-auto">
+      <form onSubmit={onSubmit(getData)} className="w-full max-w-md m-auto">
         <FieldSet className="gap-6">
           <h2 className="text-2xl font-semibold text-primaria">Login</h2>
           <FieldGroup className="gap-2">
@@ -86,15 +67,15 @@ export function SignInForm() {
           </FieldGroup>
           <Button
             className={clsx("flex flex-row-reverse", {
-              "pointer-events-none bg-gray-600": clickSubmit === true,
-              "pointer-events-auto": clickSubmit === false,
+              "pointer-events-none bg-gray-600": loading === true,
+              "pointer-events-auto": loading === false,
             })}
           >
             <div className="flex justify-end w-[45%]">
               <svg
                 className={clsx("size-5 animate-spin border-3 border-secundaria border-t-primaria rounded-[50%]", {
-                  block: clickSubmit === true,
-                  hidden: clickSubmit === false,
+                  block: loading === true,
+                  hidden: loading === false,
                 })}
                 viewBox="0 0 24 24"
               ></svg>
@@ -103,7 +84,7 @@ export function SignInForm() {
           </Button>
         </FieldSet>
         <div className="pt-6">
-          {showResponse && <AlertAuth response={reply[0].status} message={reply[0].message} />}
+          {/* {showResponse && <AlertAuth response={reply[0].status} message={reply[0].message} />} */}
         </div>
       </form>
     </div>
