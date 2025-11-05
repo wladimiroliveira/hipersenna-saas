@@ -2,22 +2,22 @@ import { cookies } from "next/headers";
 
 export async function POST(request) {
   try {
+    let cookieStore;
     let tokenValue;
     const requestBody = await request.json();
-    const { token, info } = requestBody[0];
+    const { token } = requestBody[0];
+
     if (!token) {
-      const cookieStore = await cookies();
-      tokenValue = cookieStore.get("token")?.value;
+      cookieStore = await cookies();
+      tokenValue = cookieStore.get("token").value;
     } else {
       tokenValue = token;
     }
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/signup`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/signout`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${tokenValue}`,
       },
-      body: JSON.stringify(info),
     });
     const responseValue = await responseResult.json();
     return Response.json([
@@ -26,7 +26,8 @@ export async function POST(request) {
         ...responseValue,
       },
     ]);
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 }

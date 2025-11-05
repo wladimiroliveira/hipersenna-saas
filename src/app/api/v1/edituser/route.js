@@ -2,27 +2,26 @@ import { cookies } from "next/headers";
 
 export async function PATCH(request) {
   try {
-    const body = await request.json();
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${body[0]}`, {
+    let cookieStore;
+    let tokenValue;
+    const requestBody = await request.json();
+    const { id, token, info } = requestBody[0];
+    if (!token) {
+      cookieStore = await cookies();
+      tokenValue = cookieStore.get("token")?.value;
+    } else {
+      tokenValue = token;
+    }
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${tokenValue}`,
       },
-      body: JSON.stringify(body[1]),
+      body: JSON.stringify(info),
     });
-
-    const result = await response.json();
-    return Response.json([
-      {
-        result,
-      },
-      {
-        response,
-      },
-    ]);
+    const responseValue = await responseResult.json();
+    return Response.json([{ status: responseResult.status, ...responseValue }]);
   } catch (err) {
     return err;
   }
