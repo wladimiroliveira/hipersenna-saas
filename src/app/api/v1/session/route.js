@@ -1,9 +1,31 @@
 import { cookies } from "next/headers";
-import { getSession } from "@/components/models/getSession.model";
 
-export async function GET() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-  const session = await getSession(token);
-  return Response.json(session[1] ?? null);
+export async function POST(request) {
+  let cookieStore;
+  let tokenValue;
+  try {
+    const requestBody = await request.json();
+    const { token } = requestBody[0];
+    if (!token) {
+      cookieStore = await cookies();
+      tokenValue = cookieStore.get("token").value;
+    } else {
+      tokenValue = token;
+    }
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
+      headers: {
+        Authorization: `Bearer ${tokenValue}`,
+      },
+    });
+    const responseValue = await responseResult.json();
+    return Response.json([
+      {
+        status: responseResult.status,
+        ...responseValue,
+      },
+    ]);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 }
