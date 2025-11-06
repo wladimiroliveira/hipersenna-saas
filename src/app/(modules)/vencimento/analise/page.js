@@ -1,4 +1,4 @@
-import { ValidityFilter } from "@/components/views/filter.view";
+import { ValidityAnylises } from "@/components/controlers/validity.controller";
 
 export default function Page() {
   return (
@@ -12,7 +12,7 @@ export default function Page() {
         <h1 className="text-4xl text-primaria font-bold">Análise de Vencimento</h1>
       </div>
       <div>
-        <ValidityFilter />
+        <ValidityAnylises />
       </div>
     </div>
   );

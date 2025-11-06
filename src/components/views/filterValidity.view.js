@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import clsx from "clsx";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, Controller } from "react-hook-form";
@@ -13,30 +13,10 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
 
-export async function consultarDescricao(queryType, queryBody, token) {
-  let url;
-  if (queryType === "codigo") {
-    url = `${process.env.NEXT_PUBLIC_API_URL}/products/?codprod="${queryBody}"`;
-  } else if (queryType === "barras") {
-    url = `${process.env.NEXT_PUBLIC_API_URL}/products/?codauxiliar="${queryBody}"`;
-  } else {
-    url = `${process.env.NEXT_PUBLIC_API_URL}/products/?descricao="${queryBody}"`;
-  }
-
-  const descResult = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return descResult;
-}
-
-export function ValidityFilter() {
-  const [openInsert, setOpenInsert] = useState(false);
-  const [openValidity, setOpenValidity] = useState(false);
-  const [modality, setModality] = useState("1");
-  const [clickSubmit, setClickSubmit] = useState(false);
-  const [prodDesc, setProdDesc] = useState("consulte um produto...");
+export function ValidityFilter({ prodDesc, onSearchProd, loading, onSubmitData }) {
+  const [openDtInsert, setDtOpenInsert] = useState(false);
+  const [openDtValidity, setDtOpenValidity] = useState(false);
+  const [modality, setModality] = useState("validityDt");
   const [prodModality, setProdModality] = useState("codigo");
   const [prodIdent, setProdIdent] = useState("");
   const [dateRangeInsert, setDateRangeInsert] = useState({
@@ -55,62 +35,18 @@ export function ValidityFilter() {
     reset,
   } = useForm({
     defaultValues: {
-      consultby: "1",
+      consultby: "validityDt",
       branch_id: "0",
       prodModality: "codigo",
     },
   });
 
-  useEffect(async () => {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
-    const descResult = await consultarDescricao(prodModality, prodIdent, token);
-    console.log(descResult);
-    setProdDesc(descResult);
-  }, [prodModality, prodIdent]);
+  const handleSearchProdDesc = () => {
+    onSearchProd([{ id: prodIdent, type: prodModality }]);
+  };
 
-  const handleSubmit = async (data) => {
-    if (!clickSubmit) {
-      const fullData = {
-        ...data,
-        dateRangeInsert:
-          dateRangeInsert.from && dateRangeInsert.to
-            ? {
-                from: format(dateRangeInsert.from, "yyyy-MM-dd"),
-                to: format(dateRangeInsert.to, "yyyy-MM-dd"),
-              }
-            : undefined,
-        dateRangeValidity:
-          dateRangeValidity.from && dateRangeValidity.to
-            ? {
-                from: format(dateRangeValidity.from, "yyyy-MM-dd"),
-                to: format(dateRangeValidity.to, "yyyy-MM-dd"),
-              }
-            : undefined,
-      };
-
-      const cleanedData = Object.fromEntries(
-        Object.entries(fullData).filter(([_, value]) => {
-          if (
-            value === undefined ||
-            value === null ||
-            value === "" ||
-            (typeof value === "undefined" &&
-              !Array.isArray(value) &&
-              Object.values(value).every((v) => v === undefined || v === null || v === ""))
-          ) {
-            return false;
-          }
-          return true;
-        }),
-      );
-
-      setClickSubmit(true);
-      console.log(cleanedData);
-      if (true) {
-        setClickSubmit(false);
-      }
-    }
+  const handleSubmit = (data) => {
+    onSubmitData(data);
   };
 
   return (
@@ -118,8 +54,8 @@ export function ValidityFilter() {
       <div>
         <form onSubmit={onSubmit(handleSubmit)} className="flex flex-col gap-4">
           <h2 className="text-2xl font-semibold text-primaria w-52">Consultar Validades</h2>
-          <div className="flex justify-between items-center">
-            <FieldSet className="flex-row w-full justify-start gap-2">
+          <div className="flex flex-col justify-center items-center">
+            <FieldSet className="flex-row w-full justify-center gap-2">
               <div className="flex flex-col max-w-55 w-full h-full gap-2">
                 <FieldGroup className="gap-0">
                   <FieldLabel htmlFor="consultby">Consultar validades por</FieldLabel>
@@ -138,8 +74,8 @@ export function ValidityFilter() {
                           <SelectValue placeholder="Selecionar modalidade" />
                         </SelectTrigger>
                         <SelectContent className="border-1 border-primaria">
-                          <SelectItem value="1">Intervalo de Datas</SelectItem>
-                          <SelectItem value="2">Quantidade de Dias</SelectItem>
+                          <SelectItem value="validityDt">Intervalo de Datas</SelectItem>
+                          <SelectItem value="daysQt">Quantidade de Dias</SelectItem>
                         </SelectContent>
                       </Select>
                     )}
@@ -148,13 +84,13 @@ export function ValidityFilter() {
                 <FieldGroup>
                   <div
                     className={clsx("transition-colors", {
-                      "pointer-events-auto block relative": modality === "1",
-                      "pointer-events-none hidden absolute": modality === "2",
+                      "pointer-events-auto block relative": modality === "validityDt",
+                      "pointer-events-none hidden absolute": modality === "daysQt",
                     })}
                   >
                     <FieldLabel htmlFor="dateRange">Data de Validade</FieldLabel>
                     <div className="flex flex-col">
-                      <Popover open={openValidity} onOpenChange={setOpenValidity}>
+                      <Popover open={openDtValidity} onOpenChange={setDtOpenValidity}>
                         <PopoverTrigger asChild>
                           <Button
                             variant="outline"
@@ -172,7 +108,7 @@ export function ValidityFilter() {
                             ) : (
                               "Selecione o intervalo"
                             )}
-                            <ChevronDownIcon />
+                            <ChevronDownIcon className="text-gray-500/50" />
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
@@ -196,8 +132,8 @@ export function ValidityFilter() {
                   </div>
                   <div
                     className={clsx("transition-colors", {
-                      "pointer-events-auto hidden absolute": modality === "1",
-                      "pointer-events-auto block relative": modality === "2",
+                      "pointer-events-auto hidden absolute": modality === "validityDt",
+                      "pointer-events-auto block relative": modality === "daysQt",
                     })}
                   >
                     <FieldLabel htmlFor="dias">Dias</FieldLabel>
@@ -217,7 +153,6 @@ export function ValidityFilter() {
                           onValueChange={(e) => {
                             field.onChange(e);
                             setProdModality(e);
-                            console.log(prodModality);
                           }}
                           value={field.value}
                           modal={false}
@@ -248,11 +183,26 @@ export function ValidityFilter() {
                       className="cursor-pointer"
                       onClick={(e) => {
                         e.preventDefault();
-                        consultarDescricao(prodModality, prodIdent);
-                        console.log(prodIdent);
+                        handleSearchProdDesc();
+                        ("");
                       }}
                     >
-                      <SearchIcon />
+                      <SearchIcon
+                        className={clsx({
+                          block: loading === false,
+                          hidden: loading === true,
+                        })}
+                      />
+                      <svg
+                        className={clsx(
+                          "size-4 animate-spin border-3 border-secundaria border-t-primaria rounded-[50%]",
+                          {
+                            block: loading === true,
+                            hidden: loading === false,
+                          },
+                        )}
+                        viewBox="0 0 24 24"
+                      ></svg>
                     </Button>
                   </div>
                   <div>
@@ -290,7 +240,7 @@ export function ValidityFilter() {
                 <FieldGroup className="flex flex-col w-full gap-0">
                   <FieldLabel htmlFor="dateRangeInsert">Data de Inserção</FieldLabel>
                   <div className="flex flex-col gap-3 ">
-                    <Popover open={openInsert} onOpenChange={setOpenInsert}>
+                    <Popover open={openDtInsert} onOpenChange={setDtOpenInsert}>
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
@@ -308,7 +258,7 @@ export function ValidityFilter() {
                           ) : (
                             "Selecione o intervalo"
                           )}
-                          <ChevronDownIcon />
+                          <ChevronDownIcon className="text-gray-500/50" />
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
@@ -332,14 +282,14 @@ export function ValidityFilter() {
                 </FieldGroup>
               </div>
             </FieldSet>
-            <div className="flex flex-col pt-5 gap-2 ml-4">
+            <div className="flex pt-5 gap-2 ml-4">
               <Button className="bg-primaria hover:bg-hover-primaria hover:cursor-pointer" type="submit">
                 <Search /> Consultar
               </Button>
               <Button
                 variant="outline"
                 className="border-terciaria text-terciaria hover:bg-hover-terciaria hover:cursor-pointer"
-                onClick={(event) => {
+                onClick={() => {
                   reset({
                     consultby: "1",
                     branch_id: "0",
