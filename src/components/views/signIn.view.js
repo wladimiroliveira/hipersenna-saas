@@ -83,9 +83,6 @@ export function SignInForm({ onSubmitData, loading }) {
             <div className="flex w-[55%] justify-end">Login</div>
           </Button>
         </FieldSet>
-        <div className="pt-6">
-          {/* {showResponse && <AlertAuth response={reply[0].status} message={reply[0].message} />} */}
-        </div>
       </form>
     </div>
   );
