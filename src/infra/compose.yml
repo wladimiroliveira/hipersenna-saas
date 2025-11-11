@@ -6,10 +6,30 @@ services:
     shm_size: 128mb
     env_file:
       - ../../.env.docker
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U local_user -d local_db"]
+      interval: 3s
+      timeout: 5s
+      retries: 5
     ports:
       - 5432:5432
     volumes:
       - hipers_pg_data:/var/lib/postgresql/data
+
+  migrations:
+    container_name: prisma_migrations
+    image: oliveirawladimir/hipersenna-api:1.1
+    depends_on:
+      database:
+        condition: service_healthy
+    env_file:
+      - ../../.env.docker
+    entrypoint: >
+      sh -c "
+        echo '⌛ Executando migrations prisma...' &&
+        npx prisma migrate dev &&
+        echo '✅ Migrations concluídas'
+      "
 
   adminer:
     image: adminer
@@ -20,6 +40,9 @@ services:
   api:
     container_name: "hs_dev_api"
     image: oliveirawladimir/hipersenna-api:1.1
+    depends_on:
+      migrations:
+        condition: service_completed_successfully
     env_file:
       - ../../.env.docker
     ports:

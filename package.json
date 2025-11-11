@@ -11,7 +11,8 @@
     "test": "jest --runInBand",
     "test:watch": "jest --watchAll --runInBand",
     "services:up": "docker compose -f src/infra/compose.yml up -d",
-    "services:down": "docker compose -f src/infra/compose.yml down"
+    "services:down": "docker compose -f src/infra/compose.yml down",
+    "init:db": "node src/infra/scripts/initDatabase.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
@@ -26,6 +27,7 @@
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@tanstack/react-table": "^8.21.3",
+    "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
