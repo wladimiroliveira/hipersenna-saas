@@ -9,7 +9,9 @@
     "lint:check": "prettier --check .",
     "lint:fix": "prettier --write .",
     "test": "jest --runInBand",
-    "test:watch": "jest --watchAll --runInBand"
+    "test:watch": "jest --watchAll --runInBand",
+    "services:up": "docker compose -f src/infra/compose.yml up -d",
+    "services:down": "docker compose -f src/infra/compose.yml down"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
@@ -28,6 +30,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
+    "dotenv-expand": "^11.0.6",
     "lucide-react": "^0.545.0",
     "next": "15.5.4",
     "node-pg-migrate": "^6.2.2",
