@@ -12,8 +12,8 @@ async function cleanUsers() {
 let id;
 let token;
 
-test("DELETE to /api/v1/deleteuser should return", async () => {
-  const signInResult = await fetch("http://localhost:3000/api/v1/signin", {
+test("DELETE to /api/v1/users/deleteuser should return", async () => {
+  const signInResult = await fetch("http://localhost:3000/api/v1/users/signin", {
     method: "POST",
     body: JSON.stringify([
       {
@@ -25,7 +25,7 @@ test("DELETE to /api/v1/deleteuser should return", async () => {
   const signInValue = await signInResult.json();
   token = signInValue[0].token;
 
-  const signUpResult = await fetch("http://localhost:3000/api/v1/signup", {
+  const signUpResult = await fetch("http://localhost:3000/api/v1/users/signup", {
     method: "POST",
     body: JSON.stringify([
       {
@@ -44,7 +44,7 @@ test("DELETE to /api/v1/deleteuser should return", async () => {
   const signUpValue = await signUpResult.json();
   id = signUpValue[0].userCreated.id;
 
-  const responseResult = await fetch("http://localhost:3000/api/v1/deleteuser", {
+  const responseResult = await fetch("http://localhost:3000/api/v1/users/deleteuser", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

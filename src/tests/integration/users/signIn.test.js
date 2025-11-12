@@ -1,10 +1,10 @@
-test("POST to /api/v1/signin should return 200", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/signin", {
+test("POST to /api/v1/users/signin should return 200", async () => {
+  const responseResult = await fetch("http://localhost:3000/api/v1/users/users/signin", {
     method: "POST",
     body: JSON.stringify([
       {
-        username: "combat.machine",
-        password: "08533503",
+        username: process.env.BOOTSTRAP_ADMIN_USER,
+        password: process.env.BOOTSTRAP_ADMIN_PASSWORD,
       },
     ]),
   });
@@ -13,7 +13,7 @@ test("POST to /api/v1/signin should return 200", async () => {
 });
 
 test("POST with incorrect credentials should return 400", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/signin", {
+  const responseResult = await fetch("http://localhost:3000/api/v1/users/users/signin", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
