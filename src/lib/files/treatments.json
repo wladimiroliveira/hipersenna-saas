@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "description": "pendente"
+  },
+  {
+    "id": 2,
+    "description": "colocar em promoção"
+  },
+  {
+    "id": 3,
+    "description": "trocar com o fornecedor"
+  },
+  {
+    "id": 4,
+    "description": "transferência interna"
+  },
+  {
+    "id": 5,
+    "description": "bloqueio para venda"
+  },
+  {
+    "id": 6,
+    "description": "doação"
+  },
+  {
+    "id": 7,
+    "description": "vencido"
+  },
+  {
+    "id": 8,
+    "description": "produto vendável dentro do prazo"
+  },
+  {
+    "id": 9,
+    "description": "inserção tardia"
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "admin",
+    "description": "cargo de administração"
+  },
+  {
+    "id": 2,
+    "name": "ti",
+    "description": "informática e suporte"
+  },
+  {
+    "id": 3,
+    "name": "gerente",
+    "description": "gerência"
+  }
+]

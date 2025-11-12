@@ -1,0 +1,137 @@
+[
+  {
+    "id": 1,
+    "name": "consultar usuários",
+    "description": "consultar todos os usuários existentes ou um usuário pelo id"
+  },
+  {
+    "id": 2,
+    "name": "cadastrar usuários",
+    "description": "cadastrar novos usuários"
+  },
+  {
+    "id": 3,
+    "name": "excluir usuários",
+    "description": "excluir usuários existentes"
+  },
+  {
+    "id": 4,
+    "name": "atualizar usuários",
+    "description": "atualizar dados de um usuário existente"
+  },
+  {
+    "id": 5,
+    "name": "consultar permissões",
+    "description": "consulta todas as permissões existentes ou uma permissão pelo id"
+  },
+  {
+    "id": 6,
+    "name": "cadastrar permissões",
+    "description": "cadastra novas permiossões"
+  },
+  {
+    "id": 7,
+    "name": "excluir permissões",
+    "description": "exclui permissões existentes"
+  },
+  {
+    "id": 8,
+    "name": "atualizar permissões",
+    "description": "atualiza dados de uma permissão existente"
+  },
+  {
+    "id": 9,
+    "name": "consultar cargos",
+    "description": "consultar todos os cargos existentes ou um pelo id"
+  },
+  {
+    "id": 10,
+    "name": "criar cargos",
+    "description": "criar novos cargos"
+  },
+  {
+    "id": 11,
+    "name": "excluir cargos",
+    "description": "excluir cargos existentes"
+  },
+  {
+    "id": 12,
+    "name": "atualizar cargos",
+    "description": "atualizar dados de cargos existentes"
+  },
+  {
+    "id": 13,
+    "name": "conceder cargo a usuários",
+    "description": "conceder cargos a um usuário existente"
+  },
+  {
+    "id": 14,
+    "name": "conceder permissões a cargos",
+    "description": "conceder permissões a cargos existentes"
+  },
+  {
+    "id": 15,
+    "name": "conceder permissões a usuários",
+    "description": "conceder permissões a usuários existentes"
+  },
+  {
+    "id": 16,
+    "name": "consultar todas as solicitações de validade",
+    "description": "consultar todas as solicitações de validade"
+  },
+  {
+    "id": 17,
+    "name": "consultar solicitações de validade por usuário",
+    "description": "consultar solicitações de validade vinculadas a um conferente"
+  },
+  {
+    "id": 18,
+    "name": "cadastrar solicitações de validade",
+    "description": "cadastrar solicitações de"
+  },
+  {
+    "id": 19,
+    "name": "atulizar solicitações de validade",
+    "description": "atulizar solicitações de validade"
+  },
+  {
+    "id": 20,
+    "name": "consultar validades",
+    "description": "consultar todas as solicitações de validade"
+  },
+  {
+    "id": 21,
+    "name": "consultar validades por usuário",
+    "description": "consultar validades de um conferente"
+  },
+  {
+    "id": 22,
+    "name": "cadastrar validades",
+    "description": "cadastrar novas validades"
+  },
+  {
+    "id": 23,
+    "name": "consultar produtos",
+    "description": "consultar produtos por código, código auxiliar ou descrição"
+  },
+  {
+    "id": 24,
+    "name": "consultar bônus",
+    "description": "consultar bônus"
+  },
+  {
+    "id": 25,
+    "name": "remover cargo de usuários",
+    "description": "remover cargo de usuários existentes"
+  },
+  {
+    "id": 26,
+    "name": "remover permissões de usuários",
+    "description": "remover permissões de usuários"
+  },
+  {
+    "id": 27,
+    "name": "remover permissões de cargos",
+    "description": "remover permissões de cargos existentes"
+  }
+]
