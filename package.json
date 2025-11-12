@@ -3,13 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "npm run services:up && npm run wait-for-postgres && npm run init:db && next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
     "lint:check": "prettier --check .",
     "lint:fix": "prettier --write .",
     "test": "jest --runInBand",
-    "test:watch": "jest --watchAll --runInBand"
+    "test:watch": "jest --watchAll --runInBand",
+    "services:up": "docker compose -f src/infra/compose.yml up -d",
+    "services:down": "docker compose -f src/infra/compose.yml down",
+    "services:restart": "npm run services:down && npm run services:up",
+    "init:db": "node src/infra/scripts/initDatabase.js",
+    "wait-for-postgres": "node src/infra/scripts/waitForPostgres.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
@@ -24,10 +29,12 @@
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@tanstack/react-table": "^8.21.3",
+    "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
+    "dotenv-expand": "^11.0.6",
     "lucide-react": "^0.545.0",
     "next": "15.5.4",
     "node-pg-migrate": "^6.2.2",
