@@ -1,4 +1,4 @@
-import { DataTable } from "@/app/(modules)/admin/users/list/dataTable";
+import { DataTable } from "@/components/views/dataTable.view";
 import { columns } from "@/app/(modules)/admin/users/list/columns";
 import { getAllUsers } from "@/components/models/getAllUsers.model";
 

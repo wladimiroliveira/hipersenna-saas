@@ -24,9 +24,9 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoveLeft, MoveRightIcon } from "lucide-react";
+import { Columns3Icon, DownloadIcon, MoveLeft, MoveRightIcon } from "lucide-react";
 
-export function DataTable({ columns, data }) {
+export function DataTable({ columns, data, searchColumn }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
@@ -55,16 +55,21 @@ export function DataTable({ columns, data }) {
   return (
     <div>
       <div className="flex items-center py-4">
+        <Button className="bg-green-500 mr-4 hover:bg-green-700 cursor-pointer">
+          <DownloadIcon />
+          Baixar Planilha
+        </Button>
         <Input
-          placeholder="Filtre por nome..."
-          value={table.getColumn("name")?.getFilterValue() ?? ""}
-          onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
+          placeholder={`Filtre por ${searchColumn}...`}
+          value={table.getColumn(searchColumn)?.getFilterValue() ?? ""}
+          onChange={(event) => table.getColumn(searchColumn)?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto border-primaria text-primaria">
               Colunas
+              <Columns3Icon />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="border-primaria">
