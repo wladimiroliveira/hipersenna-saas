@@ -44,6 +44,13 @@
         "description": "Realize a análise dos vencimentos de produtos através deste menu",
         "path": "/vencimento/analise",
         "buttonText": "Acessar"
+      },
+      {
+        "id": "tratamento",
+        "name": "Inserção de Tratamentos",
+        "description": "Insira aqui todos as atualizações de tratamento de vencimentos",
+        "path": "/vencimento/tratamento",
+        "buttonText": "Acessar"
       }
     ]
   },

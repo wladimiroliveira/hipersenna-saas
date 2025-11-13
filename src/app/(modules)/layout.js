@@ -10,7 +10,14 @@ export default async function Layout({ children }) {
         </nav>
       </header>
       <div className="pt-[64px] max-w-[1260px] m-auto">
-        {children}
+        <div
+          className="pl-4 pr-4"
+          style={{
+            minHeight: "calc(100vh - 64px)",
+          }}
+        >
+          {children}
+        </div>
         <Footer />
       </div>
     </>
