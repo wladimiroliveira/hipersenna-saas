@@ -11,8 +11,8 @@ async function cleanUsers() {
 let token;
 let id;
 
-test("PATCH to /api/v1/edituser should return 200", async () => {
-  const signInResult = await fetch("http://localhost:3000/api/v1/signin", {
+test("PATCH to /api/v1/users/edituser should return 200", async () => {
+  const signInResult = await fetch("http://localhost:3000/api/v1/users/signin", {
     method: "POST",
     body: JSON.stringify([
       {
@@ -23,7 +23,7 @@ test("PATCH to /api/v1/edituser should return 200", async () => {
   });
   const signInValue = await signInResult.json();
   token = signInValue[0].token;
-  const signUpResult = await fetch("http://localhost:3000/api/v1/signup", {
+  const signUpResult = await fetch("http://localhost:3000/api/v1/users/signup", {
     method: "POST",
     body: JSON.stringify([
       {
@@ -42,7 +42,7 @@ test("PATCH to /api/v1/edituser should return 200", async () => {
   const signUpValue = await signUpResult.json();
   id = signUpValue[0].userCreated.id;
 
-  const responseResult = await fetch("http://localhost:3000/api/v1/edituser", {
+  const responseResult = await fetch("http://localhost:3000/api/v1/users/edituser", {
     method: "PATCH",
     body: JSON.stringify([
       {

@@ -1,7 +1,7 @@
 let token;
 
-test("POST to /api/v1/session should return 200", async () => {
-  const signInResult = await fetch("http://localhost:3000/api/v1/signin", {
+test("POST to /api/v1/users/session should return 200", async () => {
+  const signInResult = await fetch("http://localhost:3000/api/v1/users/signin", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -16,7 +16,7 @@ test("POST to /api/v1/session should return 200", async () => {
   const signInValue = await signInResult.json();
   const token = signInValue[0].token;
 
-  const responseResult = await fetch(`http://localhost:3000/api/v1/session`, {
+  const responseResult = await fetch(`http://localhost:3000/api/v1/users/session`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

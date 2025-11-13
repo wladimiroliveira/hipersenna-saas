@@ -1,6 +1,6 @@
 let token;
-test("POST to /api/v1/signout shoul return 200", async () => {
-  const signInResult = await fetch("http://localhost:3000/api/v1/signin", {
+test("POST to /api/v1/users/signout shoul return 200", async () => {
+  const signInResult = await fetch("http://localhost:3000/api/v1/users/signin", {
     method: "POST",
     body: JSON.stringify([
       {
@@ -11,7 +11,7 @@ test("POST to /api/v1/signout shoul return 200", async () => {
   });
   const signInValue = await signInResult.json();
   token = signInValue[0].token;
-  const responseResult = await fetch("http://localhost:3000/api/v1/signout", {
+  const responseResult = await fetch("http://localhost:3000/api/v1/users/signout", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -27,7 +27,7 @@ test("POST to /api/v1/signout shoul return 200", async () => {
 });
 
 test("POST with invalid or expire token shoul return 200", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/signout", {
+  const responseResult = await fetch("http://localhost:3000/api/v1/users/signout", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
