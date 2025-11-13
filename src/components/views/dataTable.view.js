@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Columns3Icon, DownloadIcon, MoveLeft, MoveRightIcon } from "lucide-react";
 
-export function DataTable({ columns, data, searchColumn }) {
+export function DataTable({ columns, data, searchColumn, downloadTable }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
@@ -55,7 +55,7 @@ export function DataTable({ columns, data, searchColumn }) {
   return (
     <div>
       <div className="flex items-center py-4">
-        <Button className="bg-green-500 mr-4 hover:bg-green-700 cursor-pointer">
+        <Button className="bg-green-500 mr-4 hover:bg-green-700 cursor-pointer" onClick={downloadTable}>
           <DownloadIcon />
           Baixar Planilha
         </Button>

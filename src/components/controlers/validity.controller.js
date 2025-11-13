@@ -4,6 +4,7 @@ import { ValidityFilter } from "@/components/views/filterValidity.view";
 import { DataTable } from "@/components/views/dataTable.view";
 import { columns } from "@/app/(modules)/vencimento/analise/columns";
 import validities from "@/lib/files/validityData.json";
+import { DownloadTable } from "@/components/models/xlsxHandler.model";
 
 export function ValidityAnylises() {
   const [prodDesc, setProdDesc] = useState("Consulte o produto...");
@@ -72,7 +73,14 @@ export function ValidityAnylises() {
         onSubmitData={handleSubmit}
         loading={loadingProdDesc}
       />
-      <DataTable columns={columns} data={products} searchColumn="description" />
+      <DataTable
+        columns={columns}
+        data={products}
+        downloadTable={() => {
+          DownloadTable(products);
+        }}
+        searchColumn="description"
+      />
     </div>
   );
 }
