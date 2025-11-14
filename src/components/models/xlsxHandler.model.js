@@ -82,4 +82,5 @@ export async function UploadTable(data) {
       return acc;
     }, {}),
   );
+  return merged;
 }
