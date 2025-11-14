@@ -16,8 +16,8 @@ test("PATCH to /api/v1/users/edituser should return 200", async () => {
     method: "POST",
     body: JSON.stringify([
       {
-        username: "combat.machine",
-        password: "08533503",
+        username: process.env.BOOTSTRAP_ADMIN_USER,
+        password: process.env.BOOTSTRAP_ADMIN_PASSWORD,
       },
     ]),
   });
@@ -34,7 +34,6 @@ test("PATCH to /api/v1/users/edituser should return 200", async () => {
           password: "12345678",
           winthor_id: 999997,
           branch_id: 1,
-          access_level: 1,
         },
       },
     ]),
@@ -54,7 +53,6 @@ test("PATCH to /api/v1/users/edituser should return 200", async () => {
           password: "87654321",
           branch_id: 1,
           winthor_id: 999987,
-          access_level: 1,
         },
       },
     ]),
