@@ -60,13 +60,15 @@ async function initDatabase() {
     console.log(".");
     permissions.map(async (permission) => {
       await dbClient(
-        `INSERT INTO hspermissions(name, description) VALUES ('${permission.name}', '${permission.description}')`,
+        `INSERT INTO hspermissions(id, name, description) VALUES (${permission.id},'${permission.name}', '${permission.description}')`,
       );
     });
 
     console.log(".");
     roles.map(async (role) => {
-      await dbClient(`INSERT INTO hsroles(name, description) VALUES ('${role.name}', '${role.description}')`);
+      await dbClient(
+        `INSERT INTO hsroles(id, name, description) VALUES (${role.id},'${role.name}', '${role.description}')`,
+      );
     });
 
     console.log(".");
@@ -82,7 +84,9 @@ async function initDatabase() {
 
     console.log(".");
     treatments.map(async (treatment) => {
-      await dbClient(`INSERT INTO hsvalidity_treatments(description) VALUES('${treatment.description}')`);
+      await dbClient(
+        `INSERT INTO hsvalidity_treatments(id, description) VALUES(${treatment.id}, '${treatment.description}')`,
+      );
     });
 
     console.log("🟢 The database is ready");
