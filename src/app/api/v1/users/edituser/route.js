@@ -12,7 +12,7 @@ export async function PATCH(request) {
     } else {
       tokenValue = token;
     }
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/id/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

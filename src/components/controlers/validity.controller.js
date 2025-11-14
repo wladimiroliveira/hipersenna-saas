@@ -76,6 +76,7 @@ export function ValidityAnylises() {
       <DataTable
         columns={columns}
         data={products}
+        downloadable={true}
         downloadTable={() => {
           DownloadTable(products);
         }}

@@ -10,7 +10,7 @@ async function cleanUsers() {
 }
 
 test("POST to /api/v1/users/users/singup should return 201", async () => {
-  const signInResult = await fetch("http://localhost:3000/api/v1/users/users/signin", {
+  const signInResult = await fetch("http://localhost:3000/api/v1/users/signin", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -24,7 +24,7 @@ test("POST to /api/v1/users/users/singup should return 201", async () => {
   });
   const signInValue = await signInResult.json();
   token = signInValue[0].token;
-  const responseResult = await fetch("http://localhost:3000/api/v1/users/users/signup", {
+  const responseResult = await fetch("http://localhost:3000/api/v1/users/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -52,7 +52,7 @@ test("POST to /api/v1/users/users/singup should return 201", async () => {
 });
 
 test("POST with existing credentials should return 409", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/users/users/signup", {
+  const responseResult = await fetch("http://localhost:3000/api/v1/users/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

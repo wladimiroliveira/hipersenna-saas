@@ -51,11 +51,11 @@ export function ValidityFilter({ prodDesc, onSearchProd, loading, onSubmitData }
 
   return (
     <div>
-      <div>
+      <div className="max-w-[880px]">
         <form onSubmit={onSubmit(handleSubmit)} className="flex flex-col gap-4">
           <h2 className="text-2xl font-semibold text-primaria w-52">Consultar Validades</h2>
-          <div className="flex flex-col justify-center items-center">
-            <FieldSet className="flex-row w-full justify-center gap-2">
+          <div className="flex flex-row pt-4 pb-8 items-center">
+            <FieldSet className="flex-row w-full flex-wrap justify-start gap-2">
               <div className="flex flex-col max-w-55 w-full h-full gap-2">
                 <FieldGroup className="gap-0">
                   <FieldLabel htmlFor="consultby">Consultar validades por</FieldLabel>
@@ -282,21 +282,23 @@ export function ValidityFilter({ prodDesc, onSearchProd, loading, onSubmitData }
                 </FieldGroup>
               </div>
             </FieldSet>
-            <div className="flex pt-5 gap-2 ml-4">
+            <div className="flex flex-col pt-5 gap-2">
               <Button className="bg-primaria hover:bg-hover-primaria hover:cursor-pointer" type="submit">
                 <Search /> Consultar
               </Button>
               <Button
                 variant="outline"
                 className="border-terciaria text-terciaria hover:bg-hover-terciaria hover:cursor-pointer"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   reset({
-                    consultby: "1",
+                    consultby: "",
                     branch_id: "0",
                     dias: "",
                     prod: "",
                   });
-                  setModality("1");
+                  setProdModality("codigo");
+                  setModality("validityDt");
                   setDateRangeInsert({ from: undefined, to: undefined });
                   setDateRangeValidity({ from: undefined, to: undefined });
                 }}
