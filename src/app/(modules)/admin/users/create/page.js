@@ -1,4 +1,4 @@
-import { SignUpForm } from "@/components/views/signUp.view";
+import { SignUpController } from "@/components/controlers/signUp.controller";
 
 export default function Page() {
   return (
@@ -7,7 +7,7 @@ export default function Page() {
         <h1 className="text-4xl text-primaria font-bold">Criar usuário</h1>
       </div>
       <div className="flex flex-row w-full min-h-[90vh] pt-0 p-8">
-        <SignUpForm />
+        <SignUpController />
       </div>
     </div>
   );

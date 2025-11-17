@@ -2,63 +2,59 @@ import { cookies } from "next/headers";
 
 export async function POST(request) {
   let responseBody = [{}];
+  let cookieStore;
+  let tokenValue;
   try {
-    let tokenValue;
-    const requestBody = await request.json();
-    const { token, info, roles, permissions } = requestBody[0];
-    if (!token) {
-      const cookieStore = await cookies();
-      tokenValue = cookieStore.get("token")?.value;
+    const data = await request.json([]);
+    if (data.lentgth > 1) {
+      tokenValue = data[1].token;
     } else {
-      tokenValue = token;
+      cookieStore = await cookies();
+      tokenValue = cookieStore.get("token").value;
     }
-
-    // Create User Process
+    const userData = [
+      {
+        name: data[0].name,
+        username: data[0].username,
+        password: data[0].password,
+        branch_id: data[0].branch_id,
+        winthor_id: data[0].winthor_id,
+      },
+    ];
+    const role = [
+      {
+        role: data[0].role,
+      },
+    ];
     const createUserResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${tokenValue}`,
       },
-      body: JSON.stringify(info),
+      body: JSON.stringify(userData[0]),
     });
     const createUserValue = await createUserResult.json();
     responseBody[0] = {
       status: createUserResult.status,
       ...createUserValue,
     };
-    // Insert Role in new user
-    if (roles && createUserValue.userCreated?.id) {
+
+    if (createUserResult.userCreated?.username) {
       const roleInsertResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-roles`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${tokenValue}` },
         body: JSON.stringify({
           user_id: createUserValue.userCreated.id,
-          role_id: roles,
+          role_id: role,
         }),
       });
       const roleInsertValue = await roleInsertResult.json();
       responseBody[0].assinedRole = `User ${createUserValue.userCreated.username} received role ${roleInsertValue.role_id}`;
     }
-
-    if (permissions && createUserValue.userCreated?.id) {
-      const permissionsInsertResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-permissions`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${tokenValue}`,
-        },
-        body: JSON.stringify({
-          permission_id: permissions,
-          user_id: createUserValue.userCreated.id,
-        }),
-      });
-      const permissionsInsertValue = await permissionsInsertResult.json();
-      responseBody[0].permissions = `${permissionsInsertValue.count} permissions added to ${createUserValue.userCreated.username}`;
-    }
-
     return Response.json(responseBody);
   } catch (err) {
     console.error(err);
+    throw err;
   }
 }

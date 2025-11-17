@@ -8,7 +8,7 @@ import { CheckCircleIcon } from "@heroicons/react/24/outline";
 export function ErrorAlert({ statusCode, title, desc }) {
   const [open, setOpen] = useState(true);
 
-  if (statusCode === 500) {
+  if (statusCode >= 500) {
     return (
       <div>
         <Dialog open={open} onClose={setOpen} className="relative z-10">
@@ -58,7 +58,7 @@ export function ErrorAlert({ statusCode, title, desc }) {
     );
   }
 
-  if (statusCode === 400) {
+  if (statusCode >= 400) {
     return (
       <div>
         <Dialog open={open} onClose={setOpen} className="relative z-10">
