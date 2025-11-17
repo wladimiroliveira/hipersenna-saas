@@ -8,7 +8,7 @@ import { DownloadTable } from "@/components/models/xlsxHandler.model";
 
 export function ValidityAnylises() {
   const [prodDesc, setProdDesc] = useState("Consulte o produto...");
-  const [prodKey, setProdKey] = useState(1);
+  const [prodCod, setProdCod] = useState();
   const [loadingProdDesc, setLoadingProdDesc] = useState(false);
 
   const products = validities.flatMap((item) =>
@@ -51,8 +51,13 @@ export function ValidityAnylises() {
   async function handleSearchProdDesc(data) {
     try {
       setLoadingProdDesc(true);
-      setProdKey((prev) => prev + 1);
-      setProdDesc(`Descrição do produto ${prodKey}`);
+      if (!data[0].id || !data[0].type) {
+        return;
+      }
+      const queryResult = await fetch(`/api/v1/prod?${data[0].type}=${data[0].id}`);
+      const queryValue = await queryResult.json();
+      queryValue[0].descricao ? setProdDesc(queryValue[0].descricao) : setProdDesc("Produto não encontrado");
+      queryValue[0].codProd && setProdCod(queryValue[0].codProd);
     } catch (err) {
       console.error(err);
       throw err;
@@ -62,13 +67,21 @@ export function ValidityAnylises() {
   }
 
   async function handleSubmit(data) {
-    console.log(data);
+    console.log({
+      ...data,
+      prod: prodCod,
+    });
+  }
+
+  async function handleInputsClear() {
+    setProdDesc("Consulte um produto...");
   }
 
   return (
     <div>
       <ValidityFilter
         prodDesc={prodDesc}
+        onClear={handleInputsClear}
         onSearchProd={handleSearchProdDesc}
         onSubmitData={handleSubmit}
         loading={loadingProdDesc}

@@ -7,17 +7,17 @@ import { useForm, Controller } from "react-hook-form";
 import { FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Popover, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BrushCleaningIcon, ChevronDownIcon, Search, SearchIcon } from "lucide-react";
+import { ArrowRight, BrushCleaningIcon, ChevronDownIcon, FilterIcon, Search, SearchIcon } from "lucide-react";
 import { PopoverContent } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
 
-export function ValidityFilter({ prodDesc, onSearchProd, loading, onSubmitData }) {
+export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSubmitData }) {
   const [openDtInsert, setDtOpenInsert] = useState(false);
   const [openDtValidity, setDtOpenValidity] = useState(false);
   const [modality, setModality] = useState("validityDt");
-  const [prodModality, setProdModality] = useState("codigo");
+  const [prodModality, setProdModality] = useState("codprod");
   const [prodIdent, setProdIdent] = useState("");
   const [dateRangeInsert, setDateRangeInsert] = useState({
     from: undefined,
@@ -33,11 +33,12 @@ export function ValidityFilter({ prodDesc, onSearchProd, loading, onSubmitData }
     formState: { errors },
     control,
     reset,
+    resetField,
   } = useForm({
     defaultValues: {
       consultby: "validityDt",
       branch_id: "0",
-      prodModality: "codigo",
+      prodModality: "codprod",
     },
   });
 
@@ -153,25 +154,34 @@ export function ValidityFilter({ prodDesc, onSearchProd, loading, onSubmitData }
                           onValueChange={(e) => {
                             field.onChange(e);
                             setProdModality(e);
+                            resetField("prod");
+                            setProdIdent("");
+                            onClear();
                           }}
                           value={field.value}
                           modal={false}
                         >
-                          <SelectTrigger className="min-w-26 border-1 border-primaria">
-                            <SelectValue placeholder="Tipo de Pesquisa" />
+                          <SelectTrigger className="border-1 border-primaria">
+                            <FilterIcon />
                           </SelectTrigger>
                           <SelectContent className="border-1 border-primaria">
-                            <SelectItem value="codigo">Código</SelectItem>
-                            <SelectItem value="barras">C. Barras</SelectItem>
-                            <SelectItem value="desc">Desc.</SelectItem>
+                            <SelectItem value="codprod">Código</SelectItem>
+                            <SelectItem value="codauxiliar">C. Barras</SelectItem>
+                            <SelectItem value="descricao">Desc.</SelectItem>
                           </SelectContent>
                         </Select>
                       )}
                     />
                     <Input
                       id="prod"
-                      type="text"
-                      placeholder={prodModality}
+                      type={prodModality === "descricao" ? "text" : "number"}
+                      placeholder={
+                        prodModality === "descricao"
+                          ? "Descrição"
+                          : prodModality === "codprod"
+                            ? "Código do Produto"
+                            : "Código de Barras"
+                      }
                       className="min-w-26"
                       {...register("prod", {
                         onChange: (e) => {
@@ -184,7 +194,6 @@ export function ValidityFilter({ prodDesc, onSearchProd, loading, onSubmitData }
                       onClick={(e) => {
                         e.preventDefault();
                         handleSearchProdDesc();
-                        ("");
                       }}
                     >
                       <SearchIcon
@@ -291,6 +300,7 @@ export function ValidityFilter({ prodDesc, onSearchProd, loading, onSubmitData }
                 className="border-terciaria text-terciaria hover:bg-hover-terciaria hover:cursor-pointer"
                 onClick={(e) => {
                   e.preventDefault();
+                  onClear();
                   reset({
                     consultby: "",
                     branch_id: "0",
