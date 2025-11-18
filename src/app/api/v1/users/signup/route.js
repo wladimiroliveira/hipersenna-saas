@@ -6,9 +6,8 @@ export async function POST(request) {
   let tokenValue;
   try {
     const data = await request.json([]);
-    console.log(data);
-    if (data.lentgth > 1) {
-      tokenValue = data[1].token;
+    if (data[2]?.token) {
+      tokenValue = data[2].token;
     } else {
       cookieStore = await cookies();
       tokenValue = cookieStore.get("token").value;
