@@ -12,6 +12,7 @@ export function SignUpController() {
   async function handleSubmit(data) {
     try {
       setLoading(true);
+      console.log(data);
       const responseResult = await fetch("/api/v1/users/signup", {
         method: "POST",
         headers: {
@@ -19,14 +20,17 @@ export function SignUpController() {
         },
         body: JSON.stringify([
           {
-            ...data[0],
-            role: parseInt(data[0].role),
+            name: data[0].name,
+            username: data[0].username,
+            password: data[0].password,
             branch_id: parseInt(data[0].branch_id),
             winthor_id: parseInt(data[0].winthor_id),
           },
+          { role: parseInt(data[0].role) },
         ]),
       });
       const responseValue = await responseResult.json();
+      console.log(responseValue);
       if (responseValue[0].status === 201) {
         setAlert({
           type: "success",
