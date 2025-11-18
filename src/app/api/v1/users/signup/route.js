@@ -6,6 +6,7 @@ export async function POST(request) {
   let tokenValue;
   try {
     const data = await request.json([]);
+    console.log(data);
     if (data.lentgth > 1) {
       tokenValue = data[1].token;
     } else {
@@ -23,7 +24,7 @@ export async function POST(request) {
     ];
     const role = [
       {
-        role: data[0].role,
+        role: data[1].role,
       },
     ];
     const createUserResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
@@ -40,13 +41,13 @@ export async function POST(request) {
       ...createUserValue,
     };
 
-    if (createUserResult.userCreated?.username) {
+    if (createUserValue.userCreated?.username) {
       const roleInsertResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-roles`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${tokenValue}` },
         body: JSON.stringify({
           user_id: createUserValue.userCreated.id,
-          role_id: role,
+          role_id: role[0].role,
         }),
       });
       const roleInsertValue = await roleInsertResult.json();
