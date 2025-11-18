@@ -43,7 +43,7 @@ export function SignInController() {
 
   return (
     <div className="flex flex-row items-center justify-center min-h-lvh h-full">
-      <div className="flex flex-col items-center justify-center gap-15 w-[40%] bg-secundaria">
+      <div className="flex flex-col items-center justify-center gap-15 w-full bg-secundaria">
         <h1 className="text-4xl font-bold text-primaria">GHS Sistema</h1>
         <SignInForm onSubmitData={handleSubmit} loading={loading} />
       </div>
