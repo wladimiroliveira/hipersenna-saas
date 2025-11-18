@@ -57,7 +57,7 @@ export function SignUpController() {
   }
   return (
     <div className="flex flex-row items-center justify-center w-full h-full">
-      <div className="flex flex-col items-center justify-center gap-15 w-[40%] bg-secundaria">
+      <div className="flex flex-col items-center justify-center gap-15 w-full bg-secundaria">
         <SignUpForm onSubmitData={handleSubmit} loading={loading} />
       </div>
       {alert?.type === "success" && <SuccessAlert key={alertKey} title={alert.title} desc={alert.desc} />}
