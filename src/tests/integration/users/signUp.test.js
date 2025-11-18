@@ -31,16 +31,17 @@ test("POST to /api/v1/users/users/singup should return 201", async () => {
     },
     body: JSON.stringify([
       {
+        name: "test signup",
+        username: "test.singup",
+        password: "12345678",
+        winthor_id: 99998,
+        branch_id: 1,
+      },
+      {
+        role: 2,
+      },
+      {
         token,
-        info: {
-          name: "test signup",
-          username: "test.singup",
-          password: "12345678",
-          winthor_id: 99998,
-          branch_id: 1,
-        },
-        roles: [2],
-        permissions: [1, 2, 3, 7, 9, 11, 17, 21, 22, 23, 24, 25, 26],
       },
     ]),
   });
@@ -59,30 +60,17 @@ test("POST with existing credentials should return 409", async () => {
     },
     body: JSON.stringify([
       {
+        name: "test signup",
+        username: "test.singup",
+        password: "12345678",
+        winthor_id: 99998,
+        branch_id: 1,
+      },
+      {
+        role: 2,
+      },
+      {
         token,
-        info: {
-          name: "test signup",
-          username: "test.singup",
-          password: "12345678",
-          winthor_id: 99998,
-          branch_id: 1,
-        },
-        roles: [{ id: 2 }],
-        permissions: [
-          { id: 1 },
-          { id: 2 },
-          { id: 3 },
-          { id: 7 },
-          { id: 9 },
-          { id: 11 },
-          { id: 17 },
-          { id: 21 },
-          { id: 22 },
-          { id: 23 },
-          { id: 24 },
-          { id: 25 },
-          { id: 26 },
-        ],
       },
     ]),
   });
