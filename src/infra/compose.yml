@@ -16,7 +16,7 @@ services:
 
   migrations:
     container_name: prisma_migrations
-    image: oliveirawladimir/hipersenna-api:1.3.1
+    image: oliveirawladimir/hipersenna-api:1.4.2
     depends_on:
       database:
         condition: service_healthy
@@ -25,6 +25,7 @@ services:
     entrypoint: >
       sh -c "
         echo '⌛ Executando migrations prisma...' &&
+        npx prisma generate &&
         npx prisma migrate dev --name migrations-dev &&
         echo '✅ Migrations concluídas'
       "
@@ -37,7 +38,7 @@ services:
 
   api:
     container_name: "hs_dev_api"
-    image: oliveirawladimir/hipersenna-api:1.3.1
+    image: oliveirawladimir/hipersenna-api:1.4.2
     depends_on:
       migrations:
         condition: service_completed_successfully
@@ -45,6 +46,5 @@ services:
       - ../../.env.docker
     ports:
       - 3333:3333
-
-volumes:
-  hipers_pg_data:
+# volumes:
+#   hipers_pg_data:
