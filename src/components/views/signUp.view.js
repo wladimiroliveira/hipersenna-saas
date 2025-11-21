@@ -1,20 +1,19 @@
 "use client";
 
-import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
+import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { AlertAuth } from "@/components/views/alertsAuth.view";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { signUp } from "../models/signUp.model";
 import clsx from "clsx";
 
-export function SignUpForm() {
-  const [reply, setReply] = useState({});
-  const [clickSubmit, setClickSubmit] = useState(false);
-  const [showResponse, setShowResponse] = useState(false);
+import roles from "@/lib/files/roles.json";
+import branches from "@/lib/files/branches.json";
+
+export function SignUpForm({ onSubmitData, loading }) {
   const [inputType, setInputType] = useState("password");
+
   const {
     register,
     handleSubmit: onSubmit,
@@ -28,31 +27,16 @@ export function SignUpForm() {
       password: "",
       branch_id: "",
       winthor_id: "",
-      access_level: "",
+      role: "",
     },
   });
-  const handleSubmit = async (data) => {
-    if (!clickSubmit) {
-      setClickSubmit(true);
-      const userInfo = {
-        name: data.name,
-        username: data.username,
-        password: data.password,
-        branch_id: parseInt(data.branch_id),
-        winthor_id: parseInt(data.winthor_id),
-        access_level: parseInt(data.access_level),
-      };
-      const result = await signUp(userInfo);
-      setReply(result);
-      setShowResponse(true);
-      setClickSubmit(false);
-      if (result[0].ok) {
-        reset();
-      }
-    }
+
+  const getData = (data) => {
+    onSubmitData([data]);
   };
+
   return (
-    <form onSubmit={onSubmit(handleSubmit)} className="w-full max-w-md ml-auto mr-auto">
+    <form onSubmit={onSubmit(getData)} className="w-full max-w-md ml-auto mr-auto">
       <FieldSet className="gap-0">
         <FieldGroup className="gap-0">
           <h2 className="text-2xl text-primaria font-semibold mb-4">Criar</h2>
@@ -79,7 +63,7 @@ export function SignUpForm() {
             <FieldLabel htmlFor="password" className="text-primaria">
               Senha
             </FieldLabel>
-            <div className="flex flex-row border-1 border-primaria rounded-md">
+            <div className="flex flex-row border-1 border-primaria mb-2 rounded-md">
               <Input
                 id="password"
                 type={inputType}
@@ -134,13 +118,13 @@ export function SignUpForm() {
                     <SelectValue placeholder="Seleciona a filial" />
                   </SelectTrigger>
                   <SelectContent className="border-primaria">
-                    <SelectItem value="1">Matriz</SelectItem>
-                    <SelectItem value="2">Faruk</SelectItem>
-                    <SelectItem value="3">Carajás</SelectItem>
-                    <SelectItem value="4">VS10</SelectItem>
-                    <SelectItem value="5">Xinguara</SelectItem>
-                    <SelectItem value="7">Cidade Jardim</SelectItem>
-                    <SelectItem value="8">Canaã</SelectItem>
+                    {branches.map((branch) => {
+                      return (
+                        <SelectItem key={branch.id} value={String(branch.number)}>
+                          {branch.name}
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
               )}
@@ -148,25 +132,24 @@ export function SignUpForm() {
           </Field>
           <Field className="gap-0">
             <FieldLabel htmlFor="branch_id" className="text-primaria">
-              Nível de Acesso
+              Função
             </FieldLabel>
             <Controller
-              name="access_level"
+              name="role"
               control={control}
               render={({ field }) => (
                 <Select onValueChange={field.onChange} value={field.value} required>
                   <SelectTrigger className="border-primaria">
-                    <SelectValue placeholder="Seleciona a filial" />
+                    <SelectValue placeholder="Função" />
                   </SelectTrigger>
                   <SelectContent className="border-primaria">
-                    <SelectItem value="1">Admin</SelectItem>
-                    <SelectItem value="2">Ti</SelectItem>
-                    <SelectItem value="3">Gerente</SelectItem>
-                    <SelectItem value="4">Encarregado</SelectItem>
-                    <SelectItem value="5">Fiscal de Caixa</SelectItem>
-                    <SelectItem value="6">Operador(a) de Caixa</SelectItem>
-                    <SelectItem value="7">Estoquista</SelectItem>
-                    <SelectItem value="8">Repositor</SelectItem>
+                    {roles.map((role) => {
+                      return (
+                        <SelectItem key={role.id} value={String(role.id)}>
+                          {role.name}
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
               )}
@@ -175,15 +158,15 @@ export function SignUpForm() {
         </FieldGroup>
         <Button
           className={clsx("flex flex-row-reverse", {
-            "pointer-events-none bg-gray-600": clickSubmit === true,
-            "pointer-events-auto": clickSubmit === false,
+            "pointer-events-none bg-gray-600": loading === true,
+            "pointer-events-auto": loading === false,
           })}
         >
           <div className="flex justify-end w-[45%]">
             <svg
               className={clsx("size-5 animate-spin border-3 border-secundaria border-t-primaria rounded-[50%]", {
-                block: clickSubmit === true,
-                hidden: clickSubmit === false,
+                block: loading === true,
+                hidden: loading === false,
               })}
               viewBox="0 0 24 24"
             ></svg>
@@ -191,7 +174,6 @@ export function SignUpForm() {
           <div className="flex w-[55%] justify-end">Cadastrar</div>
         </Button>
       </FieldSet>
-      <div className="pt-6">{showResponse && <AlertAuth response={reply[0].status} message={reply[1].message} />}</div>
     </form>
   );
 }

@@ -1,12 +1,10 @@
 "use client";
 
-import { redirect } from "next/navigation";
 import { useState } from "react";
-import { SignInForm } from "@/components/views/signIn.view";
-import { signIn } from "@/components/models/signIn.model";
+import { SignUpForm } from "@/components/views/signUp.view";
 import { ErrorAlert, SuccessAlert } from "@/components/views/alert.view";
 
-export function SignInController() {
+export function SignUpController() {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({});
   const [alertKey, setAlertKey] = useState(0);
@@ -14,8 +12,26 @@ export function SignInController() {
   async function handleSubmit(data) {
     try {
       setLoading(true);
-      const responseValue = await signIn(data);
-      if (responseValue[0].status === 200) {
+      console.log(data);
+      const responseResult = await fetch("/api/v1/users/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify([
+          {
+            name: data[0].name,
+            username: data[0].username,
+            password: data[0].password,
+            branch_id: parseInt(data[0].branch_id),
+            winthor_id: parseInt(data[0].winthor_id),
+          },
+          { role: parseInt(data[0].role) },
+        ]),
+      });
+      const responseValue = await responseResult.json();
+      console.log(responseValue);
+      if (responseValue[0].status === 201) {
         setAlert({
           type: "success",
           statusCode: responseValue[0].status,
@@ -23,7 +39,6 @@ export function SignInController() {
           desc: responseValue[0].message,
         });
         setAlertKey((prev) => prev + 1);
-        redirect("/home");
       } else {
         setAlert({
           type: "error",
@@ -40,12 +55,10 @@ export function SignInController() {
       setLoading(false);
     }
   }
-
   return (
-    <div className="flex flex-row items-center justify-center min-h-lvh h-full">
+    <div className="flex flex-row items-center justify-center w-full h-full">
       <div className="flex flex-col items-center justify-center gap-15 w-full bg-secundaria">
-        <h1 className="text-4xl font-bold text-primaria">GHS Sistema</h1>
-        <SignInForm onSubmitData={handleSubmit} loading={loading} />
+        <SignUpForm onSubmitData={handleSubmit} loading={loading} />
       </div>
       {alert?.type === "success" && <SuccessAlert key={alertKey} title={alert.title} desc={alert.desc} />}
       {alert?.type === "error" && (

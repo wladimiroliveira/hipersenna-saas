@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Controller, useForm } from "react-hook-form";
 
-import branchs from "@/lib/files/branchs.json";
+import branches from "@/lib/files/branches.json";
 import accessLevels from "@/lib/files/accessLevels.json";
 import { editUser } from "@/components/models/editUser.model";
 
@@ -134,7 +134,7 @@ export function EditUserMenu({ user }) {
                         <SelectValue placeholder="Selecionar" />
                       </SelectTrigger>
                       <SelectContent className="border-primaria">
-                        {branchs.map((b) => (
+                        {branches.map((b) => (
                           <SelectItem key={b.id} value={`${b.number}`}>
                             {b.name}
                           </SelectItem>
