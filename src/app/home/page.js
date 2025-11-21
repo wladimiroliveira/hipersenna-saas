@@ -1,5 +1,4 @@
-import { ModulesContainer } from "@/components/views/modulesContainer.view";
-import modules from "@/lib/files/modules.json";
+import { HomeController } from "@/components/controlers/home.controller";
 
 export default async function Page() {
   return (
@@ -10,7 +9,7 @@ export default async function Page() {
           <strong>GHS Sistema</strong>
         </h1>
       </div>
-      <ModulesContainer title="Módulos" modules={modules} />
+      <HomeController />
     </div>
   );
 }

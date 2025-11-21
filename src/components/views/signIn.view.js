@@ -13,7 +13,6 @@ export function SignInForm({ onSubmitData, loading }) {
 
   const { register, handleSubmit: onSubmit } = useForm();
   const getData = (data) => {
-    console.log(data);
     onSubmitData([data]);
   };
   return (

@@ -1,20 +1,34 @@
 import Link from "next/link";
 
-export function ModulesContainer({ modules, title }) {
+export function ModulesContainer({ modules, title, userRole, userPermissions }) {
   return (
     <div className="bg-gray-200 p-8 rounded-2xl mb-[200px] m-auto">
       <h2 className="text-center text-4xl font-semibold text-primaria mt-4 mb-10">{title}</h2>
       <div className="flex flex-wrap justify-center gap-8">
         {modules.map((module) => {
-          return (
-            <Module
-              title={module.name}
-              text={module.description}
-              buttonText={module.buttonText}
-              href={module.path}
-              key={module.id}
-            />
-          );
+          if (module.roles.length > 1 && module.permissions.length > 1) {
+            if (module?.roles.includes(userRole)) {
+              return (
+                <Module
+                  title={module.name}
+                  text={module.description}
+                  buttonText={module.buttonText}
+                  href={module.path}
+                  key={module.id}
+                />
+              );
+            }
+          } else {
+            return (
+              <Module
+                title={module.name}
+                text={module.description}
+                buttonText={module.buttonText}
+                href={module.path}
+                key={module.id}
+              />
+            );
+          }
         })}
       </div>
     </div>
