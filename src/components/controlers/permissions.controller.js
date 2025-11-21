@@ -24,13 +24,18 @@ export function PermissionsController() {
       } else {
         setUserPermissions(userPermissionValue[0].permissions);
       }
-      setUserInfo(userValue[0].user);
+      if (userValue[0].user.length > 0) {
+        setUserInfo(userValue[0].user);
+        setShowPermissions(true);
+      } else {
+        setUserInfo([]);
+        setShowPermissions(false);
+      }
     } catch (err) {
       console.error(err);
       throw err;
     } finally {
       setLoading(false);
-      setShowPermissions(true);
     }
   }
 
