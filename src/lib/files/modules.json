@@ -26,6 +26,13 @@
             "description": "Crie novos usuários através desse link",
             "path": "/admin/users/create",
             "buttonText": "Criar"
+          },
+          {
+            "id": "permissions",
+            "name": "Permissões",
+            "description": "Adicione ou remova permissões de forma personalizada para os usuários",
+            "path": "/admin/users/permissions",
+            "buttonText": "Acessar"
           }
         ]
       }
