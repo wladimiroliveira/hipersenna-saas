@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { getToken } from "@/lib/getToken";
 
 export async function GET(request) {
@@ -42,7 +41,6 @@ export async function POST(request) {
     });
     const createUserValue = await createUserResult.json();
     responseBody[0] = {
-      status: createUserResult.status,
       ...createUserValue,
     };
 

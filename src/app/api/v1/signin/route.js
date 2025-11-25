@@ -19,7 +19,6 @@ export async function POST(request) {
     cookieStore.set("token", responseValue.token, { secure: false });
     return Response.json([
       {
-        status: responseResult.status,
         ...responseValue,
       },
     ]);

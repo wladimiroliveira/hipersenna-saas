@@ -12,12 +12,7 @@ export async function GET(request) {
     });
     const responseValue = await responseResult.json();
 
-    return Response.json([
-      {
-        status: responseResult.status,
-        ...responseValue,
-      },
-    ]);
+    return Response.json([responseValue]);
   } catch (err) {
     console.error(err);
     throw err;

@@ -40,5 +40,6 @@ test("DELETE to /api/v1/users/users/[id] should return 200", async () => {
     },
   });
   const responseValue = await responseResult.json();
-  expect(responseValue[0].status).toEqual(200);
+  expect(responseResult.status).toBe(200);
+  expect(responseValue[0].message).toEqual("Usuário deletado com sucesso!");
 });

@@ -7,8 +7,8 @@ beforeAll(async () => {
   token = await tokenHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
 });
 
-test("POST to /api/v1/roles should return 201", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/roles", {
+test("PATCH to /api/v1/roles/[id] should return something", async () => {
+  const postRole = await fetch("http://localhost:3000/api/v1/roles", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -21,9 +21,22 @@ test("POST to /api/v1/roles should return 201", async () => {
       },
     ]),
   });
+
+  const responseResult = await fetch("http://localhost:3000/api/v1/roles/4", {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify([
+      {
+        name: "Encarregado de Salão",
+        description:
+          "O(a) encarregado(a) de salão tem como prioridades os módulos de gerenciamento de vencimento, gerenciamento de estoque, e gerenciamento de gôndolas",
+      },
+    ]),
+  });
   const responseValue = await responseResult.json();
   expect(responseResult.status).toBe(200);
-  expect(Array.isArray(responseValue)).toBe(true);
-  expect(responseValue.length).toBeGreaterThan(0);
-  expect(responseValue[0].message).toEqual("Cargo criado com sucesso!");
+  expect(typeof responseValue[0].id).toEqual("number");
 });

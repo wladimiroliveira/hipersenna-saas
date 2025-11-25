@@ -12,12 +12,8 @@ export async function GET(request, { params }) {
       },
     });
     const responseValue = await responseResult.json();
-    return Response.json([
-      {
-        status: responseResult.status,
-        ...responseValue,
-      },
-    ]);
+    const { user } = responseValue;
+    return Response.json(user);
   } catch (err) {
     console.error("Error on get user by id:\n", err);
   }
@@ -36,7 +32,7 @@ export async function DELETE(request, { params }) {
     const responseValue = await responseResult.json();
     return Response.json([
       {
-        status: responseResult.status,
+        ...responseValue,
       },
     ]);
   } catch (err) {
@@ -47,18 +43,14 @@ export async function DELETE(request, { params }) {
 
 export async function PATCH(request, { params }) {
   try {
-    const authorization = request.headers.get("authorization");
-    let token = authorization?.replace("Bearer ", "");
+    let token = await getToken(request);
     const { id } = await params;
     const [data] = await request.json();
     const { userInfo } = data;
-    if (!token) {
-      const cookieStore = await cookies();
-      token = cookieStore.get("token")?.value;
-    }
     const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/id/${id}`, {
       method: "PATCH",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
@@ -70,11 +62,7 @@ export async function PATCH(request, { params }) {
       }),
     });
     const responseValue = await responseResult.json();
-    return Response.json([
-      {
-        status: responseResult.status,
-      },
-    ]);
+    return Response.json([responseValue]);
   } catch (err) {
     console.error("Error on delete user route", err);
     throw err;

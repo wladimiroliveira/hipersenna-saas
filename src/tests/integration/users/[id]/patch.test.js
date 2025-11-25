@@ -32,4 +32,8 @@ test("PATCH to /api/v1/users/[id] should return 200", async () => {
     ]),
   });
   const responseValue = await responseResult.json();
+  expect(responseResult.status).toBe(200);
+  expect(Array.isArray(responseValue)).toBe(true);
+  expect(responseValue.length).toBeGreaterThan(0);
+  expect(typeof responseValue[0].userUpdated.id).toEqual("number");
 });

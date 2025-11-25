@@ -9,7 +9,8 @@ test("POST to /api/v1/users/signin should return 200", async () => {
     ]),
   });
   const responseValue = await responseResult.json();
-  expect(responseValue[0].status).toEqual(200);
+  expect(responseResult.status).toEqual(200);
+  expect(responseValue[0].message).toEqual("Usuário logado com sucesso!");
 });
 
 test("POST with incorrect credentials should return 400", async () => {
@@ -26,5 +27,5 @@ test("POST with incorrect credentials should return 400", async () => {
     ]),
   });
   const responseValue = await responseResult.json();
-  expect(responseValue[0].status).toEqual(400);
+  expect(responseValue[0].message).toEqual("Usuário ou senha inválidos!");
 });

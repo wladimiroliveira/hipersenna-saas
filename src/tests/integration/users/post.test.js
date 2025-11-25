@@ -30,10 +30,10 @@ test("POST to /api/v1/users/users/singup should return 201", async () => {
     ]),
   });
   const responseValue = await responseResult.json();
-  expect(201).toEqual(responseValue[0].status);
-  expect(true).toBe(responseValue[0].userCreated !== false);
-  expect(true).toBe(responseValue[0].assinedRole !== false);
-  expect(true).toBe(responseValue[0].permissions !== false);
+  expect(responseResult.status).toEqual(200);
+  expect(responseValue[0].userCreated !== false).toBe(true);
+  expect(responseValue[0].assinedRole !== false).toBe(true);
+  expect(responseValue[0].permissions !== false).toBe(true);
 });
 
 test("POST with existing credentials should return 409", async () => {
@@ -57,5 +57,5 @@ test("POST with existing credentials should return 409", async () => {
     ]),
   });
   const responseValue = await responseResult.json();
-  expect(responseValue[0].status).toEqual(409);
+  expect(responseValue[0].message).toEqual("Username ou código do winthor já cadastrados no sistema");
 });
