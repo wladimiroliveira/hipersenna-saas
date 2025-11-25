@@ -8,6 +8,11 @@ beforeAll(async () => {
   );
   token = await tokenHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
 });
+afterAll(async () => {
+  await database.query(
+    "DELETE FROM hsemployees WHERE id > 1; ALTER SEQUENCE public.hsemployees_id_seq RESTART WITH 2;",
+  );
+});
 
 test("POST to /api/v1/users/users/singup should return 201", async () => {
   const responseResult = await fetch("http://localhost:3000/api/v1/users", {

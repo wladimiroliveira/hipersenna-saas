@@ -1,17 +1,39 @@
+import { tokenHandle } from "@/tests/token.handle";
+import database from "@/infra/database";
+
+let token;
+beforeAll(async () => {
+  await database.query(
+    "DELETE FROM hsemployees WHERE id > 1; ALTER SEQUENCE public.hsemployees_id_seq RESTART WITH 2;",
+  );
+  token = await tokenHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
+});
+afterAll(async () => {
+  await database.query(
+    "DELETE FROM hsemployees WHERE id > 1; ALTER SEQUENCE public.hsemployees_id_seq RESTART WITH 2;",
+  );
+});
+
 test("PATCH to /api/v1/users/[id] should return 200", async () => {
-  const signIn = await fetch("http://localhost:3000/api/v1/signin", {
+  const postUser = await fetch("http://localhost:3000/api/v1/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify([
       {
-        username: process.env.BOOTSTRAP_ADMIN_USER,
-        password: process.env.BOOTSTRAP_ADMIN_PASSWORD,
+        userInfo: {
+          name: "test signup",
+          username: "test.singup",
+          password: "12345678",
+          winthor_id: 99998,
+          branch_id: 1,
+          role: 2,
+        },
       },
     ]),
-  }).then((r) => r.json());
-  let token = signIn[0].token;
+  });
 
   const responseResult = await fetch("http://localhost:3000/api/v1/users/2", {
     method: "PATCH",
