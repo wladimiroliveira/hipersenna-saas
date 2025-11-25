@@ -1,12 +1,13 @@
+import { userHandle } from "@/tests/userHandle";
 import database from "@/infra/database";
-import { tokenHandle } from "@/tests/token.handle";
 
 let token;
 beforeAll(async () => {
   await database.query(
     "DELETE FROM hsemployees WHERE id > 5; ALTER SEQUENCE public.hsemployees_id_seq RESTART WITH 6;",
   );
-  token = await tokenHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
+  let result = await userHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
+  token = result.token;
 });
 afterAll(async () => {
   await database.query(

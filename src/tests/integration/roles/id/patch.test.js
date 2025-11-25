@@ -1,10 +1,11 @@
 import database from "@/infra/database";
-import { tokenHandle } from "@/tests/token.handle";
+import { userHandle } from "@/tests/userHandle";
 
 let token;
 beforeAll(async () => {
   await database.query("DELETE FROM hsroles WHERE id > 3; ALTER SEQUENCE public.hsroles_id_seq RESTART WITH 4;");
-  token = await tokenHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
+  let result = await userHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
+  token = result.token;
 });
 
 test("PATCH to /api/v1/roles/[id] should return something", async () => {

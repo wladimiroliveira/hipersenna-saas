@@ -1,8 +1,9 @@
-import { tokenHandle } from "@/tests/token.handle";
+import { userHandle } from "@/tests/userHandle";
 
 let token;
 beforeAll(async () => {
-  token = await tokenHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
+  let result = await userHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
+  token = result.token;
 });
 
 test("GET to /api/v1/sessions without search params should return 200", async () => {
