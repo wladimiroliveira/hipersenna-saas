@@ -12,7 +12,7 @@ async function cleanUsers() {
 let id;
 let token;
 
-test("DELETE to /api/v1/users/deleteuser should return 200", async () => {
+test("DELETE to /api/v1/users/users/[id] should return 200", async () => {
   const signInResult = await fetch("http://localhost:3000/api/v1/signin", {
     method: "POST",
     body: JSON.stringify([

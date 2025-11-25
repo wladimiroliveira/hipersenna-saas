@@ -10,8 +10,7 @@ test("PATCH to /api/v1/users/[id] should return 200", async () => {
         password: process.env.BOOTSTRAP_ADMIN_PASSWORD,
       },
     ]),
-  }).then((r) => r.json);
-  console.log(signIn);
+  }).then((r) => r.json());
   let token = signIn[0].token;
 
   const responseResult = await fetch("http://localhost:3000/api/v1/users/2", {
@@ -22,14 +21,15 @@ test("PATCH to /api/v1/users/[id] should return 200", async () => {
     },
     body: JSON.stringify([
       {
-        name: "Second User",
-        username: "second.user",
-        password: process.env.BOOTSTRAP_ADMIN_PASSWORD,
-        branch_id: 1,
-        winthor_id: 99996,
+        userInfo: {
+          name: "Second User",
+          username: "second.user",
+          password: process.env.BOOTSTRAP_ADMIN_PASSWORD,
+          branch_id: 1,
+          winthor_id: 99996,
+        },
       },
     ]),
   });
   const responseValue = await responseResult.json();
-  console.log(responseValue);
 });
