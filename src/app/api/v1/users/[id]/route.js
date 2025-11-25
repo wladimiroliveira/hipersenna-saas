@@ -1,14 +1,10 @@
+import { getToken } from "@/lib/getToken";
 import { cookies } from "next/headers";
 
 export async function GET(request, { params }) {
   try {
     const { id } = await params;
-    const authorization = request.headers.get("authorization");
-    let token = authorization?.replace("Bearer ", "");
-    if (!token) {
-      const cookieStore = await cookies();
-      token = cookieStore.get("token")?.value;
-    }
+    let token = await getToken(request);
     const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users?id=${id}`, {
       method: "GET",
       headers: {
@@ -29,13 +25,8 @@ export async function GET(request, { params }) {
 
 export async function DELETE(request, { params }) {
   try {
-    const authorization = request.headers.get("authorization");
-    let token = authorization?.replace("Bearer ", "");
+    let token = await getToken(request);
     const { id } = await params;
-    if (!token) {
-      const cookieStore = await cookies();
-      token = cookieStore.get("token")?.value;
-    }
     const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/id/${id}`, {
       method: "DELETE",
       headers: {

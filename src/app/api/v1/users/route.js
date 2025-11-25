@@ -1,13 +1,9 @@
 import { cookies } from "next/headers";
+import { getToken } from "@/lib/getToken";
 
 export async function GET(request) {
   try {
-    const authorization = request.headers.get("authorization");
-    let token = authorization?.replace("Bearer ", "");
-    if (!token) {
-      const cookieStore = await cookies();
-      token = cookieStore.get("token")?.value;
-    }
+    let token = await getToken(request);
     const resposneResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
       method: "GET",
       headers: {
@@ -27,14 +23,9 @@ export async function POST(request) {
   let responseBody = [{}];
   let cookieStore;
   try {
-    const authorization = request.headers.get("authorization");
-    let token = authorization?.replace("Bearer ", "");
+    let token = await getToken(request);
     const [data] = await request.json();
     const { userInfo } = data;
-    if (!token) {
-      cookieStore = await cookies();
-      token = cookieStore.get("token").value;
-    }
     const createUserResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
       method: "POST",
       headers: {

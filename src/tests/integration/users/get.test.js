@@ -1,20 +1,11 @@
+import { tokenHandle } from "@/tests/token.handle";
+
 let token;
+beforeAll(async () => {
+  token = await tokenHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
+});
 
 test("GET to /api/v1/users should return 200", async () => {
-  const signIn = await fetch("http://localhost:3000/api/v1/signin", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify([
-      {
-        username: process.env.BOOTSTRAP_ADMIN_USER,
-        password: process.env.BOOTSTRAP_ADMIN_PASSWORD,
-      },
-    ]),
-  }).then((r) => r.json());
-  token = signIn[0].token;
-
   const responseResult = await fetch(`http://localhost:3000/api/v1/users`, {
     method: "GET",
     headers: {

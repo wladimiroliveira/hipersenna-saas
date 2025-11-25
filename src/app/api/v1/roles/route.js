@@ -1,13 +1,8 @@
-import { cookies } from "next/headers";
+import { getToken } from "@/lib/getToken";
 
 export async function GET(request) {
-  const authorization = request.headers.get("authorization");
-  let token = authorization?.replace("Bearer ", "");
-  if (!token) {
-    const cookieStore = await cookies();
-    token = cookieStore.get("token")?.value;
-  }
   try {
+    const token = await getToken(request);
     const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/roles`, {
       method: "GET",
       headers: {
@@ -15,12 +10,30 @@ export async function GET(request) {
       },
     });
     const responseValue = await responseResult.json();
-    return Response.json([
-      {
-        status: responseResult.status,
-        ...responseValue,
+    return Response.json([...responseValue]);
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
+export async function POST(request) {
+  try {
+    const token = await getToken(request);
+    const [data] = await request.json();
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/roles`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-    ]);
+      body: JSON.stringify({
+        name: data.name,
+        description: data.description,
+      }),
+    });
+    const responseValue = await responseResult.json();
+    return Response.json([responseValue]);
   } catch (err) {
     console.error(err);
     throw err;

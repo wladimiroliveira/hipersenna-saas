@@ -1,29 +1,15 @@
+import { tokenHandle } from "@/tests/token.handle";
 import database from "@/infra/database";
+
 let token;
-
-beforeAll(cleanUsers);
-
-async function cleanUsers() {
+beforeAll(async () => {
   await database.query(
     "DELETE FROM hsemployees WHERE id > 1; ALTER SEQUENCE public.hsemployees_id_seq RESTART WITH 2;",
   );
-}
+  token = await tokenHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
+});
 
 test("POST to /api/v1/users/users/singup should return 201", async () => {
-  const signInResult = await fetch("http://localhost:3000/api/v1/signin", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify([
-      {
-        username: process.env.BOOTSTRAP_ADMIN_USER,
-        password: process.env.BOOTSTRAP_ADMIN_PASSWORD,
-      },
-    ]),
-  });
-  const signInValue = await signInResult.json();
-  token = signInValue[0].token;
   const responseResult = await fetch("http://localhost:3000/api/v1/users", {
     method: "POST",
     headers: {
