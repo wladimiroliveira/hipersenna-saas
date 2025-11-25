@@ -2,8 +2,8 @@ import { cookies } from "next/headers";
 
 export async function POST(request) {
   try {
-    const requestBody = await request.json();
-    const { username, password } = requestBody[0];
+    const [data] = await request.json();
+    const { username, password } = data;
     const cookieStore = await cookies();
     const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/signin`, {
       method: "POST",

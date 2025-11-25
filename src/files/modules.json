@@ -22,21 +22,27 @@
             "name": "Lista de Usuários",
             "description": "Visualize todos os usuários através desta lista",
             "path": "/admin/users/list",
-            "buttonText": "Visualizar"
+            "buttonText": "Visualizar",
+            "roles": [1, 2],
+            "permissions": [1, 2, 3, 4, 13, 15, 25, 26]
           },
           {
             "id": "createuser",
             "name": "Criar Usuários",
             "description": "Crie novos usuários através desse link",
             "path": "/admin/users/create",
-            "buttonText": "Criar"
+            "buttonText": "Criar",
+            "roles": [1, 2],
+            "permissions": [1, 2, 3, 4, 13, 15, 25, 26]
           },
           {
             "id": "permissions",
             "name": "Permissões",
             "description": "Adicione ou remova permissões de forma personalizada para os usuários",
             "path": "/admin/users/permissions",
-            "buttonText": "Acessar"
+            "buttonText": "Acessar",
+            "roles": [1, 2],
+            "permissions": [1, 2, 3, 4, 13, 15, 25, 26]
           }
         ]
       }

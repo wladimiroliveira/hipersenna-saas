@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { SignOutButton } from "@/components/models/signOutButton.model";
 import clsx from "clsx";
 import Link from "next/link";
 import Image from "next/image";
-import pathnames from "@/lib/files/pathnames.json";
-import { usePathname } from "next/navigation";
+import pathnames from "@/files/pathnames.json";
+import modules from "@/files/modules.json";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,51 +16,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { LogOut, Menu, User } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { checkAccess } from "@/lib/checkAccess";
 
-export function Navigation() {
+export function Navigation({ session }) {
+  const { username, role, permissions } = session;
   const pathName = usePathname();
-  const [userInfo, setUserInfo] = useState([]);
-  const [userPermissions, setUserPermissions] = useState([]);
-  const [userRole, setUserRole] = useState([]);
 
-  useEffect(() => {
-    async function fetchSession() {
-      let userInfoValue;
-      let userPermissionsValue;
-      let userRoleValue;
-      try {
-        const userInfoResult = await fetch("/api/v1/users/me");
-        userInfoValue = await userInfoResult.json();
-        const userPermissionsResult = await fetch(`/api/v1/permissions?id=${userInfoValue[0].id}`);
-        const userRoleResult = await fetch(`/api/v1/users/getuser?id=${userInfoValue[0].id}`);
-        userPermissionsValue = await userPermissionsResult.json();
-        userRoleValue = await userRoleResult.json();
-      } catch (err) {
-        console.error(err);
-        throw err;
-      } finally {
-        if (userInfoValue[0].status === 200) {
-          setUserInfo([
-            {
-              id: userInfoValue[0].id,
-              name: userInfoValue[0].name,
-              username: userInfoValue[0].username,
-              branch_id: userInfoValue[0].branch_id,
-              winthor_id: userInfoValue[0].winthor_id,
-            },
-          ]);
-        }
-        if (userRoleValue[0].status === 200) {
-          setUserRole([userRoleValue[0].user[0].hsusers_roles[0].role_id]);
-        }
-        if (userPermissionsValue[0].status === 200) {
-          const permissions = userPermissionsValue[0].permissions.map((permission) => permission.permission_id);
-          setUserPermissions(permissions);
-        }
-      }
-    }
-    fetchSession();
-  }, []);
+  checkAccess(modules, permissions, role);
 
   return (
     <div className="flex flex-row gap-10 items-center justify-between bg-primaria pl-8 pr-8 pt-4 pb-4">
@@ -71,62 +33,34 @@ export function Navigation() {
           <span className="text-base text-secundaria font-semibold">GHS Sistema</span>
         </Link>
         <ul className="flex flex-row items-center gap-4">
-          {pathnames.map((path) => {
-            if (path.roles.lenght > 1 || path.permissions.length > 1) {
-              const interPermissions = path.permissions.filter((permission) => userPermissions.includes(permission));
-              if (path.roles.includes(userRole[0]) || interPermissions.lenght > 0) {
-                return (
-                  <li key={path.id}>
-                    <Link href={path.path} className="flex flex-row mt-1 items-center gap-2">
-                      <span
-                        className={clsx(
-                          "transition-colors text-base text-secundaria font-semibold hover:text-gray-400 pb-0",
-                          {
-                            "shadow-underline hover:shadow-underline-hover": pathName.split("/")[1] === path.id,
-                          },
-                        )}
-                      >
-                        {path.name}
-                      </span>
-                    </Link>
-                  </li>
-                );
+          {pathnames
+            .filter((path) => {
+              const hasPermission = permissions ? path.permissions.some((p) => permissions.includes(p)) : false;
+              const hasRole = role ? path.roles.includes(role) : false;
+              let isPublic;
+              if (path.roles.length === 0 && path.permissions.length === 0) {
+                isPublic = true;
+              } else {
+                isPublic = false;
               }
-            } else {
-              return (
-                <li key={path.id}>
-                  <Link href={path.path} className="flex flex-row mt-1 items-center gap-2">
-                    <span
-                      className={clsx(
-                        "transition-colors text-base text-secundaria font-semibold hover:text-gray-400 pb-0",
-                        {
-                          "shadow-underline hover:shadow-underline-hover": pathName.split("/")[1] === path.id,
-                        },
-                      )}
-                    >
-                      {path.name}
-                    </span>
-                  </Link>
-                </li>
-              );
-            }
-          })}
-          {/* pathnames.map((path) => (
-            <li key={path.id}>
-              <Link href={path.path} className="flex flex-row mt-1 items-center gap-2">
-                <span
-                  className={clsx(
-                    "transition-colors text-base text-secundaria font-semibold hover:text-gray-400 pb-0",
-                    {
-                      "shadow-underline hover:shadow-underline-hover": pathName.split("/")[1] === path.id,
-                    },
-                  )}
-                >
-                  {path.name}
-                </span>
-              </Link>
-            </li>
-          )) */}
+              return isPublic || hasRole || hasPermission;
+            })
+            .map((path) => (
+              <li key={path.id}>
+                <Link href={path.path} className="flex flex-row mt-1 items-center gap-2">
+                  <span
+                    className={clsx(
+                      "transition-colors text-base text-secundaria font-semibold hover:text-gray-400 pb-0",
+                      {
+                        "shadow-underline hover:shadow-underline-hover": pathName.split("/")[1] === path.id,
+                      },
+                    )}
+                  >
+                    {path.name}
+                  </span>
+                </Link>
+              </li>
+            ))}
         </ul>
       </div>
 
@@ -139,7 +73,7 @@ export function Navigation() {
         <DropdownMenuContent className="border-primaria" align="end">
           <DropdownMenuLabel className="flex items-end justify-center gap-2">
             <User className="w-5" />
-            {userInfo[0]?.username}
+            {username}
           </DropdownMenuLabel>
           <DropdownMenuSeparator className="bg-primaria" />
           <DropdownMenuItem className="flex justify-center">

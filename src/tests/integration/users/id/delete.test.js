@@ -12,50 +12,46 @@ async function cleanUsers() {
 let id;
 let token;
 
-test("DELETE to /api/v1/users/deleteuser should return", async () => {
-  const signInResult = await fetch("http://localhost:3000/api/v1/users/signin", {
+test("DELETE to /api/v1/users/deleteuser should return 200", async () => {
+  const signInResult = await fetch("http://localhost:3000/api/v1/signin", {
     method: "POST",
     body: JSON.stringify([
       {
-        username: "combat.machine",
-        password: "08533503",
+        username: process.env.BOOTSTRAP_ADMIN_USER,
+        password: process.env.BOOTSTRAP_ADMIN_PASSWORD,
       },
     ]),
   });
   const signInValue = await signInResult.json();
   token = signInValue[0].token;
 
-  const signUpResult = await fetch("http://localhost:3000/api/v1/users/signup", {
+  const signUpResult = await fetch("http://localhost:3000/api/v1/users", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify([
       {
-        token,
-        info: {
+        userInfo: {
           name: "Combat Dicarted",
           username: "combat.dicarted",
           password: "12345678",
           branch_id: 1,
-          winthor_id: 999996,
-          access_level: 1,
+          winthor_id: 99997,
         },
       },
     ]),
   });
   const signUpValue = await signUpResult.json();
   id = signUpValue[0].userCreated.id;
-
-  const responseResult = await fetch("http://localhost:3000/api/v1/users/deleteuser", {
+  const responseResult = await fetch(`http://localhost:3000/api/v1/users/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify([
-      {
-        id,
-        token,
-      },
-    ]),
   });
   const responseValue = await responseResult.json();
-  expect(200).toEqual(responseValue[0].status);
+  expect(responseValue[0].status).toEqual(200);
 });

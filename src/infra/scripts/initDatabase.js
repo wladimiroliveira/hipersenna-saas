@@ -1,7 +1,7 @@
 const { Client } = require("pg");
-const permissions = require("../../lib/files/permissions.json");
-const roles = require("../../lib/files/roles.json");
-const treatments = require("../../lib/files/treatments.json");
+const permissions = require("../../files/permissions.json");
+const roles = require("../../files/roles.json");
+const treatments = require("../../files/treatments.json");
 const bcrypt = require("bcryptjs");
 require("dotenv").config({ quiet: true, path: ".env.development" });
 

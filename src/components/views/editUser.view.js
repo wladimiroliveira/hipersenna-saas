@@ -17,8 +17,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Controller, useForm } from "react-hook-form";
 
-import branches from "@/lib/files/branches.json";
-import accessLevels from "@/lib/files/accessLevels.json";
+import branches from "@/files/branches.json";
+import accessLevels from "@/files/accessLevels.json";
 import { editUser } from "@/components/models/editUser.model";
 
 export function EditUserMenu({ user }) {

@@ -1,5 +1,5 @@
 test("POST to /api/v1/users/signin should return 200", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/users/signin", {
+  const responseResult = await fetch("http://localhost:3000/api/v1/signin", {
     method: "POST",
     body: JSON.stringify([
       {
@@ -9,11 +9,11 @@ test("POST to /api/v1/users/signin should return 200", async () => {
     ]),
   });
   const responseValue = await responseResult.json();
-  expect(200).toEqual(responseValue[0].status);
+  expect(responseValue[0].status).toEqual(200);
 });
 
 test("POST with incorrect credentials should return 400", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/users/signin", {
+  const responseResult = await fetch("http://localhost:3000/api/v1/signin", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -26,5 +26,5 @@ test("POST with incorrect credentials should return 400", async () => {
     ]),
   });
   const responseValue = await responseResult.json();
-  expect(400).toEqual(responseValue[0].status);
+  expect(responseValue[0].status).toEqual(400);
 });

@@ -2,7 +2,7 @@
 
 import { PermissionsView } from "@/components/views/permissions.view";
 import { useState } from "react";
-import permissionsData from "@/lib/files/permissions.json";
+import permissionsData from "@/files/permissions.json";
 
 export function PermissionsController() {
   const [loading, setLoading] = useState(false);

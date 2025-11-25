@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm run services:up && npm run wait-for-postgres && npm run init:db && next dev --turbopack",
+    "dev": "npm run services:up && next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
     "lint:check": "prettier --check .",
