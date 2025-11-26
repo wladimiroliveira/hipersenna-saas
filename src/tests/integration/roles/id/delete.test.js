@@ -3,7 +3,7 @@ import { userHandle } from "@/tests/userHandle";
 
 let token;
 beforeAll(async () => {
-  let result = await userHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
+  let result = await userHandle(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
   token = result.token;
   await database.query("DELETE FROM hsroles WHERE id > 3; ALTER SEQUENCE public.hsroles_id_seq RESTART WITH 4;");
   await fetch("http://localhost:3000/api/v1/roles", {

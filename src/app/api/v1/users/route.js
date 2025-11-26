@@ -10,8 +10,8 @@ export async function GET(request) {
         Authorization: `Bearer ${token}`,
       },
     });
-    const { user } = await resposneResult.json();
-    return Response.json(user);
+    const responseValue = await resposneResult.json();
+    return Response.json(responseValue);
   } catch (err) {
     console.error(err);
     throw err;

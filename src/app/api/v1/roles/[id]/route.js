@@ -5,7 +5,7 @@ export async function PATCH(request, { params }) {
     let token = await getToken(request);
     const { id } = await params;
     const [data] = await request.json();
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/roles/id/${id}`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/roles/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +28,7 @@ export async function DELETE(request, { params }) {
   try {
     let token = await getToken(request);
     const { id } = await params;
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/roles/id/${id}`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/roles/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

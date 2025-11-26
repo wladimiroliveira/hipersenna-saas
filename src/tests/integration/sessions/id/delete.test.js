@@ -4,7 +4,7 @@ let token;
 let user_id;
 let session_id;
 beforeAll(async () => {
-  let result = await userHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
+  let result = await userHandle(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
   token = result.token;
   const userValue = await fetch(`http://localhost:3000/api/v1/users/me`, {
     method: "GET",

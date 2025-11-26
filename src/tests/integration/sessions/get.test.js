@@ -2,7 +2,7 @@ import { userHandle } from "@/tests/userHandle";
 
 let token;
 beforeAll(async () => {
-  let result = await userHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
+  let result = await userHandle(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
   token = result.token;
 });
 

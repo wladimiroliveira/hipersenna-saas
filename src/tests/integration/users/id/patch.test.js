@@ -6,7 +6,7 @@ beforeAll(async () => {
   await database.query(
     "DELETE FROM hsemployees WHERE id > 1; ALTER SEQUENCE public.hsemployees_id_seq RESTART WITH 2;",
   );
-  let result = await userHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
+  let result = await userHandle(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
   token = result.token;
 });
 afterAll(async () => {
@@ -47,7 +47,7 @@ test("PATCH to /api/v1/users/[id] should return 200", async () => {
         userInfo: {
           name: "Second User",
           username: "second.user",
-          password: process.env.BOOTSTRAP_ADMIN_PASSWORD,
+          password: process.env.ADMIN_PASSWORD,
           branch_id: 1,
           winthor_id: 99996,
         },
@@ -58,5 +58,5 @@ test("PATCH to /api/v1/users/[id] should return 200", async () => {
   expect(responseResult.status).toBe(200);
   expect(Array.isArray(responseValue)).toBe(true);
   expect(responseValue.length).toBeGreaterThan(0);
-  expect(typeof responseValue[0].userUpdated.id).toEqual("number");
+  expect(typeof responseValue[0].id).toEqual("number");
 });

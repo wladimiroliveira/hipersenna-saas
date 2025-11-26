@@ -6,7 +6,7 @@ beforeAll(async () => {
   await database.query(
     "DELETE FROM hsemployees WHERE id > 1; ALTER SEQUENCE public.hsemployees_id_seq RESTART WITH 2;",
   );
-  let result = await userHandle(process.env.BOOTSTRAP_ADMIN_USER, process.env.BOOTSTRAP_ADMIN_PASSWORD);
+  let result = await userHandle(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
   token = result.token;
   await fetch("http://localhost:3000/api/v1/users", {
     method: "POST",
@@ -41,7 +41,8 @@ test("GET to api/v1/users/[id] should return 200", async () => {
       Authorization: `Bearer ${token}`,
     },
   });
-  const resposneValue = await responseResult.json();
+  const responseValue = await responseResult.json();
   expect(responseResult.status).toEqual(200);
-  expect(resposneValue.length).toBeGreaterThan(0);
+  expect(responseValue.length).toBeGreaterThan(0);
+  expect(typeof responseValue[0].id).toEqual("number");
 });

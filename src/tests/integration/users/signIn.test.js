@@ -3,8 +3,8 @@ test("POST to /api/v1/users/signin should return 200", async () => {
     method: "POST",
     body: JSON.stringify([
       {
-        username: process.env.BOOTSTRAP_ADMIN_USER,
-        password: process.env.BOOTSTRAP_ADMIN_PASSWORD,
+        username: process.env.ADMIN_USER,
+        password: process.env.ADMIN_PASSWORD,
       },
     ]),
   });
@@ -27,5 +27,5 @@ test("POST with incorrect credentials should return 400", async () => {
     ]),
   });
   const responseValue = await responseResult.json();
-  expect(responseValue[0].message).toEqual("Usuário ou senha inválidos!");
+  expect(responseValue[0].message).toEqual("Usuário ou senha estão incorretos!");
 });

@@ -12,7 +12,7 @@ export async function GET(request) {
     });
     const responseValue = await responseResult.json();
 
-    return Response.json([responseValue]);
+    return Response.json(responseValue);
   } catch (err) {
     console.error(err);
     throw err;

@@ -17,7 +17,7 @@ services:
 
   api:
     container_name: "dev-api"
-    image: oliveirawladimir/hipersenna-api:1.4.5
+    image: oliveirawladimir/hipersenna-api:1.5.1
     env_file:
       - ../../.env.docker
     healthcheck:
@@ -25,14 +25,6 @@ services:
       interval: 3s
       timeout: 5s
       retries: 5
-    entrypoint: >
-      sh -c "
-        echo '⌛ Executando migrations prisma...' &&
-        npx prisma generate &&
-        npx prisma migrate dev --name migrations-dev &&
-        npm run init:db &&
-        echo '✅ Migrations concluídas' &&
-        npm run dev
-      "
+    command: sh -c "npx prisma migrate dev && npx prisma db seed && npm run dev"
     ports:
       - 3333:3333

@@ -11,10 +11,9 @@ export async function GET(request, { params }) {
       },
     });
     const responseValue = await responseResult.json();
-    const { user } = responseValue;
-    return Response.json(user);
+    return Response.json(responseValue);
   } catch (err) {
-    console.error("Error on get user by id:\n", err);
+    console.error("\nError on get user by id endpoint:\n\n", err);
   }
 }
 
@@ -22,7 +21,7 @@ export async function DELETE(request, { params }) {
   try {
     let token = await getToken(request);
     const { id } = await params;
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/id/${id}`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -46,7 +45,7 @@ export async function PATCH(request, { params }) {
     const { id } = await params;
     const [data] = await request.json();
     const { userInfo } = data;
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/id/${id}`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
