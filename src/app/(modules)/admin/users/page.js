@@ -1,5 +1,5 @@
 import { ModulesContainer } from "@/components/views/modulesContainer.view";
-import modules from "@/lib/files/modules.json";
+import modules from "@/files/modules.json";
 
 export default function Page() {
   return (

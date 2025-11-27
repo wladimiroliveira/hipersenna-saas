@@ -8,8 +8,8 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import clsx from "clsx";
 
-import roles from "@/lib/files/roles.json";
-import branches from "@/lib/files/branches.json";
+import roles from "@/files/roles.json";
+import branches from "@/files/branches.json";
 
 export function SignUpForm({ onSubmitData, loading }) {
   const [inputType, setInputType] = useState("password");

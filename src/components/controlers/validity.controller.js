@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ValidityFilter } from "@/components/views/filterValidity.view";
 import { DataTable } from "@/components/views/dataTable.view";
 import { columns } from "@/app/(modules)/vencimento/analise/columns";
-import validities from "@/lib/files/validityData.json";
+import validities from "@/files/validityData.json";
 import { DownloadTable } from "@/components/models/xlsxHandler.model";
 
 export function ValidityAnylises() {

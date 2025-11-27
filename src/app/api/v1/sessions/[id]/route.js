@@ -1,18 +1,17 @@
 import { getToken } from "@/lib/getToken";
-import { cookies } from "next/headers";
 
-export async function GET(request) {
+export async function DELETE(request, { params }) {
   try {
     let token = await getToken(request);
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
-      method: "GET",
+    const { id } = await params;
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sessions/${id}`, {
+      method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     const responseValue = await responseResult.json();
-
-    return Response.json(responseValue);
+    return Response.json([responseValue]);
   } catch (err) {
     console.error(err);
     throw err;

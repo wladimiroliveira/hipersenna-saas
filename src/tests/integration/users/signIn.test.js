@@ -1,19 +1,20 @@
 test("POST to /api/v1/users/signin should return 200", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/users/signin", {
+  const responseResult = await fetch("http://localhost:3000/api/v1/signin", {
     method: "POST",
     body: JSON.stringify([
       {
-        username: process.env.BOOTSTRAP_ADMIN_USER,
-        password: process.env.BOOTSTRAP_ADMIN_PASSWORD,
+        username: process.env.ADMIN_USER,
+        password: process.env.ADMIN_PASSWORD,
       },
     ]),
   });
   const responseValue = await responseResult.json();
-  expect(200).toEqual(responseValue[0].status);
+  expect(responseResult.status).toEqual(200);
+  expect(responseValue[0].message).toEqual("Usuário logado com sucesso!");
 });
 
 test("POST with incorrect credentials should return 400", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/users/signin", {
+  const responseResult = await fetch("http://localhost:3000/api/v1/signin", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -26,5 +27,5 @@ test("POST with incorrect credentials should return 400", async () => {
     ]),
   });
   const responseValue = await responseResult.json();
-  expect(400).toEqual(responseValue[0].status);
+  expect(responseValue[0].message).toEqual("Usuário ou senha estão incorretos!");
 });
