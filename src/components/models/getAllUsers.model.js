@@ -4,7 +4,7 @@ export async function getAllUsers() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   try {
-    const usersResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/`, {
+    const usersResult = await fetch(`${process.env.API_URL}/users/`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

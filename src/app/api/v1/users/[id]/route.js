@@ -4,7 +4,7 @@ export async function GET(request, { params }) {
   try {
     const { id } = await params;
     let token = await getToken(request);
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users?id=${id}`, {
+    const responseResult = await fetch(`${process.env.API_URL}/users?id=${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -21,7 +21,7 @@ export async function DELETE(request, { params }) {
   try {
     let token = await getToken(request);
     const { id } = await params;
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
+    const responseResult = await fetch(`${process.env.API_URL}/users/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ export async function PATCH(request, { params }) {
     const { id } = await params;
     const [data] = await request.json();
     const { userInfo } = data;
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
+    const responseResult = await fetch(`${process.env.API_URL}/users/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

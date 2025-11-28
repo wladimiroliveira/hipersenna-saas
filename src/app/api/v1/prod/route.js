@@ -15,7 +15,7 @@ export async function GET(request) {
       console.log(token);
     }
     const responseResult = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/products?${entries[0][0]}=${entries[0][1]}&codfilial=${6}`,
+      `${process.env.API_URL}/products?${entries[0][0]}=${entries[0][1]}&codfilial=${6}`,
       {
         method: "GET",
         headers: {

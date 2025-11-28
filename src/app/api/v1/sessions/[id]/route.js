@@ -4,7 +4,7 @@ export async function DELETE(request, { params }) {
   try {
     let token = await getToken(request);
     const { id } = await params;
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sessions/${id}`, {
+    const responseResult = await fetch(`${process.env.API_URL}/sessions/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

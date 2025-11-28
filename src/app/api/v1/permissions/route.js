@@ -11,7 +11,7 @@ export async function GET(request) {
       cookieStore = await cookies();
       tokenValue = cookieStore.get("token").value;
     }
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-permissions/id/${entries[0][1]}`, {
+    const responseResult = await fetch(`${process.env.API_URL}/user-permissions/id/${entries[0][1]}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${tokenValue}`,
@@ -39,7 +39,7 @@ export async function POST(request) {
       cookieStore = await cookies();
       tokenValue = cookieStore.get("token").value;
     }
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-permissions`, {
+    const responseResult = await fetch(`${process.env.API_URL}/user-permissions`, {
       method: "POST",
       headers: {
         "Content-Type": `application/json`,
@@ -73,7 +73,7 @@ export async function DELETE(request) {
       cookieStore = await cookies();
       tokenValue = cookieStore.get("token").value;
     }
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-permissions`, {
+    const responseResult = await fetch(`${process.env.API_URL}/user-permissions`, {
       method: "DELETE",
       headers: {
         "Content-Type": `application/json`,

@@ -3,7 +3,7 @@ import { getToken } from "@/lib/token/getToken";
 export async function GET(request) {
   try {
     let token = await getToken(request);
-    const resposneResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+    const resposneResult = await fetch(`${process.env.API_URL}/users`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export async function POST(request) {
     let token = await getToken(request);
     const [data] = await request.json();
     const { userInfo } = data;
-    const createUserResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
+    const createUserResult = await fetch(`${process.env.API_URL}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export async function POST(request) {
     };
 
     if (createUserValue.userCreated?.username) {
-      const roleInsertResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-roles`, {
+      const roleInsertResult = await fetch(`${process.env.API_URL}/user-roles`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({
