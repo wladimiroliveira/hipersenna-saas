@@ -4,7 +4,7 @@ export async function getToken(request) {
   const authorization = request.headers.get("authorization");
   let token = authorization?.replace("Bearer ", "");
   if (!token) {
-    const cookieStore = request.headers.get("authorization");
+    const cookieStore = await cookies();
     token = cookieStore.get("token")?.value;
   }
   return token;
