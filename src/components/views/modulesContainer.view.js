@@ -1,13 +1,19 @@
-import { getSession } from "@/backend/auth/getSession";
 import Link from "next/link";
 
-export async function ModulesContainer({ modules, title }) {
-  const session = await getSession();
-  const { username, role, permissions } = session;
-
+export function ModulesContainer({ modules, title, access }) {
+  const role = access?.hsusers_roles;
+  const permissions = access?.hsusers_permissions;
+  if (!(role && permissions)) {
+    return (
+      <div className="bg-gray-200 p-8 rounded-2xl mb-[200px] m-auto">
+        <h2 className="text-center text-4xl font-semibold text-primaria mt-4 mb-10">{title || ""}</h2>
+        <div className="flex flex-wrap justify-center gap-8"></div>
+      </div>
+    );
+  }
   return (
     <div className="bg-gray-200 p-8 rounded-2xl mb-[200px] m-auto">
-      <h2 className="text-center text-4xl font-semibold text-primaria mt-4 mb-10">{title}</h2>
+      <h2 className="text-center text-4xl font-semibold text-primaria mt-4 mb-10">{title || ""}</h2>
       <div className="flex flex-wrap justify-center gap-8">
         {modules
           .filter((module) => {

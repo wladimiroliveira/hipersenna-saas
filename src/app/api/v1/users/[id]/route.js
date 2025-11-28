@@ -1,4 +1,4 @@
-import { getToken } from "@/lib/getToken";
+import { getToken } from "@/lib/token/getToken";
 
 export async function GET(request, { params }) {
   try {

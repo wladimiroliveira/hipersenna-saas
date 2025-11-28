@@ -9,7 +9,7 @@ export default function Layout({ children }) {
         <body className={`${roboto.className} antialiased`}>
           <header>
             <nav className="w-full fixed">
-              <Navigation permissions={permissions} role={role} username={username} />
+              <Navigation />
             </nav>
           </header>
           <div className="pt-[64px] max-w-[1260px] m-auto">{children}</div>

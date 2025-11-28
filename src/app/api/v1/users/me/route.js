@@ -1,5 +1,5 @@
-import { getToken } from "@/lib/getToken";
-import { cookies } from "next/headers";
+import { getToken } from "@/lib/token/getToken";
+import { deleteToken } from "@/lib/token/deleteToken";
 
 export async function GET(request) {
   try {
@@ -11,8 +11,25 @@ export async function GET(request) {
       },
     });
     const responseValue = await responseResult.json();
+    if (!responseResult.ok) {
+      if (responseResult.status === 401) {
+        deleteToken("token");
 
-    return Response.json(responseValue);
+        return new Response(null, {
+          status: 401,
+          headers: {
+            "Set-Cookie": `token=; Path=/; Max-age=0; HttpOnly; Secure; SameSite=lax`,
+          },
+        });
+      }
+    }
+    // console.log(responseValue);
+    return Response.json({
+      ...responseValue[0],
+      ok: responseResult.ok,
+      status: responseResult.status,
+      hsusers_roles: responseValue[0].hsusers_roles[0].role_id,
+    });
   } catch (err) {
     console.error(err);
     throw err;
