@@ -1,9 +1,24 @@
-import { getSession } from "@/backend/auth/getSession";
-import { redirect } from "next/navigation";
+"use server";
 
-export async function GET() {
-  const session = await getSession();
-  if (session) {
-    return redirect("/home");
+import { NextResponse } from "next/server";
+import { getToken } from "@/lib/token/getToken";
+
+export async function GET(req) {
+  try {
+    const token = await getToken();
+    const responseResult = await fetch(`${process.env.API_URL}/users/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (responseResult.ok) {
+      return NextResponse.redirect(new URL("/home", req.url));
+    } else {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+  } catch (err) {
+    console.error(err);
+    throw err;
   }
 }

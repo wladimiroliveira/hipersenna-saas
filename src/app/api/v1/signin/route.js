@@ -5,7 +5,7 @@ export async function POST(request) {
     const [data] = await request.json();
     const { username, password } = data;
     const cookieStore = await cookies();
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/signin`, {
+    const responseResult = await fetch(`${process.env.API_URL}/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
