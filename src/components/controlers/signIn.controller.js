@@ -14,22 +14,25 @@ export function SignInController() {
   async function handleSubmit(data) {
     try {
       setLoading(true);
-      const responseValue = await signIn(data);
-      if (responseValue[0].status === 200) {
+      const { ok, status, responseValue } = await signIn(data);
+      console.log(ok);
+      console.log(status);
+      console.log(responseValue);
+      if (ok) {
         setAlert({
           type: "success",
-          statusCode: responseValue[0].status,
+          statusCode: status,
           title: "Sucesso",
-          desc: responseValue[0].message,
+          desc: responseValue.message,
         });
         setAlertKey((prev) => prev + 1);
         redirect("/home");
       } else {
         setAlert({
           type: "error",
-          statusCode: responseValue[0].status,
+          statusCode: status,
           title: "Erro",
-          desc: responseValue[0].message,
+          desc: responseValue.message,
         });
         setAlertKey((prev) => prev + 1);
       }
