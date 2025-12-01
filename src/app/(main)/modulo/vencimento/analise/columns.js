@@ -1,6 +1,5 @@
 "use client";
 
-import { EditUserMenu } from "@/components/views/editUser.view";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 
@@ -71,6 +70,10 @@ export const columns = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const value = row.getValue("quantity");
+      return <span className="block text-center">{value}</span>;
+    },
   },
   {
     accessorKey: "validity_date",
@@ -93,21 +96,4 @@ export const columns = [
     accessorKey: "treat_id",
     header: "Tratamendo",
   },
-  // {
-  //   accessorKey: "modified_at",
-  //   header: () => <div>Modificado em</div>,
-  //   cell: ({ row }) => {
-  //     const date = new Date(row.getValue("modified_at"));
-
-  //     if (isNaN(date.getTime())) return "-";
-
-  //     const formattedDate = date.toLocaleDateString("pt-BR", {
-  //       day: "2-digit",
-  //       month: "short",
-  //       year: "numeric",
-  //     });
-
-  //     return <span>{formattedDate}</span>;
-  //   },
-  // },
 ];

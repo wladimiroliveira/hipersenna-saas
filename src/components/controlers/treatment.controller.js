@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import estilos from "@/components/ui/styles/treatment.module.css";
-import { Button } from "@/components/ui/button";
-import { Check, CheckCircle2Icon, Clock10Icon, Save, SaveIcon } from "lucide-react";
+import { Check, Clock10Icon, Save } from "lucide-react";
 import clsx from "clsx";
 import { UploadTable } from "../models/xlsxHandler.model";
+import { changeTreatment } from "../models/treatment.model";
 
 export function TreatmentController() {
   const [labelInsert, setLabelInsert] = useState("");
@@ -84,17 +84,10 @@ export function TreatmentController() {
               e.preventDefault();
               setSendBunttonState("sending");
               const products = await UploadTable(dataTable);
-              const responseResult = await fetch("/api/v1/validities/treat", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(products),
-              });
-              const responseValue = await responseResult.json();
-              if (responseValue[0].status === 200) {
+              const changeTreatmentValue = await changeTreatment(products);
+              if (changeTreatmentValue.ok) {
                 setSendBunttonState("sended");
-                setLabelInsert("Dados salavos com sucesso. Selecione ou arraste um novo arquivo para inseri-lo");
+                setLabelInsert("Dados salvos com sucesso. Selecione ou arraste um novo arquivo para inseri-lo");
               }
             }}
             disabled={sendButtonState === "ready" ? false : true}

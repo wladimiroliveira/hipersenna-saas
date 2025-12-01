@@ -19,6 +19,7 @@ import { Controller, useForm } from "react-hook-form";
 
 import branches from "@/files/branches.json";
 import { editUser } from "@/components/models/editUser.model";
+import { deleteUser } from "../models/deleteUser.model";
 
 export function EditUserMenu({ user }) {
   const [openEdit, setOpenEdit] = useState(false);
@@ -56,27 +57,8 @@ export function EditUserMenu({ user }) {
 
   // ✅ Função de exclusão
   const handleDelete = async () => {
-    try {
-      const res = await fetch("/api/v1/deleteuser", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: user.id }),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        console.log("Usuário excluído:", data);
-        setOpenDelete(false);
-        // opcional: recarregar a tabela
-        window.location.reload();
-      } else {
-        console.error("Erro ao excluir:", res.statusText);
-      }
-    } catch (err) {
-      console.error("Erro inesperado:", err);
-    }
+    const deleteUserValue = await deleteUser(user.id);
+    console.log(deleteUserValue);
   };
 
   return (

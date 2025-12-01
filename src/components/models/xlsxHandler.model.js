@@ -65,7 +65,7 @@ export async function UploadTable(data) {
     validity_id: row[0],
     products: [
       {
-        product_cod: row[7],
+        product_id: row[6],
         treat_id: row[12],
       },
     ],

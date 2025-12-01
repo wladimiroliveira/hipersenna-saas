@@ -13,14 +13,14 @@ export async function getAllUsers() {
       },
     });
     const responseValue = await responseResult.json();
-    return [
-      {
-        ...responseValue[0],
-        ok: responseResult.ok,
-        status: responseResult.status,
-        hsusers_roles: responseValue[0].hsusers_roles[0].role_id,
-      },
-    ];
+    const users = responseValue.map(
+      (resValue) =>
+        (resValue = {
+          ...resValue,
+          hsusers_roles: resValue.hsusers_roles[0].role_id,
+        }),
+    );
+    return users;
   } catch (err) {
     console.error(err);
   }
