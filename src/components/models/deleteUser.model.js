@@ -1,6 +1,9 @@
-require("dotenv").config({ quiet: true });
+"use server";
 
-async function deleteUser(id, token) {
+import { getToken } from "@/lib/token/getToken";
+
+export async function deleteUser(id) {
+  const token = await getToken();
   try {
     const response = await fetch(`${process.env.API_URL}/users/${id}`, {
       method: "DELETE",
@@ -10,10 +13,8 @@ async function deleteUser(id, token) {
     });
 
     const result = await response.json();
-    return { response, result };
+    return result;
   } catch (err) {
     return { error: err.message };
   }
 }
-
-exports.deleteUser = deleteUser;

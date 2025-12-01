@@ -15,9 +15,6 @@ export function SignInController() {
     try {
       setLoading(true);
       const { ok, status, responseValue } = await signIn(data);
-      console.log(ok);
-      console.log(status);
-      console.log(responseValue);
       if (ok) {
         setAlert({
           type: "success",

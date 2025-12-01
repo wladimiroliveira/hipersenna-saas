@@ -5,7 +5,7 @@ services:
     restart: always
     shm_size: 128mb
     env_file:
-      - ../../.env.docker
+      - ../../.env.development
     ports:
       - 5432:5432
 
@@ -17,9 +17,11 @@ services:
 
   api:
     container_name: "dev-api"
-    image: oliveirawladimir/hipersenna-api:1.5.2
+    image: oliveirawladimir/hipersenna-api:1.5.4
     env_file:
-      - ../../.env.docker
+      - ../../.env.development
+    environment:
+      - POSTGRES_HOST=database
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U local_user -d local_db"]
       interval: 3s

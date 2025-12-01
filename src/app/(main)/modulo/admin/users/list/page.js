@@ -10,7 +10,7 @@ export default async function Page() {
         <h1 className="text-4xl text-primaria font-bold">Lista de Usuários</h1>
       </div>
       <div className="max-w-[1060px] m-auto">
-        <DataTable columns={columns} data={usersDefine} />
+        <DataTable columns={columns} data={usersDefine} searchColumn={"name"} />
       </div>
     </div>
   );
