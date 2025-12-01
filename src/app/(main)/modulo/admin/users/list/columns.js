@@ -3,6 +3,8 @@
 import { EditUserMenu } from "@/components/views/editUser.view";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
+import branches from "@/files/branches.json";
+import roles from "@/files/roles.json";
 
 export const columns = [
   {
@@ -23,10 +25,26 @@ export const columns = [
   {
     accessorKey: "branch_id",
     header: "Filial",
+    cell: ({ row }) => {
+      const value = row.getValue("branch_id");
+      const name = () => {
+        const item = branches.find((branch) => branch.id === value);
+        return item ? item.name : null;
+      };
+      return <div>{name()}</div>;
+    },
   },
   {
-    accessorKey: "access_level",
-    header: "Nível de Acesso",
+    accessorKey: "hsusers_roles",
+    header: "Cargo",
+    cell: ({ row }) => {
+      const value = row.getValue("hsusers_roles");
+      const name = () => {
+        const item = roles.find((role) => role.id === value);
+        return item ? item.name : null;
+      };
+      return <div>{name()}</div>;
+    },
   },
   {
     accessorKey: "winthor_id",

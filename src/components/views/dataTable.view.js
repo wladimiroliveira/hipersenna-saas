@@ -68,7 +68,7 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
           Baixar Planilha
         </Button>
         <Input
-          placeholder={`Filtre por ${searchColumn}...`}
+          placeholder={`Filtre por nome...`}
           value={table.getColumn(searchColumn)?.getFilterValue() ?? ""}
           onChange={(event) => table.getColumn(searchColumn)?.setFilterValue(event.target.value)}
           className="max-w-sm"

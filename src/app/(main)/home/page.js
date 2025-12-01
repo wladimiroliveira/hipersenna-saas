@@ -6,7 +6,6 @@ import modules from "@/files/modules.json";
 
 export default function Page() {
   const userInfo = useUserInfo();
-  console.log(userInfo);
 
   if (!userInfo) {
     return <div>Carregando...</div>;

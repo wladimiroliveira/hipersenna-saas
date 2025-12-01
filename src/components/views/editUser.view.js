@@ -18,7 +18,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Controller, useForm } from "react-hook-form";
 
 import branches from "@/files/branches.json";
-import accessLevels from "@/files/accessLevels.json";
 import { editUser } from "@/components/models/editUser.model";
 
 export function EditUserMenu({ user }) {
@@ -31,7 +30,6 @@ export function EditUserMenu({ user }) {
       name: user.name,
       username: user.username,
       branch_id: String(user.branch_id),
-      access_level: String(user.access_level),
     },
   });
 
@@ -45,7 +43,6 @@ export function EditUserMenu({ user }) {
       username: data.username,
       password: data.password,
       branch_id: parseInt(data.branch_id),
-      access_level: parseInt(data.access_level),
     };
 
     if (!userInfo.password?.trim()) delete userInfo.password;
@@ -137,28 +134,6 @@ export function EditUserMenu({ user }) {
                         {branches.map((b) => (
                           <SelectItem key={b.id} value={`${b.number}`}>
                             {b.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
-              </div>
-
-              <div className="flex-1">
-                <Label>Acesso</Label>
-                <Controller
-                  name="access_level"
-                  control={control}
-                  render={({ field }) => (
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="border-primaria w-full">
-                        <SelectValue placeholder="Selecionar" />
-                      </SelectTrigger>
-                      <SelectContent className="border-primaria">
-                        {accessLevels.map((a) => (
-                          <SelectItem key={a.id} value={`${a.id}`}>
-                            {a.name}
                           </SelectItem>
                         ))}
                       </SelectContent>

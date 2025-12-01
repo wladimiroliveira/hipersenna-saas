@@ -17,7 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { LogOut, Menu, User } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { checkAccess } from "@/lib/checkAccess";
+import { useCheckAccess } from "@/lib/checkAccess";
 import { useUserInfo } from "@/lib/auth-client";
 
 export function Navigation() {
@@ -63,7 +63,7 @@ export function Navigation() {
   const permissions = userInfo?.hsusers_permissions;
   const username = userInfo?.username;
 
-  checkAccess(modules, permissions, role);
+  useCheckAccess(modules, permissions, role);
 
   return (
     <div className="flex flex-row gap-10 items-center justify-between bg-primaria pl-8 pr-8 pt-4 pb-4">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { redirect } from "next/navigation";
 
 export function useUserInfo() {
   const [userInfo, setUserInfo] = useState(null);

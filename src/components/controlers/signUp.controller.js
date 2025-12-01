@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { SignUpForm } from "@/components/views/signUp.view";
+import { signUpModel } from "@/components/models/signUp.model";
 import { ErrorAlert, SuccessAlert } from "@/components/views/alert.view";
 
 export function SignUpController() {
@@ -12,39 +13,33 @@ export function SignUpController() {
   async function handleSubmit(data) {
     try {
       setLoading(true);
-      console.log(data);
-      const responseResult = await fetch("/api/v1/users/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const signUpValue = await signUpModel([
+        {
+          name: data[0].name,
+          username: data[0].username,
+          password: data[0].password,
+          branch_id: parseInt(data[0].branch_id),
+          winthor_id: parseInt(data[0].winthor_id),
         },
-        body: JSON.stringify([
-          {
-            name: data[0].name,
-            username: data[0].username,
-            password: data[0].password,
-            branch_id: parseInt(data[0].branch_id),
-            winthor_id: parseInt(data[0].winthor_id),
-          },
-          { role: parseInt(data[0].role) },
-        ]),
-      });
-      const responseValue = await responseResult.json();
-      console.log(responseValue);
-      if (responseValue[0].status === 201) {
+        {
+          role: data[0].role,
+        },
+      ]);
+      console.log(signUpValue);
+      if (signUpValue.ok) {
         setAlert({
           type: "success",
-          statusCode: responseValue[0].status,
+          statusCode: signUpValue.status,
           title: "Sucesso",
-          desc: responseValue[0].message,
+          desc: signUpValue.message,
         });
         setAlertKey((prev) => prev + 1);
       } else {
         setAlert({
           type: "error",
-          statusCode: responseValue[0].status,
+          statusCode: signUpValue.status,
           title: "Erro",
-          desc: responseValue[0].message,
+          desc: signUpValue.message,
         });
         setAlertKey((prev) => prev + 1);
       }
