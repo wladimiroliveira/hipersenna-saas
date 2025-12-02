@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, get } from "react-hook-form";
 import clsx from "clsx";
 
 import roles from "@/files/roles.json";
@@ -36,7 +36,13 @@ export function SignUpForm({ onSubmitData, loading }) {
   };
 
   return (
-    <form onSubmit={onSubmit(getData)} className="w-full max-w-md ml-auto mr-auto">
+    <form
+      onSubmit={onSubmit((data) => {
+        getData(data);
+        reset();
+      })}
+      className="w-full max-w-md ml-auto mr-auto"
+    >
       <FieldSet className="gap-0">
         <FieldGroup className="gap-0">
           <h2 className="text-2xl text-primaria font-semibold mb-4">Criar</h2>
