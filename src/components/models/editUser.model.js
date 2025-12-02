@@ -3,7 +3,6 @@
 import { getToken } from "@/lib/token/getToken";
 
 export async function editUser(id, body) {
-  console.log(body);
   const token = await getToken();
   try {
     const responseResult = await fetch(`${process.env.API_URL}/users/${id}`, {
@@ -14,8 +13,12 @@ export async function editUser(id, body) {
       },
       body: JSON.stringify(body),
     });
-    const result = await responseResult.json();
-    return result;
+    const responseValue = await responseResult.json();
+    return {
+      ok: responseResult.ok,
+      status: responseResult.status,
+      ...responseValue,
+    };
   } catch (err) {
     return err;
   }

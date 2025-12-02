@@ -20,11 +20,15 @@ import { Controller, useForm } from "react-hook-form";
 import branches from "@/files/branches.json";
 import { editUser } from "@/components/models/editUser.model";
 import { deleteUser } from "../models/deleteUser.model";
+import { ErrorAlert, SuccessAlert } from "./alert.view";
+import { useRouter } from "next/navigation";
 
 export function EditUserMenu({ user }) {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [clickSubmit, setClickSubmit] = useState(false);
+  const [alert, setAlert] = useState({});
+  const [alertKey, setAlertKey] = useState(0);
 
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
@@ -33,6 +37,8 @@ export function EditUserMenu({ user }) {
       branch_id: String(user.branch_id),
     },
   });
+
+  const router = useRouter();
 
   // Função de edição
   const onSubmitForm = async (data) => {
@@ -48,8 +54,25 @@ export function EditUserMenu({ user }) {
 
     if (!userInfo.password?.trim()) delete userInfo.password;
 
-    const result = await editUser(user.id, userInfo);
-    console.log("Resposta edição:", result);
+    const editUserValue = await editUser(user.id, userInfo);
+    if (editUserValue.ok) {
+      setAlert({
+        type: "success",
+        statusCode: editUserValue.status,
+        title: "Sucesso",
+        desc: "Edição realizada com sucesso!",
+      });
+      setAlertKey((prev) => prev + 1);
+      router.refresh();
+    } else {
+      setAlert({
+        type: "error",
+        statusCode: editUserValue.status,
+        title: "Erro",
+        desc: "Erro ao realizar edição.",
+      });
+      setAlertKey((prev) => prev + 1);
+    }
 
     setClickSubmit(false);
     setOpenEdit(false);
@@ -58,7 +81,25 @@ export function EditUserMenu({ user }) {
   // ✅ Função de exclusão
   const handleDelete = async () => {
     const deleteUserValue = await deleteUser(user.id);
-    console.log(deleteUserValue);
+    setOpenDelete(false);
+    if (deleteUserValue.ok) {
+      setAlert({
+        type: "success",
+        statusCode: deleteUserValue.status,
+        title: "Sucesso",
+        desc: "Usuário deletado com sucesso!",
+      });
+      setAlertKey((prev) => prev + 1);
+      router.refresh();
+    } else {
+      setAlert({
+        type: "error",
+        statusCode: deleteUserValue.status,
+        title: "Erro",
+        desc: "Erro ao deletar usuário.",
+      });
+      setAlertKey((prev) => prev + 1);
+    }
   };
 
   return (
@@ -154,6 +195,10 @@ export function EditUserMenu({ user }) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      {alert?.type === "success" && <SuccessAlert key={alertKey} title={alert.title} desc={alert.desc} />}
+      {alert?.type === "error" && (
+        <ErrorAlert key={alertKey} statusCode={alert.statusCode} title={alert.title} desc={alert.desc} />
+      )}
     </div>
   );
 }
