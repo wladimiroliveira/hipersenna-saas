@@ -1,39 +1,28 @@
-require("dotenv").config({ quiet: true });
+"use server";
 
-async function signOut(token) {
-  if (token) {
-    try {
-      const response = await fetch(`${process.env.API_URL}/users/signout`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ null: null }),
-      });
+import { getToken } from "@/lib/token/getToken";
+import { deleteToken } from "@/lib/token/deleteToken";
 
-      const result = await response.json();
-      return [response, result];
-    } catch (err) {
-      return err;
+export async function signOut() {
+  try {
+    const token = await getToken();
+    const responseResult = await fetch(`${process.env.API_URL}/sessions/me`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const responseValue = await responseResult.json();
+    if (responseResult.ok) {
+      await deleteToken("token");
     }
-  } else {
-    try {
-      const response = await fetch(`${process.env.API_URL}/users/signout`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ null: null }),
-      });
-
-      const result = await response.json();
-
-      return [response, result];
-    } catch (err) {
-      return err;
-    }
+    return {
+      ok: responseResult.ok,
+      status: responseResult.status,
+      ...responseValue,
+    };
+  } catch (err) {
+    console.error(err);
+    throw err;
   }
 }
-
-exports.signOut = signOut;

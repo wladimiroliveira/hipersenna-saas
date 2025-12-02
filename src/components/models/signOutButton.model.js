@@ -1,25 +1,32 @@
 "use client";
 
 import { signOut } from "@/components/models/signOut.model";
+import { useUserStore } from "@/store/userStore";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 
-export function SignOutButton({ children, className, token }) {
+export function SignOutButton({ children, className }) {
   const [clickSubmit, setClickSubmit] = useState(false);
-  function out(token) {
-    if (!clickSubmit) {
-      signOut(token).then(redirect("/"));
-    } else {
+  async function out() {
+    try {
+      if (clickSubmit) {
+        return;
+      }
       setClickSubmit(true);
+      const signOutValue = await signOut();
+      if (signOutValue.ok) {
+        useUserStore.persist.clearStorage();
+        redirect("/login");
+      }
+    } catch (err) {
+      console.error(err);
+      throw err;
+    } finally {
+      setClickSubmit(false);
     }
   }
   return (
-    <button
-      onClick={() => {
-        out(token);
-      }}
-      className={className}
-    >
+    <button onClick={out} className={className}>
       {children}
     </button>
   );
