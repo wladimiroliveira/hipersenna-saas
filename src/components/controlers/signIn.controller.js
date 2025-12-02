@@ -5,6 +5,7 @@ import { useState } from "react";
 import { SignInForm } from "@/components/views/signIn.view";
 import { signIn } from "@/components/models/signIn.model";
 import { ErrorAlert, SuccessAlert } from "@/components/views/alert.view";
+import { useUserStore } from "@/store/userStore";
 
 export function SignInController() {
   const [loading, setLoading] = useState(false);
@@ -14,22 +15,31 @@ export function SignInController() {
   async function handleSubmit(data) {
     try {
       setLoading(true);
-      const { ok, status, responseValue } = await signIn(data);
-      if (ok) {
+      const signInValue = await signIn(data);
+      if (signInValue.ok) {
         setAlert({
           type: "success",
-          statusCode: status,
+          statusCode: signInValue.status,
           title: "Sucesso",
-          desc: responseValue.message,
+          desc: signInValue.message,
+        });
+        useUserStore.getState().setUser({
+          id: signInValue.id,
+          name: signInValue.name,
+          username: signInValue.username,
+          winthor_id: signInValue.winthor_id,
+          branch_id: signInValue.branch_id,
+          role_id: signInValue.hsusers_roles[0].role_id,
+          permissions: signInValue.hsusers_permissions,
         });
         setAlertKey((prev) => prev + 1);
         redirect("/home");
       } else {
         setAlert({
           type: "error",
-          statusCode: status,
+          statusCode: signInValue.status,
           title: "Erro",
-          desc: responseValue.message,
+          desc: signInValue.message,
         });
         setAlertKey((prev) => prev + 1);
       }
