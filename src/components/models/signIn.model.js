@@ -4,9 +4,10 @@ import { cookies } from "next/headers";
 
 export async function signIn(data) {
   try {
+    let responseValue = {};
     const cookieStore = await cookies();
     const { username, password } = data[0];
-    const responseResult = await fetch(`${process.env.API_URL}/signin`, {
+    const signInResult = await fetch(`${process.env.API_URL}/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -16,13 +17,29 @@ export async function signIn(data) {
         password,
       }),
     });
-    const responseValue = await responseResult.json();
-    cookieStore.set("token", responseValue.token, { secure: false });
-    return {
-      ok: responseResult.ok,
-      status: responseResult.status,
-      responseValue,
+    const signInValue = await signInResult.json();
+    responseValue = {
+      ok: signInResult.ok,
+      status: signInResult.status,
+      ...signInValue,
     };
+    if (signInResult.ok) {
+      cookieStore.set("token", signInValue.token, { secure: false });
+      const meResult = await fetch(`${process.env.API_URL}/users/me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${signInValue.token}`,
+        },
+      });
+      const meValue = await meResult.json();
+      if (meResult.ok) {
+        responseValue = {
+          ...responseValue,
+          ...meValue[0],
+        };
+      }
+    }
+    return responseValue;
   } catch (err) {
     console.error(err);
     throw err;

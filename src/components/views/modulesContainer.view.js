@@ -1,8 +1,10 @@
+import { useUserStore } from "@/store/userStore";
 import Link from "next/link";
 
-export function ModulesContainer({ modules, title, access }) {
-  const role = access?.hsusers_roles;
-  const permissions = access?.hsusers_permissions;
+export function ModulesContainer({ modules, title }) {
+  const user = useUserStore((state) => state.user);
+  const role = user?.role_id;
+  const permissions = user?.permissions;
   if (!(role && permissions)) {
     return (
       <div className="bg-gray-200 p-8 rounded-2xl mb-[200px] m-auto">
