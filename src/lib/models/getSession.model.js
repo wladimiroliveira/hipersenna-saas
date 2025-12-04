@@ -1,5 +1,10 @@
-async function getSession(token) {
+"use server";
+
+import { getToken } from "@/lib/token/getToken";
+
+export async function getMeSession() {
   try {
+    const token = await getToken();
     const response = await fetch(`${process.env.API_URL}/users/me`, {
       method: "GET",
       headers: {
@@ -13,5 +18,3 @@ async function getSession(token) {
     console.error(err);
   }
 }
-
-exports.getSession = getSession;

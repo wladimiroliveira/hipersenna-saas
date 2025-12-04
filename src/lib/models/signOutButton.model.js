@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut } from "@/components/models/signOut.model";
+import { signOut } from "@/lib/models/signOut.model";
 import { useUserStore } from "@/store/userStore";
 import { redirect } from "next/navigation";
 import { useState } from "react";

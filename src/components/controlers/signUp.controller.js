@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { SignUpForm } from "@/components/views/signUp.view";
-import { signUpModel } from "@/components/models/signUp.model";
+import { signUpModel } from "@/lib/models/signUp.model";
 import { ErrorAlert, SuccessAlert } from "@/components/views/alert.view";
 
 export function SignUpController() {

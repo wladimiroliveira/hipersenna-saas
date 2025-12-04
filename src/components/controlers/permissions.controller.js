@@ -3,6 +3,8 @@
 import { PermissionsView } from "@/components/views/permissions.view";
 import { useState } from "react";
 import permissionsData from "@/files/permissions.json";
+import { getUser } from "@/lib/models/users.module";
+import { deleteUserPermissions, getUserPermissions, postUserPermissions } from "@/lib/models/permissions.module";
 
 export function PermissionsController() {
   const [loading, setLoading] = useState(false);
@@ -10,22 +12,19 @@ export function PermissionsController() {
   const [showPermissions, setShowPermissions] = useState(false);
   const [permissionMessage, setPermissionMessage] = useState("");
   const [userPermissions, setUserPermissions] = useState([]);
-  const [permissions, setPermissions] = useState(permissionsData);
 
   async function searchUser(data) {
     try {
       setLoading(true);
-      const userResult = await fetch(`/api/v1/users/getuser?${data[0].modalityUser}=${data[0].userId}`);
-      const userValue = await userResult.json();
-      const userPermissionResult = await fetch(`/api/v1/permissions/?id=${data[0].userId}`);
-      const userPermissionValue = await userPermissionResult.json();
-      if (userPermissionValue[0].permissions?.message) {
-        setPermissionMessage(userPermissionValue[0].permissions?.message);
+      const userValue = await getUser(data[0].modalityUser, data[0].userId);
+      const userPermissionValue = await getUserPermissions(userValue.user?.id);
+      if (Array.isArray(userPermissionValue.permissions)) {
+        setUserPermissions(userPermissionValue.permissions);
       } else {
-        setUserPermissions(userPermissionValue[0].permissions);
+        setPermissionMessage(userPermissionValue.permissions);
       }
-      if (userValue[0].user.length > 0) {
-        setUserInfo(userValue[0].user);
+      if (userValue.ok) {
+        setUserInfo(userValue.user);
         setShowPermissions(true);
       } else {
         setUserInfo([]);
@@ -40,39 +39,14 @@ export function PermissionsController() {
   }
 
   async function sendPermissions(data) {
-    const sendPermissionResult = await fetch("/api/v1/permissions/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify([
-        {
-          user_id: userInfo[0]?.id,
-          permissions: data.permissions,
-        },
-      ]),
-    });
-    console.log(userInfo);
-    const userPermissionsResult = await fetch(`/api/v1/permissions/?id=${userInfo[0].id}`);
-    const userPermissionValue = await userPermissionsResult.json();
-    setUserPermissions(userPermissionValue[0].permissions);
+    await postUserPermissions(userInfo.id, data.permissions);
+    const userPermissionValue = await getUserPermissions(userInfo.id);
+    setUserPermissions(userPermissionValue.permissions);
   }
   async function removePermissions(data) {
-    const removePermissionResult = await fetch("/api/v1/permissions/", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify([
-        {
-          user_id: userInfo[0]?.id,
-          permissions: data.permissions,
-        },
-      ]),
-    });
-    const userPermissionsResult = await fetch(`/api/v1/permissions/?id=${userInfo[0].id}`);
-    const userPermissionValue = await userPermissionsResult.json();
-    setUserPermissions(userPermissionValue[0].permissions);
+    await deleteUserPermissions(userInfo.id, data.permissions);
+    const userPermissionValue = await getUserPermissions(userInfo.id);
+    setUserPermissions(userPermissionValue.permissions);
   }
 
   return (
@@ -83,7 +57,7 @@ export function PermissionsController() {
         onRemovePermissions={removePermissions}
         loading={loading}
         permissions={permissionsData}
-        username={userInfo[0]?.name}
+        username={userInfo?.name}
         showPermissions={showPermissions}
         userPermissions={userPermissions}
         permissionMessage={permissionMessage}
