@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { UploadTable } from "@/components/models/xlsxHandler.model";
+import { UploadTable } from "@/lib/models/xlsxHandler.model";
 
 export async function POST(request) {
   try {

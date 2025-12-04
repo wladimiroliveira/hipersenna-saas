@@ -1,11 +1,10 @@
 "use client";
 
-import { SignOutButton } from "@/components/models/signOutButton.model";
+import { SignOutButton } from "@/lib/models/signOutButton.model";
 import clsx from "clsx";
 import Link from "next/link";
 import Image from "next/image";
 import pathnames from "@/files/pathnames.json";
-import modules from "@/files/modules.json";
 import {
   DropdownMenu,
   DropdownMenuContent,

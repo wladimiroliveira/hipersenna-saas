@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FilterIcon, SearchIcon, SquareChevronLeftIcon, SquareChevronRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
+import permissions from "@/files/permissions.json";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
@@ -63,7 +64,7 @@ export function PermissionsContainer({
   onSendPermission,
   onRemovePermission,
 }) {
-  const { control: sendControl, watch: watchSend } = useForm();
+  const { control: sendControl, watch: watchSend, reset } = useForm();
   const { control: removeControl, watch: watchRemove } = useForm();
 
   function handleSend() {
@@ -77,6 +78,7 @@ export function PermissionsContainer({
     });
     if (trueKeys.length > 0) {
       onSendPermission({ direction: "leftToRight", permissions: numbers });
+      reset();
     }
   }
 
@@ -93,7 +95,10 @@ export function PermissionsContainer({
       onRemovePermission({ direction: "rightToLeft", permissions: numbers });
     }
   }
-
+  function findPermissionName(id, array) {
+    const item = array.find((element) => element.id === id);
+    return item ? item.name : null;
+  }
   return (
     <div
       className={clsx("flex flex-col h-100 pt-4 pb-4", {
@@ -137,24 +142,20 @@ export function PermissionsContainer({
             </button>
           </div>
           <div className="flex flex-col border-1 border-primaria gap-2 rounded-r-md p-2 pt-4 pb-4 overflow-y-scroll min-h-0 flex-1">
-            {userPermissions.length > 1 ? (
-              [...userPermissions]
-                .sort((a, b) => a.permission_id - b.permission_id)
-                .map((userPermission) => (
+            {Array.isArray(userPermissions) && userPermissions.length > 0 ? (
+              userPermissions
+                .sort((a, b) => a - b)
+                .map((permission) => (
                   <Controller
-                    key={"userPermission" + userPermission.permission_id}
-                    name={`${"uP " + userPermission.permission_id}`}
+                    key={"userPermission" + permission}
+                    name={`${"uP " + permission}`}
                     control={removeControl}
                     defaultValue={false}
                     render={({ field }) => (
                       <div className="flex gap-2 items-center">
-                        <Checkbox
-                          id={String(userPermission.permission_id)}
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                        <Label htmlFor={String(userPermission.permission_id)}>
-                          {userPermission.permission_id} - {userPermission.hspermissions.name}
+                        <Checkbox id={String(permission)} checked={field.value} onCheckedChange={field.onChange} />
+                        <Label htmlFor={String(permission)}>
+                          {permission} - {findPermissionName(permission, permissions)}
                         </Label>
                       </div>
                     )}
