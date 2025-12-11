@@ -7,7 +7,7 @@ export async function signUpModel(data) {
     let responseValue = [{}];
     try {
       const token = await getToken();
-      const userResult = await fetch(`${process.env.API_URL}/users`, {
+      const userResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +33,7 @@ export async function signUpModel(data) {
       }
       if (userResult.ok) {
         try {
-          const roleUserResult = await fetch(`${process.env.API_URL}/user-roles`, {
+          const roleUserResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-roles`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

@@ -8,7 +8,7 @@ export async function GET(request) {
 
     let responseResult;
     if (!(paramsObject.userId && paramsObject.sessionId)) {
-      responseResult = await fetch(`${process.env.API_URL}/sessions`, {
+      responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sessions`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -17,7 +17,7 @@ export async function GET(request) {
     }
 
     if (paramsObject.userId && !paramsObject.sessionId) {
-      responseResult = await fetch(`${process.env.API_URL}/sessions?userId=${paramsObject.userId}`, {
+      responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sessions?userId=${paramsObject.userId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -26,7 +26,7 @@ export async function GET(request) {
     }
 
     if (paramsObject.sessionId && !paramsObject.userId) {
-      responseResult = await fetch(`${process.env.API_URL}/sessions?sessionId=${paramsObject.sessionId}`, {
+      responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sessions?sessionId=${paramsObject.sessionId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -44,7 +44,7 @@ export async function GET(request) {
 export async function DELETE(request) {
   try {
     let token = await getToken(request);
-    const responseResult = await fetch(`${process.env.API_URL}/sessions`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sessions`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

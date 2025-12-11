@@ -5,7 +5,7 @@ import { getToken } from "@/lib/token/getToken";
 export async function getUserPermissions(id) {
   try {
     const token = await getToken();
-    const responseResult = await fetch(`${process.env.API_URL}/user-permissions/${id}`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-permissions/${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -28,7 +28,7 @@ export async function getUserPermissions(id) {
 export async function postUserPermissions(id, permissions) {
   try {
     const token = await getToken();
-    const responseResult = await fetch(`${process.env.API_URL}/user-permissions`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-permissions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export async function postUserPermissions(id, permissions) {
 export async function deleteUserPermissions(id, permissions) {
   try {
     const token = await getToken();
-    const responseResult = await fetch(`${process.env.API_URL}/user-permissions`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-permissions`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

@@ -6,7 +6,7 @@ import { deleteToken } from "@/lib/token/deleteToken";
 export async function signOut() {
   try {
     const token = await getToken();
-    const responseResult = await fetch(`${process.env.API_URL}/sessions/me`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sessions/me`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

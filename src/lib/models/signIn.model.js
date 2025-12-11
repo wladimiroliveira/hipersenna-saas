@@ -7,7 +7,7 @@ export async function signIn(data) {
     let responseValue = {};
     const cookieStore = await cookies();
     const { username, password } = data[0];
-    const signInResult = await fetch(`${process.env.API_URL}/signin`, {
+    const signInResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export async function signIn(data) {
     };
     if (signInResult.ok) {
       cookieStore.set("token", signInValue.token, { secure: false });
-      const meResult = await fetch(`${process.env.API_URL}/users/me`, {
+      const meResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${signInValue.token}`,

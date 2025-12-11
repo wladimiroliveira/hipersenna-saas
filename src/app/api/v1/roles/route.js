@@ -3,7 +3,7 @@ import { getToken } from "@/lib/token/getToken";
 export async function GET(request) {
   try {
     const token = await getToken(request);
-    const responseResult = await fetch(`${process.env.API_URL}/roles`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/roles`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -21,7 +21,7 @@ export async function POST(request) {
   try {
     const token = await getToken(request);
     const [data] = await request.json();
-    const responseResult = await fetch(`${process.env.API_URL}/roles`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/roles`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
