@@ -10,6 +10,8 @@
   --color-secundaria: #fff;
   --color-terciaria: #cf3c3c;
   --color-hover-terciaria: #cf3c3c52;
+  --color-quartenaria: #1e883d;
+  --color-hover-quartenaria: #1a7133;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
