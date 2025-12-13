@@ -33,7 +33,7 @@ export function SignInController() {
           permissions: signInValue.hsusers_permissions,
         });
         setAlertKey((prev) => prev + 1);
-        redirect("/home");
+        redirect("/modulo/admin-sorteios");
       } else {
         setAlert({
           type: "error",

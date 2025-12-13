@@ -89,7 +89,7 @@ export default function Page() {
         <p className="text-center">
           <Link
             className="italic underline text-quartenaria hover:text-hover-quartenaria"
-            href="../sorteios/resultados"
+            href="../admin-sorteios/resultados"
           >
             Clique aqui
           </Link>{" "}

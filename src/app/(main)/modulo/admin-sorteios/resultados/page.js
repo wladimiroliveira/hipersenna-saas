@@ -58,7 +58,7 @@ export default function Page() {
       </div>
       <div className="p-4">
         <p className="text-center">
-          <Link className="italic underline text-quartenaria hover:text-hover-quartenaria" href="../sorteios/">
+          <Link className="italic underline text-quartenaria hover:text-hover-quartenaria" href="../admin-sorteios/">
             Clique aqui
           </Link>{" "}
           para voltar para a tela de sorteio

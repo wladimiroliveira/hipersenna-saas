@@ -20,10 +20,6 @@ import { useUserInfo } from "@/lib/auth-client";
 import { useUserStore } from "@/store/userStore";
 
 export function Navigation() {
-  const { user } = useUserStore.getState();
-  console.log(user);
-  const pathName = usePathname();
-
   return (
     <div className="flex flex-row gap-10 items-center justify-between bg-primaria pl-8 pr-8 pt-4 pb-4">
       <div className="flex gap-10 items-end">
@@ -75,7 +71,7 @@ export function Navigation() {
         <DropdownMenuContent className="border-primaria" align="end">
           <DropdownMenuLabel className="flex items-end justify-center gap-2">
             <User className="w-5" />
-            {user.username || "usuario"}
+            {"usuario"}
           </DropdownMenuLabel>
           <DropdownMenuSeparator className="bg-primaria" />
           <DropdownMenuItem className="flex justify-center">
