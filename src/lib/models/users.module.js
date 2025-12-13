@@ -5,7 +5,7 @@ import { getToken } from "@/lib/token/getToken";
 export async function getAllUsers() {
   try {
     const token = await getToken();
-    const responseResult = await fetch(`${process.env.API_URL}/users`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -30,7 +30,7 @@ export async function getAllUsers() {
 export async function getUser(queryMode, id) {
   try {
     const token = await getToken();
-    const responseResult = await fetch(`${process.env.API_URL}/users?${queryMode}=${id}`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users?${queryMode}=${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -55,7 +55,7 @@ export async function getUser(queryMode, id) {
 export async function deleteUser(id) {
   try {
     const token = await getToken();
-    const responseResult = await fetch(`${process.env.API_URL}/users/${id}`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -76,7 +76,7 @@ export async function deleteUser(id) {
 export async function editUser(id, body) {
   try {
     const token = await getToken();
-    const responseResult = await fetch(`${process.env.API_URL}/users/${id}`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

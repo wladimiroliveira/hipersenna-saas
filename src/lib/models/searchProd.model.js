@@ -5,7 +5,7 @@ import { getToken } from "@/lib/token/getToken";
 export async function searchProd(id, type) {
   try {
     const token = await getToken();
-    const responseResult = await fetch(`${process.env.API_URL}/products?${type}=${id}`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products?${type}=${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

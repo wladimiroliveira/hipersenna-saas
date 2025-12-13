@@ -6,7 +6,7 @@ export async function changeTreatment(data) {
   console.log(data);
   try {
     const token = await getToken();
-    const responseResult = await fetch(`${process.env.API_URL}/validities`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/validities`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

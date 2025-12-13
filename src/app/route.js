@@ -6,7 +6,7 @@ import { getToken } from "@/lib/token/getToken";
 export async function GET(req) {
   try {
     const token = await getToken();
-    const responseResult = await fetch(`${process.env.API_URL}/users/me`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

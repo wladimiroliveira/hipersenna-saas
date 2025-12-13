@@ -4,7 +4,7 @@ import { deleteToken } from "@/lib/token/deleteToken";
 export async function GET(request) {
   try {
     let token = await getToken(request);
-    const responseResult = await fetch(`${process.env.API_URL}/users/me`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

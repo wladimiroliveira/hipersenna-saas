@@ -29,7 +29,7 @@ export function SignInController() {
           username: signInValue.username,
           winthor_id: signInValue.winthor_id,
           branch_id: signInValue.branch_id,
-          role_id: signInValue.hsusers_roles[0].role_id,
+          role_id: signInValue.role_id,
           permissions: signInValue.hsusers_permissions,
         });
         setAlertKey((prev) => prev + 1);
