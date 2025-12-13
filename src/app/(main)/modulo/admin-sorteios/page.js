@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { drawRaffles } from "@/lib/models/draw.model";
 import { DicesIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -20,21 +21,44 @@ export default function Page() {
     defaultValues: {},
   });
 
-  const [branch_id, setBranchId] = useState(null);
-  const [winner, setWinner] = useState(true);
-  const userInfosMock = {
-    client_id: 0,
-    nfc_key: "JHGSGHSDFLHGFSHG",
-    raffle_number: "halfha",
-    branch_id: 1,
-    status: "sorteado",
-  };
+  const [winner, setWinner] = useState(false);
+  const [loading, setLoading] = useState(false);
+  // const userInfosMock = {
+  //   client_id: 0,
+  //   nfc_key: "JHGSGHSDFLHGFSHG",
+  //   raffle_number: "halfha",
+  //   branch_id: 1,
+  //   status: "sorteado",
+  // };
+
+  async function handleDraw(data) {
+    try {
+      setLoading(true);
+      const drawValue = await drawRaffles(data.branch_id);
+      if (drawValue.ok) {
+        setWinner({
+          id: drawValue?.id,
+          client_id: drawValue?.client_id,
+          nfc_key: drawValue?.nfc_key,
+          raffle_number: drawValue?.raffle_number,
+          branch_id: drawValue?.branch_id,
+          status: drawValue?.status,
+          created_at: drawValue?.created_at,
+          modified_at: drawValue?.modified_at,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div>
       <div className="">
-        <h1 className="text-2xl font-bold text-center p-4">Sorteios</h1>
-        <div className="w-40 m-auto">
+        <h1 className="text-2xl font-bold text-center p-4">Sorteio</h1>
+        <form onSubmit={onSubmit(handleDraw)} className="w-40 m-auto">
           <FieldSet>
             <FieldGroup className="flex flex-col gap-2 items-center">
               <FieldLabel htmlFor="branch_id">Selecione a filial do sorteio</FieldLabel>
@@ -45,7 +69,6 @@ export default function Page() {
                   <Select
                     onValueChange={(value) => {
                       field.onChange(value);
-                      setBranchId(value);
                     }}
                     value={field.value}
                   >
@@ -67,17 +90,17 @@ export default function Page() {
               </Button>
             </FieldGroup>
           </FieldSet>
-        </div>
+        </form>
         <div>
           {winner ? (
             <div className="flex flex-col gap-2 max-w-100 m-auto mt-2 p-4 bg-gray-200 rounded-2xl">
               <h2 className="text-center text-lg font-bold">Nome do ganhador</h2>
               <ul>
-                <li>ID do Cliente: {userInfosMock.client_id}</li>
-                <li>Chave NFC: {userInfosMock.nfc_key}</li>
-                <li>Número da Rifa: {userInfosMock.raffle_number}</li>
-                <li>Filial: {userInfosMock.branch_id}</li>
-                <li>Status: {userInfosMock.status}</li>
+                <li>ID do Cliente: {winner?.client_id}</li>
+                <li>Chave NFC: {winner?.nfc_key}</li>
+                <li>Número da Rifa: {winner?.raffle_number}</li>
+                <li>Filial: {winner?.branch_id}</li>
+                <li>Status: {winner?.status}</li>
               </ul>
             </div>
           ) : (
@@ -89,7 +112,7 @@ export default function Page() {
         <p className="text-center">
           <Link
             className="italic underline text-quartenaria hover:text-hover-quartenaria"
-            href="../admin-sorteios/resultados"
+            href="../modulo/admin-sorteios/resultados"
           >
             Clique aqui
           </Link>{" "}
