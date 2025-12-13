@@ -20,18 +20,14 @@ import { useUserInfo } from "@/lib/auth-client";
 import { useUserStore } from "@/store/userStore";
 
 export function Navigation() {
-  const { user } = useUserStore.getState();
-  console.log(user);
-  const pathName = usePathname();
-
   return (
     <div className="flex flex-row gap-10 items-center justify-between bg-primaria pl-8 pr-8 pt-4 pb-4">
       <div className="flex gap-10 items-end">
-        <Link href="/home" className="flex flex-row items-center gap-2">
+        <Link href="" className="flex flex-row items-center gap-2">
           <Image src="/navbar/logo-hipersenna.svg" width={37} height={26} alt="Logo Hipersenna" />
           <span className="text-base text-secundaria font-semibold">GHS Sistema</span>
         </Link>
-        <ul className="flex flex-row items-center gap-4">
+        {/* <ul className="flex flex-row items-center gap-4">
           {pathnames
             .filter((path) => {
               const hasPermission = user.permissions
@@ -63,7 +59,7 @@ export function Navigation() {
                 </Link>
               </li>
             ))}
-        </ul>
+        </ul> */}
       </div>
 
       <DropdownMenu modal={false}>
@@ -75,7 +71,7 @@ export function Navigation() {
         <DropdownMenuContent className="border-primaria" align="end">
           <DropdownMenuLabel className="flex items-end justify-center gap-2">
             <User className="w-5" />
-            {user.username || "usuario"}
+            {"usuario"}
           </DropdownMenuLabel>
           <DropdownMenuSeparator className="bg-primaria" />
           <DropdownMenuItem className="flex justify-center">
