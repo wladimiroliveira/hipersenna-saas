@@ -5,7 +5,7 @@ import { useState } from "react";
 import { SignInForm } from "@/components/views/signIn.view";
 import { signIn } from "@/lib/models/signIn.model";
 import { ErrorAlert, SuccessAlert } from "@/components/views/alert.view";
-import { useUserStore } from "@/store/userStore";
+import { useUserStore } from "@/store/user.store";
 
 export function SignInController() {
   const [loading, setLoading] = useState(false);
@@ -33,7 +33,7 @@ export function SignInController() {
           permissions: signInValue.hsusers_permissions,
         });
         setAlertKey((prev) => prev + 1);
-        redirect("/modulo/admin-sorteios");
+        redirect("/modulos/admin-sorteios");
       } else {
         setAlert({
           type: "error",

@@ -16,8 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { LogOut, Menu, User } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useUserInfo } from "@/lib/auth-client";
-import { useUserStore } from "@/store/userStore";
+import { useUserStore } from "@/store/user.store";
 
 export function Navigation() {
   return (

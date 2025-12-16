@@ -18,8 +18,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Controller, useForm } from "react-hook-form";
 
 import branches from "@/files/branches.json";
-import { editUser } from "@/lib/models/users.module";
-import { deleteUser } from "@/lib/models/users.module";
+import { editUser } from "@/lib/models/users.model";
+import { deleteUser } from "@/lib/models/users.model";
 import { ErrorAlert, SuccessAlert } from "./alert.view";
 import { useRouter } from "next/navigation";
 

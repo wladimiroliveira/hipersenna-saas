@@ -1,4 +1,4 @@
-import { useUserStore } from "@/store/userStore";
+import { useUserStore } from "@/store/user.store";
 import Link from "next/link";
 
 export function ModulesContainer({ modules, title }) {
