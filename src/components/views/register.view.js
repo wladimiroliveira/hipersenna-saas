@@ -13,7 +13,7 @@ import { IconSend } from "@tabler/icons-react";
 import { Modal } from "@/components/views/modal.view";
 
 // Models
-import { createRaffleModel } from "@/lib/models/createRaffle.model";
+import { createRaffleModel } from "@/components/services/createRaffle.service";
 
 // Local Storage
 import { useRafflesStore } from "@/store/raffles.store";
