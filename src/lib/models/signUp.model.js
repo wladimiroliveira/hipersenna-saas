@@ -31,31 +31,8 @@ export async function signUpModel(data) {
           status: userResult.status,
         };
       }
-      if (userResult.ok) {
-        try {
-          const roleUserResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-roles`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              user_id: responseValue[0].id,
-              role_id: data[1].role,
-            }),
-          });
-          const roleUserValue = await roleUserResult.json();
-          if (roleUserResult.ok) {
-            responseValue[0] = {
-              ...responseValue[0],
-              role_response: `User ${responseValue[0].username} receive role ${data[1].role}`,
-            };
-          }
-        } catch (err) {
-          console.error(err);
-          throw err;
-        }
-      }
+      console.log(responseValue);
+      // console.log(data);
     } catch (err) {
       console.error(err);
       throw err;

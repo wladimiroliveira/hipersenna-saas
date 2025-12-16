@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter, usePathname } from "next/navigation";
 
-import { createRaffleModel } from "@/lib/models/createRaffle.model";
+import { createRaffleModel } from "@/components/services/createRaffle.service";
 
 import { useCupomStore } from "@/store/cupom.store";
 import { useCpfStore } from "@/store/cpf.store";

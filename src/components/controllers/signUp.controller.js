@@ -18,11 +18,9 @@ export function SignUpController() {
           name: data[0].name,
           username: data[0].username,
           password: data[0].password,
-          branch_id: parseInt(data[0].branch_id),
-          winthor_id: parseInt(data[0].winthor_id),
-        },
-        {
-          role: data[0].role,
+          branch_id: Number(data[0].branch_id),
+          winthor_id: Number(data[0].winthor_id),
+          role_id: Number(data[0].role),
         },
       ]);
       console.log(signUpValue);

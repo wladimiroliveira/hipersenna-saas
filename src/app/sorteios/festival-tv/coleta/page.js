@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { RegisterCupomContainer } from "@/components/views/registerCupom.view";
-import { SearchNumbers } from "@/lib/models/searchNumbers.model";
+import { SearchNumbers } from "@/components/services/searchNumbers.service";
 import { Navbar } from "@/components/views/navbar.view";
 import { useState } from "react";
 import clsx from "clsx";

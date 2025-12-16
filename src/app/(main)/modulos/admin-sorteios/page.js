@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { drawRaffles } from "@/lib/models/draw.model";
+import { drawRaffles } from "@/components/services/draw.service";
 import { DicesIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";

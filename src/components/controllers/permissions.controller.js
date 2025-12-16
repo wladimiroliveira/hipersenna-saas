@@ -3,8 +3,8 @@
 import { PermissionsView } from "@/components/views/permissions.view";
 import { useState } from "react";
 import permissionsData from "@/files/permissions.json";
-import { getUser } from "@/lib/models/users.module";
-import { deleteUserPermissions, getUserPermissions, postUserPermissions } from "@/lib/models/permissions.module";
+import { getUser } from "@/lib/models/users.model";
+import { deleteUserPermissions, getUserPermissions, postUserPermissions } from "@/lib/models/permissions.model";
 
 export function PermissionsController() {
   const [loading, setLoading] = useState(false);
