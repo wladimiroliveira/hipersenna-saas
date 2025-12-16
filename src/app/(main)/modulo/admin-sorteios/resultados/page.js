@@ -48,7 +48,9 @@ export default function Page() {
       <form {...register} onSubmit={onSubmit(handleShowResult)} className="w-40 m-auto">
         <FieldSet>
           <FieldGroup className="flex flex-col gap-2 items-center">
-            <FieldLabel htmlFor="branch_id">Selecione a filial do sorteio</FieldLabel>
+            <FieldLabel htmlFor="branch_id" className="text-center">
+              Selecione a filial do sorteio
+            </FieldLabel>
             <Controller
               name="branch_id"
               control={control}
