@@ -1,5 +1,5 @@
-import { Roboto_Condensed } from "next/font/google";
+import { Roboto } from "next/font/google";
 
-export const roboto = Roboto_Condensed({
+export const roboto = Roboto({
   subsets: ["latin"],
 });
