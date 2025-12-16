@@ -1,10 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Spinner } from "@/components/ui/spinner";
 import { SearchIcon } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 export default function Page() {
@@ -16,13 +19,33 @@ export default function Page() {
     reset,
     resetField,
   } = useForm({
-    defaultValues: {},
+    defaultValues: {
+      branch_id: "",
+    },
   });
+
+  const [rafflesDrawn, setRafflesDrawn] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  async function handleShowResult(data) {
+    try {
+      setLoading(true);
+      if (!data.branch_id) return setLoading(false);
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/raffles?status=SORTEADO&branch_id=${data.branch_id}`;
+      const responseResult = await fetch(url);
+      const responseValue = await responseResult.json();
+      console.log(responseValue);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div>
       <h1 className="text-2xl font-bold p-4 text-center">Rifas sorteadas</h1>
-      <div className="w-40 m-auto">
+      <form {...register} onSubmit={onSubmit(handleShowResult)} className="w-40 m-auto">
         <FieldSet>
           <FieldGroup className="flex flex-col gap-2 items-center">
             <FieldLabel htmlFor="branch_id">Selecione a filial do sorteio</FieldLabel>
@@ -33,7 +56,6 @@ export default function Page() {
                 <Select
                   onValueChange={(value) => {
                     field.onChange(value);
-                    setBranchId(value);
                   }}
                   value={field.value}
                 >
@@ -49,12 +71,59 @@ export default function Page() {
                 </Select>
               )}
             />
-            <Button className="bg-quartenaria hover:bg-hover-quartenaria cursor-pointer" type="submit" size="lg">
-              Pesquisar
-              <SearchIcon />
+            <Button
+              className="bg-quartenaria hover:bg-hover-quartenaria cursor-pointer"
+              disabled={loading}
+              type="submit"
+              size="lg"
+            >
+              {loading ? (
+                <>
+                  Pesquisando
+                  <Spinner />
+                </>
+              ) : (
+                <>
+                  Pesquisar
+                  <SearchIcon />
+                </>
+              )}
             </Button>
           </FieldGroup>
         </FieldSet>
+      </form>
+      <div>
+        {rafflesDrawn ? (
+          <div className="flex flex-row flex-wrap gap-4 justify-center p-4">
+            {rafflesDrawn.map((raffle) => (
+              <Card className="w-3xs">
+                <CardHeader>
+                  <CardTitle>
+                    Rifa <strong>#{raffle.raffle_number}</strong>
+                  </CardTitle>
+                  <CardContent>
+                    <ul>
+                      <li>
+                        ID do Cliente: <strong>{raffle.client_id}</strong>
+                      </li>
+                      <li>
+                        Filial: <strong>{raffle.branch_id}</strong>
+                      </li>
+                      <li>
+                        Chave NFC: <strong>{raffle.nfc_key}</strong>
+                      </li>
+                      <li>
+                        Status: <strong>{raffle.status}</strong>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </CardHeader>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
       <div className="p-4">
         <p className="text-center">

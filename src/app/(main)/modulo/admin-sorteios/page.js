@@ -23,13 +23,6 @@ export default function Page() {
 
   const [winner, setWinner] = useState(false);
   const [loading, setLoading] = useState(false);
-  // const userInfosMock = {
-  //   client_id: 0,
-  //   nfc_key: "JHGSGHSDFLHGFSHG",
-  //   raffle_number: "halfha",
-  //   branch_id: 1,
-  //   status: "sorteado",
-  // };
 
   async function handleDraw(data) {
     try {
