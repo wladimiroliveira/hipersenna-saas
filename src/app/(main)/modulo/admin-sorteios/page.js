@@ -28,6 +28,7 @@ export default function Page() {
     try {
       setLoading(true);
       const drawValue = await drawRaffles(data.branch_id);
+      console.log(drawValue);
       if (drawValue.ok) {
         setWinner({
           id: drawValue?.id,
@@ -86,7 +87,7 @@ export default function Page() {
         </form>
         <div>
           {winner ? (
-            <div className="flex flex-col gap-2 max-w-100 m-auto mt-2 p-4 bg-gray-200 rounded-2xl">
+            <div className="flex flex-col gap-2 w-fit max-w-150 m-auto mt-2 p-4 bg-gray-200 rounded-2xl">
               <h2 className="text-center text-lg font-bold">Nome do ganhador</h2>
               <ul>
                 <li>ID do Cliente: {winner?.client_id}</li>

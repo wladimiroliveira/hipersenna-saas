@@ -39,7 +39,7 @@ export function Register({ onLoading }) {
   async function handleCreateUser(data) {
     const cpf = useCpfStore.getState();
     // 1️⃣ Criar cliente
-    const clientRes = await fetch(`https://api.hipersenna.com/raffle-clients`, {
+    const clientRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/raffle-clients`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...data, cpf: cpf.cpf }),

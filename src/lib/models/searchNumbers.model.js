@@ -20,7 +20,7 @@ export function SearchNumbers() {
       if (!data?.cpf) {
         return;
       }
-      const responseResult = await fetch(`https://api.hipersenna.com/raffles?cpf=${data?.cpf}`, {
+      const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/raffles?cpf=${data?.cpf}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${data?.cpf}`,
