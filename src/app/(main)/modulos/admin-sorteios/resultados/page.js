@@ -1,5 +1,6 @@
 "use client";
 
+import { getDrawResults } from "@/components/services/drawResults.service";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
@@ -32,9 +33,10 @@ export default function Page() {
       setLoading(true);
       if (!data.branch_id) return setLoading(false);
       const url = `${process.env.NEXT_PUBLIC_API_URL}/raffles?status=SORTEADO&branch_id=${data.branch_id}`;
-      const responseResult = await fetch(url);
-      const responseValue = await responseResult.json();
-      console.log(responseValue);
+      const responseValue = await getDrawResults(url);
+      if (responseValue.ok) {
+        setRafflesDrawn(responseValue?.raffles);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -98,7 +100,7 @@ export default function Page() {
         {rafflesDrawn ? (
           <div className="flex flex-row flex-wrap gap-4 justify-center p-4">
             {rafflesDrawn.map((raffle) => (
-              <Card className="w-3xs">
+              <Card className="w-lg">
                 <CardHeader>
                   <CardTitle>
                     Rifa <strong>#{raffle.raffle_number}</strong>
@@ -106,16 +108,25 @@ export default function Page() {
                   <CardContent>
                     <ul>
                       <li>
-                        ID do Cliente: <strong>{raffle.client_id}</strong>
+                        CPF do Cliente: <strong>{raffle?.hsraffle_clients?.cpf}</strong>
                       </li>
                       <li>
-                        Filial: <strong>{raffle.branch_id}</strong>
+                        Número de Telefone: <strong>{raffle?.hsraffle_clients?.telephone}</strong>
                       </li>
                       <li>
-                        Chave NFC: <strong>{raffle.nfc_key}</strong>
+                        ID do Cliente: <strong>{raffle?.client_id}</strong>
                       </li>
                       <li>
-                        Status: <strong>{raffle.status}</strong>
+                        Chave NFC: <strong>{raffle?.nfc_key}</strong>
+                      </li>
+                      <li>
+                        Código da Rifa: <strong>{raffle?.raffle_number}</strong>
+                      </li>
+                      <li>
+                        Filial: <strong>{raffle?.branch_id}</strong>
+                      </li>
+                      <li>
+                        Status: <strong>{raffle?.status}</strong>
                       </li>
                     </ul>
                   </CardContent>
