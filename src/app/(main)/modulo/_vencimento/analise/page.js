@@ -1,4 +1,4 @@
-import { ValidityAnylises } from "@/components/controlers/validity.controller";
+import { ValidityAnylises } from "@/components/controllers/validity.controller";
 
 export default function Page() {
   return (

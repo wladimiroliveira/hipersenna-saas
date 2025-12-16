@@ -1,4 +1,4 @@
-import { SignUpController } from "@/components/controlers/signUp.controller";
+import { SignUpController } from "@/components/controllers/signUp.controller";
 
 export default function Page() {
   return (

@@ -1,4 +1,4 @@
-import { PermissionsController } from "@/components/controlers/permissions.controller";
+import { PermissionsController } from "@/components/controllers/permissions.controller";
 
 export default function Page() {
   return (
