@@ -8,6 +8,7 @@ import { DicesIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function Page() {
   const {
@@ -35,6 +36,9 @@ export default function Page() {
           client_id: drawValue?.client_id,
           nfc_key: drawValue?.nfc_key,
           raffle_number: drawValue?.raffle_number,
+          cpf: drawValue?.hsraffle_clients?.cpf,
+          name: drawValue?.hsraffle_clients?.name,
+          telephone: drawValue?.hsraffle_clients?.telephone,
           branch_id: drawValue?.branch_id,
           status: drawValue?.status,
           created_at: drawValue?.created_at,
@@ -80,9 +84,23 @@ export default function Page() {
                   </Select>
                 )}
               />
-              <Button className="bg-quartenaria hover:bg-hover-quartenaria cursor-pointer" type="submit" size="lg">
-                Sortear
-                <DicesIcon />
+              <Button
+                disabled={loading}
+                className="bg-quartenaria hover:bg-hover-quartenaria cursor-pointer"
+                type="submit"
+                size="lg"
+              >
+                {loading ? (
+                  <>
+                    Sorteando
+                    <Spinner />
+                  </>
+                ) : (
+                  <>
+                    Sortear
+                    <DicesIcon />
+                  </>
+                )}
               </Button>
             </FieldGroup>
           </FieldSet>
@@ -90,13 +108,29 @@ export default function Page() {
         <div>
           {winner ? (
             <div className="flex flex-col gap-2 w-fit max-w-150 m-auto mt-2 p-4 bg-gray-200 rounded-2xl">
-              <h2 className="text-center text-lg font-bold">Nome do ganhador</h2>
+              <h2 className="text-center text-lg font-bold">{winner?.name}</h2>
               <ul>
-                <li>ID do Cliente: {winner?.client_id}</li>
-                <li>Chave NFC: {winner?.nfc_key}</li>
-                <li>Número da Rifa: {winner?.raffle_number}</li>
-                <li>Filial: {winner?.branch_id}</li>
-                <li>Status: {winner?.status}</li>
+                <li>
+                  CPF do Cliente: <strong>{winner?.cpf}</strong>
+                </li>
+                <li>
+                  Número de Telefone: <strong>{winner?.telephone}</strong>
+                </li>
+                <li>
+                  ID do Cliente: <strong>{winner?.client_id}</strong>
+                </li>
+                <li>
+                  Chave NFC: <strong>{winner?.nfc_key}</strong>
+                </li>
+                <li>
+                  Código da Rifa: <strong>{winner?.raffle_number}</strong>
+                </li>
+                <li>
+                  Filial: <strong>{winner?.branch_id}</strong>
+                </li>
+                <li>
+                  Status: <strong>{winner?.status}</strong>
+                </li>
               </ul>
             </div>
           ) : (
@@ -108,7 +142,7 @@ export default function Page() {
         <p className="text-center">
           <Link
             className="italic underline text-quartenaria hover:text-hover-quartenaria"
-            href="../modulo/admin-sorteios/resultados"
+            href="../modulos/admin-sorteios/resultados"
           >
             Clique aqui
           </Link>{" "}
