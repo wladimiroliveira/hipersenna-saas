@@ -1,4 +1,4 @@
-import { TreatmentController } from "@/components/controlers/treatment.controller";
+import { TreatmentController } from "@/components/controllers/treatment.controller";
 
 export default function Page() {
   return (
