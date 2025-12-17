@@ -1,17 +1,26 @@
 "use client";
 
 import { PermissionsView } from "@/components/views/permissions.view";
-import { useState } from "react";
-import permissionsData from "@/files/permissions.json";
+import { useEffect, useState } from "react";
 import { getUser } from "@/lib/models/users.model";
 import { deleteUserPermissions, getUserPermissions, postUserPermissions } from "@/lib/models/permissions.model";
+import { getPermissions } from "@/components/services/getPermissions.service";
 
 export function PermissionsController() {
   const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState([]);
   const [showPermissions, setShowPermissions] = useState(false);
+  const [permissions, setPermissions] = useState(false);
   const [permissionMessage, setPermissionMessage] = useState("");
   const [userPermissions, setUserPermissions] = useState([]);
+
+  useEffect(() => {
+    async function handleGetPermissions() {
+      const permissionsValue = await getPermissions();
+      setPermissions(permissionsValue.permissions);
+    }
+    handleGetPermissions();
+  }, []);
 
   async function searchUser(data) {
     try {
@@ -56,7 +65,7 @@ export function PermissionsController() {
         onSendPermissions={sendPermissions}
         onRemovePermissions={removePermissions}
         loading={loading}
-        permissions={permissionsData}
+        permissions={permissions}
         username={userInfo?.name}
         showPermissions={showPermissions}
         userPermissions={userPermissions}
