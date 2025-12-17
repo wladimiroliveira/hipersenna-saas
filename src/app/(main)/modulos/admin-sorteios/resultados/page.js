@@ -111,6 +111,9 @@ export default function Page() {
                         CPF do Cliente: <strong>{raffle?.hsraffle_clients?.cpf}</strong>
                       </li>
                       <li>
+                        Nome do Cliente: <strong>{raffle?.hsraffle_clients?.name}</strong>
+                      </li>
+                      <li>
                         Número de Telefone: <strong>{raffle?.hsraffle_clients?.telephone}</strong>
                       </li>
                       <li>
