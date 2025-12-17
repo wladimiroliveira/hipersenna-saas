@@ -18,7 +18,7 @@ afterAll(async () => {
 let id;
 
 test("DELETE to /api/v1/users/users/[id] should return 200", async () => {
-  const signUpResult = await fetch("http://localhost:3000/api/v1/users", {
+  const signUpResult = await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -38,7 +38,7 @@ test("DELETE to /api/v1/users/users/[id] should return 200", async () => {
   });
   const signUpValue = await signUpResult.json();
   id = signUpValue[0].id;
-  const responseResult = await fetch(`http://localhost:3000/api/v1/users/${id}`, {
+  const responseResult = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/v1/users/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

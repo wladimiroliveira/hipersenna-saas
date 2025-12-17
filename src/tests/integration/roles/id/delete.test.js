@@ -6,7 +6,7 @@ beforeAll(async () => {
   let result = await userHandle(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
   token = result.token;
   await database.query("DELETE FROM hsroles WHERE id > 3; ALTER SEQUENCE public.hsroles_id_seq RESTART WITH 4;");
-  await fetch("http://localhost:3000/api/v1/roles", {
+  await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/roles", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,7 +25,7 @@ afterAll(async () => {
 });
 
 test("DELETE to /api/v1/roles/[id] should return something", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/roles/4", {
+  const responseResult = await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/roles/4", {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,

@@ -19,6 +19,7 @@ import { createRaffleModel } from "@/components/services/createRaffle.service";
 import { useRafflesStore } from "@/store/raffles.store";
 import { useCpfStore } from "@/store/cpf.store";
 import { useCupomStore } from "@/store/cupom.store";
+import { createUser } from "@/components/services/createUser.service";
 
 export function Register({ onLoading }) {
   const { cupom, clearCupom, setCupom } = useCupomStore();
@@ -39,17 +40,9 @@ export function Register({ onLoading }) {
   async function handleCreateUser(data) {
     const cpf = useCpfStore.getState();
     // 1️⃣ Criar cliente
-    const clientRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/raffle-clients`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...data, cpf: cpf.cpf }),
-    });
+    const clientData = await createUser(data, cpf.cpf);
 
-    const clientData = await clientRes.json();
-    console.log(clientData);
-    console.log(cpf);
-
-    if (!clientRes.ok) {
+    if (!clientData.ok) {
       if (clientData.message) {
         setModalInfo({
           title: "Atenção",

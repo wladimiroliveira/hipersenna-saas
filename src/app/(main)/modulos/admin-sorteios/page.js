@@ -29,7 +29,6 @@ export default function Page() {
     try {
       setLoading(true);
       const drawValue = await drawRaffles(data.branch_id);
-      console.log(drawValue);
       if (drawValue.ok) {
         setWinner({
           id: drawValue?.id,

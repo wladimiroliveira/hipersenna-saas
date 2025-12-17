@@ -7,7 +7,7 @@ beforeAll(async () => {
 });
 
 test("DELETE to /api/v1/sessions/me should return 200", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/sessions/me", {
+  const responseResult = await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/sessions/me", {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,

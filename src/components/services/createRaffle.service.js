@@ -1,3 +1,5 @@
+"use server";
+
 export async function createRaffleModel(nfcInfo, cpf) {
   try {
     let cupomData = {};

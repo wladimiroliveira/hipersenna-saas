@@ -23,7 +23,6 @@ export function SignUpController() {
           role_id: Number(data[0].role),
         },
       ]);
-      console.log(signUpValue);
       if (signUpValue.ok) {
         setAlert({
           type: "success",

@@ -9,11 +9,11 @@ services:
     ports:
       - 5432:5432
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
 
   api:
     container_name: "dev-api"
@@ -30,3 +30,11 @@ services:
     command: sh -c "npx prisma migrate dev && npx prisma db seed && npm run dev"
     ports:
       - 3333:3333
+
+  # saas:
+  #   container_name: "saas"
+  #   image: oliveirawladimir/hipersenna-saas:2.2.1
+  #   env_file:
+  #     - ../../.env.production
+  #   ports:
+  #     - 3000:3000

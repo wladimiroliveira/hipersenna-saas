@@ -8,7 +8,7 @@ beforeAll(async () => {
   );
   let result = await userHandle(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
   token = result.token;
-  await fetch("http://localhost:3000/api/v1/users", {
+  await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -35,7 +35,7 @@ afterAll(async () => {
 });
 
 test("GET to api/v1/users/[id] should return 200", async () => {
-  const responseResult = await fetch(`http://localhost:3000/api/v1/users/2`, {
+  const responseResult = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/v1/users/2`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
