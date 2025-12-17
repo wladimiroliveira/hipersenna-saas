@@ -7,7 +7,7 @@ beforeAll(async () => {
 });
 
 test("GET to /api/v1/users/me should return 200", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/users/me", {
+  const responseResult = await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/users/me", {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,

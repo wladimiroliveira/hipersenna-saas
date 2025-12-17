@@ -9,7 +9,7 @@ beforeAll(async () => {
 });
 
 test("POST to /api/v1/roles should return 201", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/roles", {
+  const responseResult = await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/roles", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

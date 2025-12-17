@@ -31,8 +31,6 @@ export async function signUpModel(data) {
           status: userResult.status,
         };
       }
-      console.log(responseValue);
-      // console.log(data);
     } catch (err) {
       console.error(err);
       throw err;

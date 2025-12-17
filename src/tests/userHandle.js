@@ -1,5 +1,5 @@
 export async function userHandle(username, password) {
-  const userValue = await fetch("http://localhost:3000/api/v1/users/token", {
+  const userValue = await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/users/token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

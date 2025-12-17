@@ -16,7 +16,7 @@ afterAll(async () => {
 });
 
 test("PATCH to /api/v1/users/[id] should return 200", async () => {
-  const postUser = await fetch("http://localhost:3000/api/v1/users", {
+  const postUser = await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -36,7 +36,7 @@ test("PATCH to /api/v1/users/[id] should return 200", async () => {
     ]),
   });
 
-  const responseResult = await fetch("http://localhost:3000/api/v1/users/2", {
+  const responseResult = await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/users/2", {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

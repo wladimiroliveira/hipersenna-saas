@@ -34,7 +34,6 @@ export function RegisterCupomContainer({ onLoading }) {
     setOpen(bool);
 
     if (!bool && redirectPath) {
-      console.log(redirectPath);
       router.push(redirectPath);
       setRedirectPath(null);
     }
@@ -44,7 +43,6 @@ export function RegisterCupomContainer({ onLoading }) {
     onLoading(true);
     const cpf = useCpfStore.getState();
     const createRaffleResult = await createRaffleModel(data, cpf.cpf);
-    // console.log(createRaffleResult);
     if (createRaffleResult.ok) {
       clearRaffles();
       setRaffles(createRaffleResult?.raffles);

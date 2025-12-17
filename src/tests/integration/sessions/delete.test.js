@@ -8,7 +8,7 @@ beforeAll(async () => {
   );
   let result = await userHandle(process.env.ADMIN_USER, process.env.ADMIN_PASSWORD);
   token = result.token;
-  await fetch("http://localhost:3000/api/v1/users", {
+  await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -27,7 +27,7 @@ beforeAll(async () => {
       },
     ]),
   }).then((r) => r.json());
-  await fetch("http://localhost:3000/api/v1/signin", {
+  await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/signin", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -48,7 +48,7 @@ afterAll(async () => {
 });
 
 test("DELETE to /api/v1/sessions with active sessions should return 200", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/sessions", {
+  const responseResult = await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/sessions", {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -62,7 +62,7 @@ test("DELETE to /api/v1/sessions with active sessions should return 200", async 
 });
 
 test("DELETE to /api/v1/sessions with 0 sessions should return 200", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/sessions", {
+  const responseResult = await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/sessions", {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,

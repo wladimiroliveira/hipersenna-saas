@@ -9,7 +9,7 @@ beforeAll(async () => {
 });
 
 test("PATCH to /api/v1/roles/[id] should return something", async () => {
-  const postRole = await fetch("http://localhost:3000/api/v1/roles", {
+  const postRole = await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/roles", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -23,7 +23,7 @@ test("PATCH to /api/v1/roles/[id] should return something", async () => {
     ]),
   });
 
-  const responseResult = await fetch("http://localhost:3000/api/v1/roles/4", {
+  const responseResult = await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/roles/4", {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

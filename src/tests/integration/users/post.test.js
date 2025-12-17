@@ -16,7 +16,7 @@ afterAll(async () => {
 });
 
 test("POST to /api/v1/users/users/singup should return 201", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/users", {
+  const responseResult = await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -43,7 +43,7 @@ test("POST to /api/v1/users/users/singup should return 201", async () => {
 });
 
 test("POST with existing credentials should return 409", async () => {
-  const responseResult = await fetch("http://localhost:3000/api/v1/users", {
+  const responseResult = await fetch("${process.env.NEXT_PUBLIC_APP_URL}/api/v1/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
