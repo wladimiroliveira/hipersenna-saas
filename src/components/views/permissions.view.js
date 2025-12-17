@@ -112,22 +112,26 @@ export function PermissionsContainer({
       <div className="flex flex-row h-100">
         <form className="flex flex-row flex-1 min-h-0 w-full">
           <div className="flex flex-col border-1 border-primaria gap-2 rounded-l-md p-2 pt-4 pb-4 overflow-y-scroll min-h-0 flex-1">
-            {permissions.map((permission) => (
-              <Controller
-                key={"permission" + permission.id}
-                name={`${"p " + permission.id}`}
-                control={sendControl}
-                defaultValue={false}
-                render={({ field }) => (
-                  <div className="flex gap-2 items-center">
-                    <Checkbox id={String(permission.id)} checked={field.value} onCheckedChange={field.onChange} />
-                    <Label htmlFor={String(permission.id)}>
-                      {permission.id} - {permission.name}
-                    </Label>
-                  </div>
-                )}
-              />
-            ))}
+            {permissions ? (
+              permissions.map((permission) => (
+                <Controller
+                  key={"permission" + permission.id}
+                  name={`${"p " + permission.id}`}
+                  control={sendControl}
+                  defaultValue={false}
+                  render={({ field }) => (
+                    <div className="flex gap-2 items-center">
+                      <Checkbox id={String(permission.id)} checked={field.value} onCheckedChange={field.onChange} />
+                      <Label htmlFor={String(permission.id)}>
+                        {permission.id} - {permission.name}
+                      </Label>
+                    </div>
+                  )}
+                />
+              ))
+            ) : (
+              <></>
+            )}
           </div>
           <div className="flex flex-col justify-center gap-4 h-full p-2">
             <button type="button" onClick={handleSend}>
