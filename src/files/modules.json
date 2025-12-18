@@ -85,5 +85,14 @@
     "path": "/modulos/conhecimento",
     "roles": [],
     "permissions": []
+  },
+  {
+    "id": "sorteio",
+    "name": "Sorteio",
+    "buttonText": "Acessar",
+    "description": "Realize sorteios e visualize os resultados dos sorteios",
+    "path": "/modulos/admin-sorteios",
+    "roles": [1, 2, 3],
+    "permissions": []
   }
 ]

@@ -1,4 +1,4 @@
-import "./globals.css";
+import "../globals.css";
 import { roboto } from "@/components/fonts";
 
 export const metadata = {

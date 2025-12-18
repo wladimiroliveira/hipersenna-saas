@@ -1,10 +1,12 @@
 "use server";
 
 import { getToken } from "@/lib/token/getToken";
+import { cookies } from "next/headers";
 
 export async function getAllUsers() {
   try {
-    const token = await getToken();
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
     const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
       method: "GET",
       headers: {
@@ -37,7 +39,6 @@ export async function getUser(queryMode, id) {
       },
     });
     const responseValue = await responseResult.json();
-    console.log(responseValue);
     const user = {
       ...responseValue[0],
       hsusers_roles: responseValue[0].role_id,

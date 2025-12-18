@@ -70,12 +70,7 @@ export function ValidityAnylises() {
     }
   }
 
-  async function handleSubmit(data) {
-    console.log({
-      ...data,
-      prod: prodCod,
-    });
-  }
+  async function handleSubmit(data) {}
 
   async function handleInputsClear() {
     setProdDesc("Consulte um produto...");

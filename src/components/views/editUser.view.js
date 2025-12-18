@@ -48,8 +48,6 @@ export function EditUserMenu({ user }) {
     if (clickSubmit) return;
     setClickSubmit(true);
 
-    console.log(data);
-
     const userInfo = {
       name: data.name,
       username: data.username,
@@ -61,7 +59,6 @@ export function EditUserMenu({ user }) {
     if (!userInfo.password?.trim()) delete userInfo.password;
 
     const editUserValue = await editUser(user.id, userInfo);
-    console.log(editUserValue);
     if (editUserValue.ok) {
       setAlert({
         type: "success",

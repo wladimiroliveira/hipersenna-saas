@@ -3,7 +3,6 @@
 import { getToken } from "@/lib/token/getToken";
 
 export async function changeTreatment(data) {
-  console.log(data);
   try {
     const token = await getToken();
     const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/validities`, {

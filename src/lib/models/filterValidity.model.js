@@ -24,4 +24,3 @@ function buildUrl(params) {
 }
 
 const test = buildUrl({ validDate, insertDate, quantDays, codProduct, branchId });
-console.log(test);
