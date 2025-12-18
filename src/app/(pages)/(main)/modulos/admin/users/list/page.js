@@ -1,13 +1,20 @@
+"use client";
+
 import { DataTable } from "@/components/views/dataTable.view";
 import { columns } from "@/app/(pages)/(main)/modulos/admin/users/list/columns";
 import { getAllUsers } from "@/lib/models/users.model";
+import { Suspense, useEffect, useState } from "react";
 
-export default async function Page() {
-  const { users } = await getAllUsers();
+export default function Page() {
+  const [users, setUsers] = useState(false);
 
-  if (!users) {
-    return <div>Carregando...</div>;
-  }
+  useEffect(() => {
+    async function handleGetUsers() {
+      const { users } = await getAllUsers();
+      setUsers(users);
+    }
+    handleGetUsers();
+  }, []);
 
   return (
     <div className="min-h-[90vh] pl-4 pr-4">
@@ -15,7 +22,15 @@ export default async function Page() {
         <h1 className="text-4xl text-primaria font-bold">Lista de Usuários</h1>
       </div>
       <div className="max-w-[1060px] m-auto">
-        <DataTable columns={columns} data={users} searchColumn={"name"} />
+        <Suspense
+          fallback={
+            <div>
+              <p>Loading...</p>
+            </div>
+          }
+        >
+          <DataTable columns={columns} data={users} searchColumn={"name"} />
+        </Suspense>
       </div>
     </div>
   );

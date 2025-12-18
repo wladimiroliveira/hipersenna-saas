@@ -29,34 +29,38 @@ export function Navigation() {
           <Image src="/navbar/logo-hipersenna.svg" width={37} height={26} alt="Logo Hipersenna" />
         </Link>
         <ul className="flex flex-row items-center gap-8">
-          {pathnames
-            .filter((path) => {
-              const hasPermission = user.permissions
-                ? path.permissions.some((p) => user.permissions.includes(p))
-                : false;
-              const hasRole = user.role_id ? path.roles.includes(user.role_id) : false;
-              let isPublic;
-              if (path.roles.length === 0 && path.permissions.length === 0) {
-                isPublic = true;
-              } else {
-                isPublic = false;
-              }
-              return isPublic || hasRole || hasPermission;
-            })
-            .map((path) => (
-              <li key={path.id}>
-                <Link href={path.path} className="flex flex-row mt-1 items-center justify-center gap-2">
-                  <span
-                    className={clsx("transition-colors text-sm text-secundaria  hover:text-gray-400 pb-0", {
-                      "shadow-underline hover:shadow-underline-hover":
-                        pathname.split("/")[2] === path.id || pathname.split("/")[1] === path.id,
-                    })}
-                  >
-                    {path.name}
-                  </span>
-                </Link>
-              </li>
-            ))}
+          {pathnames ? (
+            pathnames
+              .filter((path) => {
+                const hasPermission = user?.permissions
+                  ? path?.permissions.some((p) => user?.permissions.includes(p))
+                  : false;
+                const hasRole = user?.role_id ? path?.roles.includes(user?.role_id) : false;
+                let isPublic;
+                if (path?.roles.length === 0 && path?.permissions.length === 0) {
+                  isPublic = true;
+                } else {
+                  isPublic = false;
+                }
+                return isPublic || hasRole || hasPermission;
+              })
+              .map((path) => (
+                <li key={path?.id}>
+                  <Link href={path?.path} className="flex flex-row mt-1 items-center justify-center gap-2">
+                    <span
+                      className={clsx("transition-colors text-sm text-secundaria  hover:text-gray-400 pb-0", {
+                        "shadow-underline hover:shadow-underline-hover":
+                          pathname.split("/")[2] === path?.id || pathname.split("/")[1] === path?.id,
+                      })}
+                    >
+                      {path?.name}
+                    </span>
+                  </Link>
+                </li>
+              ))
+          ) : (
+            <></>
+          )}
         </ul>
         <div>
           <DropdownMenu modal={false}>
