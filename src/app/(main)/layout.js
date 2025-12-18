@@ -12,7 +12,7 @@ export default function Layout({ children }) {
               <Navigation />
             </nav>
           </header>
-          <div className="pt-[64px] max-w-[1260px] m-auto">{children}</div>
+          <div className="pt-16 max-w-7xl m-auto">{children}</div>
         </body>
       </html>
     </>
