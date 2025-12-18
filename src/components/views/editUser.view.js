@@ -18,6 +18,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Controller, useForm } from "react-hook-form";
 
 import branches from "@/files/branches.json";
+import roles from "@/files/roles.json";
+
 import { editUser } from "@/lib/models/users.model";
 import { deleteUser } from "@/lib/models/users.model";
 import { ErrorAlert, SuccessAlert } from "./alert.view";
@@ -35,6 +37,7 @@ export function EditUserMenu({ user }) {
       name: user.name,
       username: user.username,
       branch_id: String(user.branch_id),
+      role_id: String(user.role_id),
     },
   });
 
@@ -45,16 +48,20 @@ export function EditUserMenu({ user }) {
     if (clickSubmit) return;
     setClickSubmit(true);
 
+    console.log(data);
+
     const userInfo = {
       name: data.name,
       username: data.username,
       password: data.password,
-      branch_id: parseInt(data.branch_id),
+      branch_id: Number(data.branch_id),
+      role_id: Number(data.role_id),
     };
 
     if (!userInfo.password?.trim()) delete userInfo.password;
 
     const editUserValue = await editUser(user.id, userInfo);
+    console.log(editUserValue);
     if (editUserValue.ok) {
       setAlert({
         type: "success",
@@ -157,6 +164,27 @@ export function EditUserMenu({ user }) {
                         {branches.map((b) => (
                           <SelectItem key={b.id} value={`${b.number}`}>
                             {b.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+              </div>
+              <div className="flex-1">
+                <Label>Cargo</Label>
+                <Controller
+                  name="role_id"
+                  control={control}
+                  render={({ field }) => (
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger className="border-primaria w-full">
+                        <SelectValue placeholder="Selecionar" />
+                      </SelectTrigger>
+                      <SelectContent className="border-primaria">
+                        {roles.map((r) => (
+                          <SelectItem key={r.id} value={`${r.id}`}>
+                            {r.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
