@@ -37,7 +37,6 @@ export async function getUser(queryMode, id) {
       },
     });
     const responseValue = await responseResult.json();
-    console.log(responseValue);
     const user = {
       ...responseValue[0],
       hsusers_roles: responseValue[0].role_id,

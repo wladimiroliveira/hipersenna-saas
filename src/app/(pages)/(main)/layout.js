@@ -1,4 +1,4 @@
-import "../globals.css";
+import "../../globals.css";
 import { Navigation } from "@/components/views/navigation.view";
 import { roboto } from "@/components/fonts";
 

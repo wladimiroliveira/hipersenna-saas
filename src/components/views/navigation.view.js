@@ -20,7 +20,6 @@ import { usePathname } from "next/navigation";
 
 export function Navigation() {
   const { user } = useUserStore.getState();
-  console.log(user);
   const pathname = usePathname();
 
   return (
