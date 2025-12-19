@@ -1,7 +1,7 @@
 "use server";
 
-import { getToken } from "@/lib/token/getToken";
-import { deleteToken } from "@/lib/token/deleteToken";
+import { getToken } from "@/components/services/getToken.service";
+import { deleteToken } from "@/components/services/deleteToken.service";
 
 export async function signOut() {
   try {
@@ -14,7 +14,7 @@ export async function signOut() {
     });
     const responseValue = await responseResult.json();
     if (responseResult.ok) {
-      await deleteToken("token");
+      await deleteToken();
     }
     return {
       ok: responseResult.ok,

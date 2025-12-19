@@ -1,6 +1,6 @@
 "use client";
 
-import { SignOutButton } from "@/lib/models/signOutButton.model";
+import { SignOutButton } from "@/components/views/signOutButton.view";
 import clsx from "clsx";
 import Link from "next/link";
 import Image from "next/image";

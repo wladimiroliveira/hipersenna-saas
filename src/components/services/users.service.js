@@ -1,12 +1,10 @@
 "use server";
 
-import { getToken } from "@/lib/token/getToken";
-import { cookies } from "next/headers";
+import { getToken } from "@/components/services/getToken.service";
 
 export async function getAllUsers() {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    const token = await getToken();
     const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
       method: "GET",
       headers: {
