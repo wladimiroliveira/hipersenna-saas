@@ -21,6 +21,13 @@
     "permissions": [16, 17, 18, 19, 20, 21, 22, 24]
   },
   {
+    "name": "Sorteio",
+    "id": "admin-sorteios",
+    "path": "/modulos/admin-sorteios",
+    "roles": [1, 2, 3],
+    "permissions": []
+  },
+  {
     "name": "Conhecimento",
     "id": "conhecimento",
     "path": "/modulos/conhecimento",
