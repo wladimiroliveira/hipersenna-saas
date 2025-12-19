@@ -10,21 +10,21 @@
     "name": "Admin",
     "id": "admin",
     "path": "/modulos/admin",
-    "roles": [1, 2],
+    "roles": [1],
     "permissions": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 25, 26, 27]
   },
   {
     "name": "Vencimento",
     "id": "vencimento",
     "path": "/modulos/vencimento",
-    "roles": [1, 2, 3],
+    "roles": [1],
     "permissions": [16, 17, 18, 19, 20, 21, 22, 24]
   },
   {
     "name": "Conhecimento",
     "id": "conhecimento",
     "path": "/modulos/conhecimento",
-    "roles": [],
+    "roles": [1],
     "permissions": []
   }
 ]

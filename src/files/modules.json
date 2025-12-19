@@ -5,7 +5,7 @@
     "description": "Gerencie e administre os recursos do sistema através deste módulo",
     "path": "/modulos/admin",
     "buttonText": "Acessar",
-    "roles": [1, 2],
+    "roles": [1],
     "permissions": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 25, 26, 27],
     "submodules": [
       {
@@ -14,7 +14,7 @@
         "description": "Adicione, edite, ou remova usuários através deste menu",
         "path": "/modulos/admin/users",
         "buttonText": "Acessar",
-        "roles": [1, 2],
+        "roles": [1],
         "permissions": [1, 2, 3, 4, 13, 15, 25, 26],
         "submodules": [
           {
@@ -23,7 +23,7 @@
             "description": "Visualize todos os usuários através desta lista",
             "path": "/modulos/admin/users/list",
             "buttonText": "Visualizar",
-            "roles": [1, 2],
+            "roles": [1],
             "permissions": [1, 2, 3, 4, 13, 15, 25, 26]
           },
           {
@@ -32,7 +32,7 @@
             "description": "Crie novos usuários através desse link",
             "path": "/modulos/admin/users/create",
             "buttonText": "Criar",
-            "roles": [1, 2],
+            "roles": [1],
             "permissions": [1, 2, 3, 4, 13, 15, 25, 26]
           },
           {
@@ -41,7 +41,7 @@
             "description": "Adicione ou remova permissões de forma personalizada para os usuários",
             "path": "/modulos/admin/users/permissions",
             "buttonText": "Acessar",
-            "roles": [1, 2],
+            "roles": [1],
             "permissions": [1, 2, 3, 4, 13, 15, 25, 26]
           }
         ]
@@ -54,7 +54,7 @@
     "description": "Analise, adicione ou solicite vistorias de vencimento através do módulo de vencimento",
     "path": "/modulos/vencimento",
     "buttonText": "Acessar",
-    "roles": [1, 2, 3],
+    "roles": [1],
     "permissions": [16, 17, 18, 19, 20, 21, 22, 24],
     "submodules": [
       {
@@ -63,7 +63,7 @@
         "description": "Realize a análise dos vencimentos de produtos através deste menu",
         "path": "/modulos/vencimento/analise",
         "buttonText": "Acessar",
-        "roles": [1, 2, 3],
+        "roles": [1],
         "permissions": [20, 21, 22]
       },
       {
@@ -72,7 +72,7 @@
         "description": "Insira aqui todos as atualizações de tratamento de vencimentos",
         "path": "/modulos/vencimento/tratamento",
         "buttonText": "Acessar",
-        "roles": [1, 2, 3],
+        "roles": [1],
         "permissions": []
       }
     ]
@@ -83,7 +83,7 @@
     "buttonText": "Acessar",
     "description": "Se mantenha atualizado com relação aos processos mais importantes do seu setor através do módulo de conhecimento",
     "path": "/modulos/conhecimento",
-    "roles": [],
+    "roles": [1],
     "permissions": []
   },
   {
