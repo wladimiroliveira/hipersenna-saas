@@ -1,7 +1,7 @@
 "use server";
 
 import { NextResponse } from "next/server";
-import { getToken } from "@/lib/token/getToken";
+import { getToken } from "@/components/services/getToken.service";
 
 export async function GET(req) {
   try {

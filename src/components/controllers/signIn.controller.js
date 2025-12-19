@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { useState } from "react";
 import { SignInForm } from "@/components/views/signIn.view";
-import { signIn } from "@/lib/models/signIn.model";
+import { signIn } from "@/components/services/signIn.service";
 import { ErrorAlert, SuccessAlert } from "@/components/views/alert.view";
 import { useUserStore } from "@/store/user.store";
 

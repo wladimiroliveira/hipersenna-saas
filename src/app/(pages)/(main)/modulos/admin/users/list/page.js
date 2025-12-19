@@ -2,7 +2,7 @@
 
 import { DataTable } from "@/components/views/dataTable.view";
 import { columns } from "@/app/(pages)/(main)/modulos/admin/users/list/columns";
-import { getAllUsers } from "@/lib/models/users.model";
+import { getAllUsers } from "@/components/services/users.service";
 import { Suspense, useEffect, useState } from "react";
 
 export default function Page() {

@@ -20,8 +20,8 @@ import { Controller, useForm } from "react-hook-form";
 import branches from "@/files/branches.json";
 import roles from "@/files/roles.json";
 
-import { editUser } from "@/lib/models/users.model";
-import { deleteUser } from "@/lib/models/users.model";
+import { editUser } from "@/components/services/users.service";
+import { deleteUser } from "@/components/services/users.service";
 import { ErrorAlert, SuccessAlert } from "./alert.view";
 import { useRouter } from "next/navigation";
 

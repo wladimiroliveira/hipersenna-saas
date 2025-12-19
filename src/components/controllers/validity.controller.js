@@ -4,8 +4,8 @@ import { ValidityFilter } from "@/components/views/filterValidity.view";
 import { DataTable } from "@/components/views/dataTable.view";
 import { columns } from "@/app/(main)/modulo/vencimento/analise/columns";
 import validities from "@/files/validityData.json";
-import { DownloadTable } from "@/lib/models/xlsxHandler.model";
-import { searchProd } from "@/lib/models/searchProd.model";
+import { DownloadTable } from "@/components/services/xlsxHandler.service";
+import { searchProd } from "@/components/services/searchProd.service";
 
 export function ValidityAnylises() {
   const [prodDesc, setProdDesc] = useState("Consulte o produto...");

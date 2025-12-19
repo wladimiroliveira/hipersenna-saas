@@ -1,6 +1,6 @@
 "use server";
 
-import { getToken } from "@/lib/token/getToken";
+import { getToken } from "@/components/services/getToken.service";
 
 export async function getUserPermissions(id) {
   try {

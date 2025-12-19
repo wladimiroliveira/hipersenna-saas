@@ -4,8 +4,8 @@ import { useState } from "react";
 import estilos from "@/components/ui/styles/treatment.module.css";
 import { Check, Clock10Icon, Save } from "lucide-react";
 import clsx from "clsx";
-import { UploadTable } from "@/lib/models/xlsxHandler.model";
-import { changeTreatment } from "@/lib/models/treatment.model";
+import { UploadTable } from "@/components/services/xlsxHandler.service";
+import { changeTreatment } from "@/components/services/treatment.service";
 
 export function TreatmentController() {
   const [labelInsert, setLabelInsert] = useState("");

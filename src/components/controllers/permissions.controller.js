@@ -2,8 +2,12 @@
 
 import { PermissionsView } from "@/components/views/permissions.view";
 import { useEffect, useState } from "react";
-import { getUser } from "@/lib/models/users.model";
-import { deleteUserPermissions, getUserPermissions, postUserPermissions } from "@/lib/models/permissions.model";
+import { getUser } from "@/components/services/users.service";
+import {
+  deleteUserPermissions,
+  getUserPermissions,
+  postUserPermissions,
+} from "@/components/services/permissions.service";
 import { getPermissions } from "@/components/services/getPermissions.service";
 
 export function PermissionsController() {
