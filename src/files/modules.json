@@ -47,7 +47,7 @@
         ]
       },
       {
-        "id": "roles",
+        "id": "cargos",
         "name": "Cargos",
         "description": "Adicione, edite, ou remova cargos através deste menu",
         "path": "/modulos/admin/cargos",
