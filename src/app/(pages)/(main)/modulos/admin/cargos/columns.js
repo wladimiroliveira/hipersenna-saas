@@ -4,6 +4,15 @@ import { DeleteRoleMenu, EditRoleMenu } from "@/components/views/roles.view";
 
 export const columns = [
   {
+    accessorKey: "id",
+    header: <div className="pl-8">Id</div>,
+    cell: ({ row }) => {
+      const id = row.original;
+
+      return <p className="pl-8">{id.id}</p>;
+    },
+  },
+  {
     accessorKey: "name",
     header: <div className="pl-8">Nome</div>,
     cell: ({ row }) => {

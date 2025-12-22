@@ -3,31 +3,15 @@
 import { useEffect, useState } from "react";
 import { columns } from "./columns";
 import { DataTable } from "./datatable";
+import { getRoles } from "@/components/services/role.service";
 
 async function getData() {
-  return [
-    {
-      name: "Admin",
-      description: "Top level role",
-    },
-    {
-      name: "Pescador",
-      description: "Top level role",
-    },
-    {
-      name: "Corredor",
-      description: "Top level role",
-    },
-    {
-      name: "Admin",
-      description: "Top level role",
-    },
-    {
-      name: "Admin",
-      description:
-        "Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role Top level role ",
-    },
-  ];
+  const roles = await getRoles();
+  if (!roles?.ok) {
+    alert("Erro ao carregar cargos");
+    return;
+  }
+  return roles?.roles;
 }
 
 export default function Page() {

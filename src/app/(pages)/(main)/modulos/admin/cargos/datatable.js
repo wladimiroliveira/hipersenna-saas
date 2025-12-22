@@ -3,7 +3,6 @@
 import {
   flexRender,
   getCoreRowModel,
-  ColumnFiltersState,
   getFilteredRowModel,
   useReactTable,
   getPaginationRowModel,
@@ -14,7 +13,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { PlusIcon } from "lucide-react";
 import { CreateRoleMenu } from "@/components/views/roles.view";
 
 export function DataTable({ columns, data }) {
