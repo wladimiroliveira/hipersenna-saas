@@ -45,6 +45,15 @@
             "permissions": [1, 2, 3, 4, 13, 15, 25, 26]
           }
         ]
+      },
+      {
+        "id": "roles",
+        "name": "Cargos",
+        "description": "Adicione, edite, ou remova cargos através deste menu",
+        "path": "/modulos/admin/cargos",
+        "buttonText": "Acessar",
+        "roles": [1],
+        "permissions": [1, 2, 3, 4, 13, 15, 25, 26]
       }
     ]
   },
