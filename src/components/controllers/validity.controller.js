@@ -2,10 +2,11 @@
 import { useState } from "react";
 import { ValidityFilter } from "@/components/views/filterValidity.view";
 import { DataTable } from "@/components/views/dataTable.view";
-import { columns } from "@/app/(main)/modulo/vencimento/analise/columns";
+import { columns } from "@/app/(pages)/(main)/modulos/vencimento/analise/columns";
 import validities from "@/files/validityData.json";
 import { DownloadTable } from "@/components/services/xlsxHandler.service";
 import { searchProd } from "@/components/services/searchProd.service";
+import { getValidity } from "@/components/services/validity.service";
 
 export function ValidityAnylises() {
   const [prodDesc, setProdDesc] = useState("Consulte o produto...");
@@ -70,7 +71,10 @@ export function ValidityAnylises() {
     }
   }
 
-  async function handleSubmit(data) {}
+  async function handleSubmit(data) {
+    const responseValue = await getValidity(data);
+    console.log(responseValue);
+  }
 
   async function handleInputsClear() {
     setProdDesc("Consulte um produto...");
