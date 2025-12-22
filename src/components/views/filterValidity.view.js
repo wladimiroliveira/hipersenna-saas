@@ -19,14 +19,8 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
   const [modality, setModality] = useState("validityDt");
   const [prodModality, setProdModality] = useState("codprod");
   const [prodIdent, setProdIdent] = useState("");
-  const [dateRangeInsert, setDateRangeInsert] = useState({
-    from: undefined,
-    to: undefined,
-  });
-  const [dateRangeValidity, setDateRangeValidity] = useState({
-    from: undefined,
-    to: undefined,
-  });
+  const [dateRangeInsert, setDateRangeInsert] = useState(false);
+  const [dateRangeValidity, setDateRangeValidity] = useState(false);
   const {
     register,
     handleSubmit: onSubmit,
@@ -47,7 +41,19 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
   };
 
   const handleSubmit = (data) => {
-    onSubmitData(data);
+    const validityDate = dateRangeValidity
+      ? {
+          from: new Date(dateRangeValidity?.from).toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" }),
+          to: new Date(dateRangeValidity?.to).toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" }),
+        }
+      : null;
+    const insertDate = dateRangeInsert
+      ? {
+          from: new Date(dateRangeInsert?.from).toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" }),
+          to: new Date(dateRangeInsert?.to).toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" }),
+        }
+      : null;
+    onSubmitData({ ...data, validityDate, insertDate });
   };
 
   return (
@@ -76,7 +82,7 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                         </SelectTrigger>
                         <SelectContent className="border-1 border-primaria">
                           <SelectItem value="validityDt">Intervalo de Datas</SelectItem>
-                          <SelectItem value="daysQt">Quantidade de Dias</SelectItem>
+                          <SelectItem value="daysQt">Qt. dias para vencer</SelectItem>
                         </SelectContent>
                       </Select>
                     )}
@@ -98,14 +104,14 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                             id="dateRange"
                             className="justify-between font-normal hover:bg-transparent border-1 border-primaria"
                           >
-                            {dateRangeInsert.from && dateRangeInsert.to ? (
+                            {dateRangeValidity.from && dateRangeValidity.to ? (
                               <span className="flex items-center gap-2">
-                                {format(dateRangeInsert.from, "dd/MM/yyyy")}
+                                {format(dateRangeValidity.from, "dd/MM/yyyy")}
                                 <ArrowRight className="w-4 h-4" />
-                                {format(dateRangeInsert.to, "dd/MM/yyyy")}
+                                {format(dateRangeValidity.to, "dd/MM/yyyy")}
                               </span>
-                            ) : dateRangeInsert.from ? (
-                              format(dateRangeInsert.from, "dd/MM/yyyy")
+                            ) : dateRangeValidity.from ? (
+                              format(dateRangeValidity.from, "dd/MM/yyyy")
                             ) : (
                               "Selecione o intervalo"
                             )}
@@ -116,13 +122,13 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                           <Calendar
                             mode="range"
                             numberOfMonths={2}
-                            selected={dateRangeInsert}
+                            selected={dateRangeValidity}
                             onSelect={(range) => {
                               if (!range?.from) {
-                                setDateRangeInsert({ from: undefined, to: undefined });
+                                setDateRangeValidity({ from: undefined, to: undefined });
                                 return;
                               }
-                              setDateRangeInsert(range);
+                              setDateRangeValidity(range);
                             }}
                             captionLayout="dropdown"
                             className="border-1 border-primaria rounded-md"
@@ -137,8 +143,84 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                       "pointer-events-auto block relative": modality === "daysQt",
                     })}
                   >
-                    <FieldLabel htmlFor="dias">Dias</FieldLabel>
-                    <Input id="dias" type="number" className="w-full" placeholder="Quant. Dias" {...register("dias")} />
+                    <FieldLabel htmlFor="qt_days">Qt. dias para vencer</FieldLabel>
+                    <Input
+                      id="qt_days"
+                      type="number"
+                      className="w-full"
+                      placeholder="Qt. dias"
+                      {...register("qt_days")}
+                    />
+                  </div>
+                </FieldGroup>
+              </div>
+              <div className="flex flex-col gap-2 w-55">
+                <FieldGroup className="w-full gap-0">
+                  <FieldLabel htmlFor="consultby">Filial:</FieldLabel>
+                  <Controller
+                    name="branch_id"
+                    control={control}
+                    render={({ field }) => (
+                      <Select onValueChange={field.onChange} value={field.value} modal={false}>
+                        <SelectTrigger className="w-full border-1 border-primaria">
+                          <SelectValue placeholder="Selecione a Filial" />
+                        </SelectTrigger>
+                        <SelectContent className="border-1 border-primaria">
+                          <SelectItem value="0">Todas</SelectItem>
+                          <SelectItem value="1">Matriz</SelectItem>
+                          <SelectItem value="2">Faruk</SelectItem>
+                          <SelectItem value="3">Carajás</SelectItem>
+                          <SelectItem value="4">VS10</SelectItem>
+                          <SelectItem value="5">Xinguara</SelectItem>
+                          <SelectItem value="6">DP6</SelectItem>
+                          <SelectItem value="7">Cidade Jardim</SelectItem>
+                          <SelectItem value="8">Canaã</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                </FieldGroup>
+                <FieldGroup className="flex flex-col w-full gap-0">
+                  <FieldLabel htmlFor="dateRangeInsert">Data de Inserção</FieldLabel>
+                  <div className="flex flex-col gap-3 ">
+                    <Popover open={openDtInsert} onOpenChange={setDtOpenInsert}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          id="dateRangeInsert"
+                          className="w-full justify-between font-normal hover:bg-transparent border-1 border-primaria text-primaria"
+                        >
+                          {dateRangeInsert.from && dateRangeInsert.to ? (
+                            <span className="flex items-center gap-2">
+                              {format(dateRangeInsert.from, "dd/MM/yyyy")}
+                              <ArrowRight className="w-4 h-4" />
+                              {format(dateRangeInsert.to, "dd/MM/yyyy")}
+                            </span>
+                          ) : dateRangeInsert.from ? (
+                            format(dateRangeInsert.from, "dd/MM/yyyy")
+                          ) : (
+                            "Selecione o intervalo"
+                          )}
+                          <ChevronDownIcon className="text-gray-500/50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="range"
+                          numberOfMonths={2}
+                          selected={dateRangeInsert}
+                          onSelect={(range) => {
+                            if (!range?.from) {
+                              setDateRangeInsert({ from: undefined, to: undefined });
+                              return;
+                            }
+                            setDateRangeInsert(range);
+                          }}
+                          captionLayout="dropdown"
+                          className="border-1 border-primaria rounded-md"
+                        />
+                      </PopoverContent>
+                    </Popover>
                   </div>
                 </FieldGroup>
               </div>
@@ -220,76 +302,6 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                   </div>
                 </div>
               </FieldGroup>
-              <div className="flex flex-col justify-between w-55">
-                <FieldGroup className="w-full gap-0">
-                  <FieldLabel htmlFor="consultby">Filial:</FieldLabel>
-                  <Controller
-                    name="branch_id"
-                    control={control}
-                    render={({ field }) => (
-                      <Select onValueChange={field.onChange} value={field.value} modal={false}>
-                        <SelectTrigger className="w-full border-1 border-primaria">
-                          <SelectValue placeholder="Selecione a Filial" />
-                        </SelectTrigger>
-                        <SelectContent className="border-1 border-primaria">
-                          <SelectItem value="0">Todas</SelectItem>
-                          <SelectItem value="1">Matriz</SelectItem>
-                          <SelectItem value="2">Faruk</SelectItem>
-                          <SelectItem value="3">Carajás</SelectItem>
-                          <SelectItem value="4">VS10</SelectItem>
-                          <SelectItem value="5">Xinguara</SelectItem>
-                          <SelectItem value="6">DP6</SelectItem>
-                          <SelectItem value="7">Cidade Jardim</SelectItem>
-                          <SelectItem value="8">Canaã</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                </FieldGroup>
-                <FieldGroup className="flex flex-col w-full gap-0">
-                  <FieldLabel htmlFor="dateRangeInsert">Data de Inserção</FieldLabel>
-                  <div className="flex flex-col gap-3 ">
-                    <Popover open={openDtInsert} onOpenChange={setDtOpenInsert}>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          id="dateRangeInsert"
-                          className="w-full justify-between font-normal hover:bg-transparent border-1 border-primaria text-primaria"
-                        >
-                          {dateRangeValidity.from && dateRangeValidity.to ? (
-                            <span className="flex items-center gap-2">
-                              {format(dateRangeValidity.from, "dd/MM/yyyy")}
-                              <ArrowRight className="w-4 h-4" />
-                              {format(dateRangeValidity.to, "dd/MM/yyyy")}
-                            </span>
-                          ) : dateRangeValidity.from ? (
-                            format(dateRangeValidity.from, "dd/MM/yyyy")
-                          ) : (
-                            "Selecione o intervalo"
-                          )}
-                          <ChevronDownIcon className="text-gray-500/50" />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="range"
-                          numberOfMonths={2}
-                          selected={dateRangeValidity}
-                          onSelect={(range) => {
-                            if (!range?.from) {
-                              setDateRangeValidity({ from: undefined, to: undefined });
-                              return;
-                            }
-                            setDateRangeValidity(range);
-                          }}
-                          captionLayout="dropdown"
-                          className="border-1 border-primaria rounded-md"
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                </FieldGroup>
-              </div>
             </FieldSet>
             <div className="flex flex-col pt-5 gap-2">
               <Button className="bg-primaria hover:bg-hover-primaria hover:cursor-pointer" type="submit">

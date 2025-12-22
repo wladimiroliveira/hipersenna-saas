@@ -1,6 +1,7 @@
 "use server";
 
 import { getToken } from "@/components/services/getToken.service";
+import { deleteToken } from "@/components/services/deleteToken.service";
 
 export async function changeTreatment(data) {
   try {
@@ -14,6 +15,9 @@ export async function changeTreatment(data) {
       body: JSON.stringify(data),
     });
     const responseValue = await responseResult.json();
+    if (responseValue?.message === "Token inválido ou expirado") {
+      await deleteToken();
+    }
     return {
       ...responseValue,
       ok: responseResult.ok,

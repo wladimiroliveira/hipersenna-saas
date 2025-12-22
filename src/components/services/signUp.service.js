@@ -1,6 +1,7 @@
 "use server";
 
 import { getToken } from "@/components/services/getToken.service";
+import { deleteToken } from "@/components/services/deleteToken.service";
 
 export async function signUpModel(data) {
   try {
@@ -17,6 +18,9 @@ export async function signUpModel(data) {
       });
 
       const userValue = await userResult.json();
+      if (userValue?.message === "Token inválido ou expirado") {
+        await deleteToken();
+      }
       if (userResult.ok) {
         responseValue[0] = {
           ...userValue,

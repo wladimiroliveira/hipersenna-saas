@@ -13,6 +13,9 @@ export async function signOut() {
       },
     });
     const responseValue = await responseResult.json();
+    if (responseValue?.message === "Token inválido ou expirado") {
+      await deleteToken();
+    }
     if (responseResult.ok) {
       await deleteToken();
     }

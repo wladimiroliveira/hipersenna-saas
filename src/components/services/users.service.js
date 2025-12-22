@@ -1,6 +1,7 @@
 "use server";
 
 import { getToken } from "@/components/services/getToken.service";
+import { deleteToken } from "@/components/services/deleteToken.service";
 
 export async function getAllUsers() {
   try {
@@ -12,6 +13,10 @@ export async function getAllUsers() {
       },
     });
     const responseValue = await responseResult.json();
+    if (responseValue?.message === "Token inválido ou expirado") {
+      await deleteToken();
+      return;
+    }
     const users = responseValue.map((resValue) => ({
       ...resValue,
       hsusers_roles: resValue.role_id,

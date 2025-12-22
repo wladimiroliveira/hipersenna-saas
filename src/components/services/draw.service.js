@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { deleteToken } from "@/components/services/deleteToken.service";
 
 export async function drawRaffles(branch_id) {
   try {
@@ -13,6 +14,9 @@ export async function drawRaffles(branch_id) {
       },
     });
     const responseValue = await responseResult.json();
+    if (responseValue?.message === "Token inválido ou expirado") {
+      await deleteToken();
+    }
     return {
       ok: responseResult.ok,
       status: responseResult.status,
