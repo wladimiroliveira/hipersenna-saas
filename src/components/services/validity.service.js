@@ -1,6 +1,7 @@
 "use server";
 
 import { getToken } from "@/components/services/getToken.service";
+import { deleteToken } from "@/components/services/deleteToken.service";
 
 export async function getValidity(params) {
   try {
@@ -39,6 +40,9 @@ export async function getValidity(params) {
       },
     });
     const responseValue = await responseResult.json();
+    if (responseValue?.message === "Token inválido ou expirado") {
+      await deleteToken();
+    }
     return {
       ok: responseResult?.ok,
       status: responseResult?.status,

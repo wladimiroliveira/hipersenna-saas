@@ -1,5 +1,7 @@
 "use server";
 
+import { deleteToken } from "@/components/services/deleteToken.service";
+
 export async function createUser(data, cpf) {
   try {
     const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/raffle-clients`, {
@@ -8,6 +10,9 @@ export async function createUser(data, cpf) {
       body: JSON.stringify({ ...data, cpf }),
     });
     const responseValue = await responseResult.json();
+    if (responseValue?.message === "Token inválido ou expirado") {
+      await deleteToken();
+    }
     return {
       ok: responseResult?.ok,
       status: responseResult?.status,

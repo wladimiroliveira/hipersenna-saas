@@ -1,6 +1,7 @@
 "use server";
 
 import { getToken } from "@/components/services/getToken.service";
+import { deleteToken } from "@/components/services/deleteToken.service";
 
 export async function searchProd(id, type) {
   try {
@@ -13,6 +14,9 @@ export async function searchProd(id, type) {
       },
     });
     const responseValue = await responseResult.json();
+    if (responseValue?.message === "Token inválido ou expirado") {
+      await deleteToken();
+    }
     return responseValue;
   } catch (err) {
     console.error(err);

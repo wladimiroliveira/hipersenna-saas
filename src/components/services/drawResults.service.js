@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { deleteToken } from "@/components/services/deleteToken.service";
 
 export async function getDrawResults(url) {
   try {
@@ -12,6 +13,9 @@ export async function getDrawResults(url) {
       },
     });
     const responseValue = await responseResult.json();
+    if (responseValue?.message === "Token inválido ou expirado") {
+      await deleteToken();
+    }
     return {
       ok: responseResult.ok,
       status: responseResult.status,
