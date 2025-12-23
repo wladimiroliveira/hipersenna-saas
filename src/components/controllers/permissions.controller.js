@@ -1,13 +1,13 @@
 "use client";
 
-import { PermissionsView } from "@/components/views/permissions.view";
+import { PermissionsView } from "@/components/views/userPermissions.view";
 import { useEffect, useState } from "react";
 import { getUser } from "@/components/services/users.service";
 import {
   deleteUserPermissions,
   getUserPermissions,
   postUserPermissions,
-} from "@/components/services/permissions.service";
+} from "@/components/services/userPermissions.service";
 import { getPermissions } from "@/components/services/getPermissions.service";
 
 export function PermissionsController() {

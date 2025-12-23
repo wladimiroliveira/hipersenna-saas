@@ -1,17 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { columns } from "./columns";
 import { DataTable } from "./datatable";
-import { getRoles } from "@/components/services/role.service";
+import { columns } from "./columns";
+import { getPermissions } from "@/components/services/getPermissions.service";
 
 async function getData() {
-  const roles = await getRoles();
-  if (!roles?.ok) {
+  const permissions = await getPermissions();
+  if (!permissions?.ok) {
     alert("Erro ao carregar cargos");
     return;
   }
-  return roles?.roles;
+  return permissions?.permissions;
 }
 
 export default function Page() {
@@ -28,11 +28,11 @@ export default function Page() {
   return (
     <div className="pl-4 pr-4">
       <div className="pt-12 pb-12">
-        <h1 className="text-4xl text-primaria font-bold">Cargos</h1>
-        <p>Adicione, remova, e edite cargos através da tabela abaixo</p>
+        <h1 className="text-4xl text-primaria font-bold">Permissões</h1>
+        <p>Adicione, remova, e edite permissões através da tabela abaixo</p>
       </div>
       <div className="flex flex-row w-full pt-0 p-8">
-        <div className="w-full max-w-xl m-auto">
+        <div className="w-full max-w-4xl m-auto">
           <DataTable columns={columns} data={roles} />
         </div>
       </div>

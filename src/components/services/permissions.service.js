@@ -3,10 +3,10 @@
 import { getToken } from "@/components/services/getToken.service";
 import { deleteToken } from "@/components/services/deleteToken.service";
 
-export async function getUserPermissions(id) {
+export async function getPermissions() {
   try {
     const token = await getToken();
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-permissions/${id}`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/permissions`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -20,11 +20,10 @@ export async function getUserPermissions(id) {
       await deleteToken();
     }
     return {
-      ok: responseResult.ok,
-      status: responseResult.status,
-      permissions: responseResult.ok
-        ? responseValue.map((permission) => permission.permission_id)
-        : responseValue.message,
+      ok: responseResult?.ok,
+      status: responseResult?.status,
+      message: responseResult?.message,
+      permissions: [...responseValue],
     };
   } catch (err) {
     console.error(err);
@@ -32,25 +31,31 @@ export async function getUserPermissions(id) {
   }
 }
 
-export async function postUserPermissions(id, permissions) {
+export async function createPermission(data) {
   try {
     const token = await getToken();
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-permissions`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/permissions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        user_id: id,
-        permission_id: permissions,
+        name: data?.name,
+        description: data?.description,
       }),
     });
     const responseValue = await responseResult.json();
+    if (
+      responseValue?.message === "Token inválido ou expirado" ||
+      responseValue?.message === "Autenticação falhou: jwt expired"
+    ) {
+      await deleteToken();
+    }
     return {
-      ok: responseResult.ok,
-      status: responseResult.status,
-      permissions: permissions,
+      ok: responseResult?.ok,
+      status: responseResult?.status,
+      message: responseResult?.message,
       ...responseValue,
     };
   } catch (err) {
@@ -59,25 +64,59 @@ export async function postUserPermissions(id, permissions) {
   }
 }
 
-export async function deleteUserPermissions(id, permissions) {
+export async function patchPermission(data) {
   try {
     const token = await getToken();
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-permissions`, {
-      method: "DELETE",
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/permissions/${data?.id}`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        user_id: id,
-        permission_id: permissions,
+        name: data?.name,
+        description: data?.description,
       }),
     });
     const responseValue = await responseResult.json();
+    if (
+      responseValue?.message === "Token inválido ou expirado" ||
+      responseValue?.message === "Autenticação falhou: jwt expired"
+    ) {
+      await deleteToken();
+    }
     return {
-      ok: responseResult.ok,
-      status: responseResult.status,
-      permissions: permissions,
+      ok: responseResult?.ok,
+      status: responseResult?.status,
+      message: responseResult?.message,
+      ...responseValue,
+    };
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
+export async function deletePermission(data) {
+  try {
+    const token = await getToken();
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/permissions/${data?.id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const responseValue = await responseResult.json();
+    if (
+      responseValue?.message === "Token inválido ou expirado" ||
+      responseValue?.message === "Autenticação falhou: jwt expired"
+    ) {
+      await deleteToken();
+    }
+    return {
+      ok: responseResult?.ok,
+      status: responseResult?.status,
+      message: responseResult?.message,
       ...responseValue,
     };
   } catch (err) {
