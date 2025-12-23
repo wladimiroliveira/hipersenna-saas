@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { LogOut, Menu, UserCircle2Icon } from "lucide-react";
+import { LogOut, UserCircle2Icon } from "lucide-react";
 import { useUserStore } from "@/store/user.store";
 import { usePathname } from "next/navigation";
 

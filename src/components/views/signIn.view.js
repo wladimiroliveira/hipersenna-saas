@@ -37,7 +37,7 @@ export function SignInForm({ onSubmitData, loading }) {
               <FieldLabel htmlFor="password" className="font-normal text-base text-primaria">
                 Senha
               </FieldLabel>
-              <div className="flex flex-row border-1 border-primaria rounded-md">
+              <div className="flex flex-row border-1  rounded-md">
                 <Input
                   id="password"
                   type={inputType}
