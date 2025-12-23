@@ -7,6 +7,7 @@ import { clsx } from "clsx";
 import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "../ui/spinner";
 
 export function SignInForm({ onSubmitData, loading }) {
   const [inputType, setInputType] = useState("password");
@@ -46,6 +47,8 @@ export function SignInForm({ onSubmitData, loading }) {
                   className="bg-[url(/signin/lock.svg)] bg-no-repeat bg-[.7rem] pl-8 pr-8 border-0"
                 />
                 <button
+                  type="button"
+                  tabIndex={-1}
                   onClick={(e) => {
                     e.preventDefault();
                     if (inputType === "password") {
@@ -65,22 +68,8 @@ export function SignInForm({ onSubmitData, loading }) {
               </div>
             </Field>
           </FieldGroup>
-          <Button
-            className={clsx("flex flex-row-reverse", {
-              "pointer-events-none bg-gray-600": loading === true,
-              "pointer-events-auto": loading === false,
-            })}
-          >
-            <div className="flex justify-end w-[45%]">
-              <svg
-                className={clsx("size-5 animate-spin border-3 border-secundaria border-t-primaria rounded-[50%]", {
-                  block: loading === true,
-                  hidden: loading === false,
-                })}
-                viewBox="0 0 24 24"
-              ></svg>
-            </div>
-            <div className="flex w-[55%] justify-end">Login</div>
+          <Button type="submit" disabled={loading} className="flex flex-row-reverse">
+            {loading ? <Spinner /> : "Login"}
           </Button>
         </FieldSet>
       </form>
