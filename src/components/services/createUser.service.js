@@ -10,7 +10,10 @@ export async function createUser(data, cpf) {
       body: JSON.stringify({ ...data, cpf }),
     });
     const responseValue = await responseResult.json();
-    if (responseValue?.message === "Token inválido ou expirado") {
+    if (
+      responseValue?.message === "Token inválido ou expirado" ||
+      responseValue?.message === "Autenticação falhou: jwt expired"
+    ) {
       await deleteToken();
     }
     return {

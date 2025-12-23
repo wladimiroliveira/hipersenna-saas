@@ -100,7 +100,27 @@ export function DeleteRoleMenu({ role }) {
   });
 
   async function onSubmitForm(data) {
-    console.log(data);
+    const editRoleValue = await patchRole(data);
+    if (editRoleValue.ok) {
+      setOpenEdit(false);
+      router.refresh();
+      setAlert({
+        type: "success",
+        statusCode: editRoleValue.status,
+        title: "Sucesso",
+        desc: "Cargo editado com sucesso!",
+      });
+      setAlertKey((prev) => prev + 1);
+    } else {
+      setOpenEdit(false);
+      setAlert({
+        type: "error",
+        statusCode: editRoleValue.status,
+        title: "Erro",
+        desc: "Erro ao editar cargo.",
+      });
+      setAlertKey((prev) => prev + 1);
+    }
   }
 
   return (
