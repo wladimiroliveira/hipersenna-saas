@@ -73,7 +73,6 @@ export function ValidityAnylises() {
 
   async function handleSubmit(data) {
     const responseValue = await getValidity(data);
-    console.log(responseValue);
   }
 
   async function handleInputsClear() {

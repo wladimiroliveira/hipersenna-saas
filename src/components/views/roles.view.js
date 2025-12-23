@@ -181,7 +181,6 @@ export function CreateRoleMenu() {
 
   async function onSubmitForm(data) {
     const createRoleValue = await createRole(data);
-    console.log(createRoleValue);
     if (createRoleValue.ok) {
       setOpenCreate(false);
       router.refresh();

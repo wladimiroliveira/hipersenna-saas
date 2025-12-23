@@ -99,7 +99,6 @@ export async function patchRole(data) {
 
 export async function deleteRole(data) {
   try {
-    console.log(data);
     const token = await getToken();
     const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/roles/${data?.id}`, {
       method: "DELETE",
@@ -108,7 +107,6 @@ export async function deleteRole(data) {
       },
     });
     const responseValue = await responseResult.json();
-    console.log(responseResult);
     if (
       responseValue?.message === "Token inválido ou expirado" ||
       responseValue?.message === "Autenticação falhou: jwt expired"
