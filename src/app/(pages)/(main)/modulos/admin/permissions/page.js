@@ -8,7 +8,7 @@ import { getPermissions } from "@/components/services/getPermissions.service";
 async function getData() {
   const permissions = await getPermissions();
   if (!permissions?.ok) {
-    alert("Erro ao carregar cargos");
+    alert("Erro ao carregar permissões");
     return;
   }
   return permissions?.permissions;

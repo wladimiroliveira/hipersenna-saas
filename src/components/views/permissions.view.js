@@ -64,7 +64,7 @@ export function EditPermissionsMenu({ permission }) {
       <Dialog open={openEdit} onOpenChange={setOpenEdit}>
         <DialogContent className="sm:max-w-[425px] text-primaria">
           <DialogHeader>
-            <DialogTitle>Editar cargo</DialogTitle>
+            <DialogTitle>Editar Permissão</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmit(onSubmitForm)} className="flex flex-col gap-2">
             <Label>Nome</Label>
@@ -140,12 +140,12 @@ export function DeletePermissionsMenu({ permission }) {
       <Dialog open={openEdit} onOpenChange={setOpenEdit}>
         <DialogContent className="sm:max-w-[425px] text-primaria">
           <DialogHeader>
-            <DialogTitle>Excluir cargo</DialogTitle>
+            <DialogTitle>Excluir Permissão</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmit(onSubmitForm)}>
             <div>
               <p>
-                Tem certeza de que deseja excluir o cargo <strong>{permission?.name}</strong>
+                Tem certeza de que deseja excluir a permissão <strong>{permission?.name}</strong>
               </p>
             </div>
             <DialogFooter className="flex justify-between pt-4">
@@ -211,19 +211,19 @@ export function CreatePermissionsMenu() {
           setOpenCreate(true);
         }}
       >
-        Novo Cargo
+        Nova Permissão
         <PlusIcon />
       </Button>
       <Dialog open={openCreate} onOpenChange={setOpenCreate}>
         <DialogContent className="sm:max-w-[425px] text-primaria">
           <DialogHeader>
-            <DialogTitle>Criar Permissião</DialogTitle>
+            <DialogTitle>Criar Permissão</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmit(onSubmitForm)} className="flex flex-col gap-2">
             <Label>Nome</Label>
-            <Input {...register("name")} placeholder="Digite o nome do cargo" />
+            <Input {...register("name")} placeholder="Digite o nome da permissão" />
             <Label>Descrição</Label>
-            <Textarea {...register("description")} placeholder="Digite a descrição do cargo" />
+            <Textarea {...register("description")} placeholder="Digite a descrição da permissão" />
             <DialogFooter className="flex justify-between pt-4">
               <Button type="submit" className="bg-quartenaria cursor-pointer hover:bg-hover-quartenaria">
                 Criar <SaveIcon />
