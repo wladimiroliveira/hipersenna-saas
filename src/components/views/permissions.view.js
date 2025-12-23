@@ -211,7 +211,7 @@ export function CreatePermissionsMenu() {
           setOpenCreate(true);
         }}
       >
-        Novo Cargo
+        Nova Permissão
         <PlusIcon />
       </Button>
       <Dialog open={openCreate} onOpenChange={setOpenCreate}>
