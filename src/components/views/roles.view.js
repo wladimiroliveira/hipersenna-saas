@@ -10,7 +10,7 @@ import { Button } from "../ui/button";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { ErrorAlert, SuccessAlert } from "./alert.view";
-import { patchRole } from "../services/role.service";
+import { createRole, deleteRole, patchRole } from "../services/role.service";
 import { useRouter } from "next/navigation";
 
 export function EditRoleMenu({ role }) {
@@ -45,7 +45,7 @@ export function EditRoleMenu({ role }) {
         type: "error",
         statusCode: editRoleValue.status,
         title: "Erro",
-        desc: "Erro ao editar cargo.",
+        desc: "Erro ao editar cargo",
       });
       setAlertKey((prev) => prev + 1);
     }
@@ -90,6 +90,10 @@ export function EditRoleMenu({ role }) {
 
 export function DeleteRoleMenu({ role }) {
   const [openEdit, setOpenEdit] = useState(false);
+  const [alert, setAlert] = useState({});
+  const [alertKey, setAlertKey] = useState(0);
+
+  const router = useRouter();
 
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
@@ -100,24 +104,24 @@ export function DeleteRoleMenu({ role }) {
   });
 
   async function onSubmitForm(data) {
-    const editRoleValue = await patchRole(data);
-    if (editRoleValue.ok) {
+    const deleteRoleValue = await deleteRole(data);
+    if (deleteRoleValue.ok) {
       setOpenEdit(false);
       router.refresh();
       setAlert({
         type: "success",
-        statusCode: editRoleValue.status,
+        statusCode: deleteRoleValue.status,
         title: "Sucesso",
-        desc: "Cargo editado com sucesso!",
+        desc: "Cargo deletado com sucesso!",
       });
       setAlertKey((prev) => prev + 1);
     } else {
       setOpenEdit(false);
       setAlert({
         type: "error",
-        statusCode: editRoleValue.status,
+        statusCode: deleteRoleValue.status,
         title: "Erro",
-        desc: "Erro ao editar cargo.",
+        desc: "Erro ao deletar cargo",
       });
       setAlertKey((prev) => prev + 1);
     }
@@ -153,12 +157,20 @@ export function DeleteRoleMenu({ role }) {
           </form>
         </DialogContent>
       </Dialog>
+      {alert?.type === "success" && <SuccessAlert key={alertKey} title={alert.title} desc={alert.desc} />}
+      {alert?.type === "error" && (
+        <ErrorAlert key={alertKey} statusCode={alert.statusCode} title={alert.title} desc={alert.desc} />
+      )}
     </div>
   );
 }
 
 export function CreateRoleMenu() {
   const [openCreate, setOpenCreate] = useState(false);
+  const [alert, setAlert] = useState({});
+  const [alertKey, setAlertKey] = useState(0);
+
+  const router = useRouter();
 
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
@@ -168,7 +180,28 @@ export function CreateRoleMenu() {
   });
 
   async function onSubmitForm(data) {
-    console.log(data);
+    const createRoleValue = await createRole(data);
+    console.log(createRoleValue);
+    if (createRoleValue.ok) {
+      setOpenCreate(false);
+      router.refresh();
+      setAlert({
+        type: "success",
+        statusCode: createRoleValue.status,
+        title: "Sucesso",
+        desc: "Cargo criado com sucesso!",
+      });
+      setAlertKey((prev) => prev + 1);
+    } else {
+      setOpenCreate(false);
+      setAlert({
+        type: "error",
+        statusCode: createRoleValue.status,
+        title: "Erro",
+        desc: "Erro ao criar cargo",
+      });
+      setAlertKey((prev) => prev + 1);
+    }
   }
 
   return (
@@ -201,6 +234,10 @@ export function CreateRoleMenu() {
           </form>
         </DialogContent>
       </Dialog>
+      {alert?.type === "success" && <SuccessAlert key={alertKey} title={alert.title} desc={alert.desc} />}
+      {alert?.type === "error" && (
+        <ErrorAlert key={alertKey} statusCode={alert.statusCode} title={alert.title} desc={alert.desc} />
+      )}
     </div>
   );
 }

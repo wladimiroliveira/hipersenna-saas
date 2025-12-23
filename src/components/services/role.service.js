@@ -31,10 +31,10 @@ export async function getRoles() {
   }
 }
 
-export async function createRoles(data) {
+export async function createRole(data) {
   try {
     const token = await getToken();
-    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/roles/${data?.id}`, {
+    const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/roles`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -97,17 +97,18 @@ export async function patchRole(data) {
   }
 }
 
-export async function deleteRoles(data) {
+export async function deleteRole(data) {
   try {
+    console.log(data);
     const token = await getToken();
     const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/roles/${data?.id}`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });
     const responseValue = await responseResult.json();
+    console.log(responseResult);
     if (
       responseValue?.message === "Token inválido ou expirado" ||
       responseValue?.message === "Autenticação falhou: jwt expired"
