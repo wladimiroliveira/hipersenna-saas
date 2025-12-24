@@ -27,15 +27,6 @@
             "permissions": [1, 2, 3, 4, 13, 15, 25, 26]
           },
           {
-            "id": "createuser",
-            "name": "Criar Usuários",
-            "description": "Crie novos usuários através desse link",
-            "path": "/modulos/admin/users/create",
-            "buttonText": "Criar",
-            "roles": [1],
-            "permissions": [1, 2, 3, 4, 13, 15, 25, 26]
-          },
-          {
             "id": "permissions",
             "name": "Permissões",
             "description": "Adicione ou remova permissões de forma personalizada para os usuários",
