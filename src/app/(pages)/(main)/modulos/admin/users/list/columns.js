@@ -55,6 +55,10 @@ export const columns = [
     header: "Nome",
   },
   {
+    accessorKey: "username",
+    header: "Usuário",
+  },
+  {
     accessorKey: "created_at",
     header: () => <div>Criado em</div>,
     cell: ({ row }) => {

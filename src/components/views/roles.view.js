@@ -206,7 +206,6 @@ export function CreateRoleMenu() {
   return (
     <div>
       <Button
-        variant="ghost"
         className="bg-quartenaria text-secundaria hover:text-secundaria cursor-pointer hover:bg-hover-quartenaria"
         onClick={() => {
           setOpenCreate(true);

@@ -114,7 +114,7 @@ export function EditUserMenu({ user }) {
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="border-primaria" align="end">
+        <DropdownMenuContent align="end">
           <DropdownMenuLabel>Ações</DropdownMenuLabel>
           <DropdownMenuItem onClick={() => setOpenEdit(true)}>Editar usuário</DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpenDelete(true)}>
@@ -122,7 +122,7 @@ export function EditUserMenu({ user }) {
               <Trash2 size={14} /> Excluir usuário
             </span>
           </DropdownMenuItem>
-          <DropdownMenuSeparator className="bg-primaria" />
+          <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => navigator.clipboard.writeText(user.id)}>
             Copiar ID do usuário
           </DropdownMenuItem>
@@ -154,10 +154,10 @@ export function EditUserMenu({ user }) {
                   control={control}
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="border-primaria w-full">
+                      <SelectTrigger className=" w-full">
                         <SelectValue placeholder="Selecionar" />
                       </SelectTrigger>
-                      <SelectContent className="border-primaria">
+                      <SelectContent>
                         {branches.map((b) => (
                           <SelectItem key={b.id} value={`${b.number}`}>
                             {b.name}
@@ -175,10 +175,10 @@ export function EditUserMenu({ user }) {
                   control={control}
                   render={({ field }) => (
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="border-primaria w-full">
+                      <SelectTrigger className=" w-full">
                         <SelectValue placeholder="Selecionar" />
                       </SelectTrigger>
-                      <SelectContent className="border-primaria">
+                      <SelectContent>
                         {roles.map((r) => (
                           <SelectItem key={r.id} value={`${r.id}`}>
                             {r.name}
@@ -210,7 +210,7 @@ export function EditUserMenu({ user }) {
             Tem certeza que deseja excluir o usuário <strong>{user.username}</strong>?
           </p>
           <DialogFooter className="flex justify-between pt-4">
-            <Button onClick={() => setOpenDelete(false)} variant="outline" className="border-primaria text-primaria">
+            <Button onClick={() => setOpenDelete(false)} variant="outline" className=" text-primaria">
               Cancelar
             </Button>
             <Button onClick={handleDelete} className="bg-red-600 hover:bg-red-700 text-white">
