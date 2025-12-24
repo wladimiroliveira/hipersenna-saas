@@ -1,6 +1,6 @@
 "use client";
 
-import { DataTable } from "@/components/views/dataTable.view";
+import { DataTable } from "./datatable";
 import { columns } from "@/app/(pages)/(main)/modulos/admin/users/list/columns";
 import { getAllUsers } from "@/components/services/users.service";
 import { Suspense, useEffect, useState } from "react";

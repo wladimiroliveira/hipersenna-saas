@@ -14,7 +14,7 @@ export async function signUpModel(data) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data[0]),
+        body: JSON.stringify(data),
       });
 
       const userValue = await userResult.json();
