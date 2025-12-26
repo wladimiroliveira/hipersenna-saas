@@ -31,7 +31,7 @@ export function DataTable({ columns, data }) {
   });
 
   return (
-    <div>
+    <div className="w-full">
       <div className="flex items-center justify-between gap-4 py-4">
         <CreatePermissionsMenu />
         <Input
