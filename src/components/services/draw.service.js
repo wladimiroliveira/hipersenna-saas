@@ -14,10 +14,7 @@ export async function drawRaffles(branch_id) {
       },
     });
     const responseValue = await responseResult.json();
-    if (
-      responseValue?.message === "Token inválido ou expirado" ||
-      responseValue?.message === "Autenticação falhou: jwt expired"
-    ) {
+    if (responseResult?.status === 401) {
       await deleteToken();
     }
     return {

@@ -13,10 +13,7 @@ export async function getRoles() {
       },
     });
     const responseValue = await responseResult.json();
-    if (
-      responseValue?.message === "Token inválido ou expirado" ||
-      responseValue?.message === "Autenticação falhou: jwt expired"
-    ) {
+    if (responseResult?.status === 401) {
       await deleteToken();
     }
     return {
@@ -46,10 +43,7 @@ export async function createRole(data) {
       }),
     });
     const responseValue = await responseResult.json();
-    if (
-      responseValue?.message === "Token inválido ou expirado" ||
-      responseValue?.message === "Autenticação falhou: jwt expired"
-    ) {
+    if (responseResult?.status === 401) {
       await deleteToken();
     }
     return {
@@ -79,10 +73,7 @@ export async function patchRole(data) {
       }),
     });
     const responseValue = await responseResult.json();
-    if (
-      responseValue?.message === "Token inválido ou expirado" ||
-      responseValue?.message === "Autenticação falhou: jwt expired"
-    ) {
+    if (responseResult?.status === 401) {
       await deleteToken();
     }
     return {
@@ -107,10 +98,7 @@ export async function deleteRole(data) {
       },
     });
     const responseValue = await responseResult.json();
-    if (
-      responseValue?.message === "Token inválido ou expirado" ||
-      responseValue?.message === "Autenticação falhou: jwt expired"
-    ) {
+    if (responseResult?.status === 401) {
       await deleteToken();
     }
     return {

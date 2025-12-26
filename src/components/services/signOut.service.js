@@ -13,10 +13,7 @@ export async function signOut() {
       },
     });
     const responseValue = await responseResult.json();
-    if (
-      responseValue?.message === "Token inválido ou expirado" ||
-      responseValue?.message === "Autenticação falhou: jwt expired"
-    ) {
+    if (responseResult?.status === 401) {
       await deleteToken();
     }
     if (responseResult.ok) {
