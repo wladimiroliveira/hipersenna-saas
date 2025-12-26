@@ -27,7 +27,7 @@ export const columns = [
     cell: ({ row }) => {
       const description = row.original;
 
-      return <p className="truncate max-w-60">{description.description}</p>;
+      return <p className="truncate max-w-100">{description.description}</p>;
     },
   },
   {

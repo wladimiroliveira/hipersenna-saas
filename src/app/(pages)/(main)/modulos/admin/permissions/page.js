@@ -26,13 +26,11 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="pl-4 pr-4">
-      <div className="pt-12 pb-12">
-        <h1 className="text-4xl text-primaria font-bold">Permissões</h1>
-        <p>Adicione, remova, e edite permissões através da tabela abaixo</p>
-      </div>
+    <div className="pt-10 pl-4 pr-4">
       <div className="flex flex-row w-full pt-0 p-8">
-        <div className="w-full max-w-4xl m-auto">
+        <div className="w-full m-auto">
+          <h1 className="text-2xl text-primaria font-bold">Permissões</h1>
+          <p>Adicione, remova, e edite permissões através da tabela abaixo</p>
           <DataTable columns={columns} data={roles} />
         </div>
       </div>

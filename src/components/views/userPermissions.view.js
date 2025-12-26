@@ -179,7 +179,6 @@ export function PermissionsContainer({
 
 export function SearchUserPermission({ onSubmitData, loading }) {
   const [userModality, setUserModality] = useState("id");
-  const [userIdent, setUserIdent] = useState("");
 
   const {
     register,
