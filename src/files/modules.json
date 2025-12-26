@@ -40,11 +40,31 @@
       {
         "id": "roles",
         "name": "Cargos",
-        "description": "Adicione, edite, ou remova cargos através deste menu",
+        "description": "Adicione, edite, ou remova cargos através deste",
         "path": "/modulos/admin/cargos",
         "buttonText": "Acessar",
         "roles": [1],
-        "permissions": [1, 2, 3, 4, 13, 15, 25, 26]
+        "permissions": [1, 2, 3, 4, 13, 15, 25, 26],
+        "submodules": [
+          {
+            "id": "createRoles",
+            "name": "Criar Cargos",
+            "description": "Adicione, edite, ou remova cargos através deste",
+            "path": "/modulos/admin/cargos/criar",
+            "buttonText": "Acessar",
+            "roles": [1],
+            "permissions": [1, 2, 3, 4, 13, 15, 25, 26]
+          },
+          {
+            "id": "assignPermissions",
+            "name": "Passar Permissões",
+            "description": "Passe permissões para cargos através deste menu",
+            "path": "/modulos/admin/cargos/passar-permissao",
+            "buttonText": "Acessar",
+            "roles": [1],
+            "permissions": [1, 2, 3, 4, 13, 15, 25, 26]
+          }
+        ]
       },
       {
         "id": "permissions",
