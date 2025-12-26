@@ -100,7 +100,7 @@ export default function Page() {
         {rafflesDrawn ? (
           <div className="flex flex-row flex-wrap gap-4 justify-center p-4">
             {rafflesDrawn.map((raffle) => (
-              <Card className="w-lg">
+              <Card key={raffle?.id} className="w-lg">
                 <CardHeader>
                   <CardTitle>
                     Rifa <strong>#{raffle.raffle_number}</strong>
@@ -130,6 +130,9 @@ export default function Page() {
                       </li>
                       <li>
                         Status: <strong>{raffle?.status}</strong>
+                      </li>
+                      <li>
+                        Data de sorteio: <strong>{new Date(raffle?.modified_at).toLocaleString("pt-BR")}</strong>
                       </li>
                     </ul>
                   </CardContent>
