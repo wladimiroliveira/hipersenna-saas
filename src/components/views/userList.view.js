@@ -31,14 +31,12 @@ export function CreateUserModal() {
   }
 
   async function onSubmitForm(data) {
-    console.log(data);
     const createUserValue = await signUpModel({
       ...data,
       branch_id: Number(data?.branch_id),
       role_id: Number(data?.role_id),
       winthor_id: Number(data?.winthor_id),
     });
-    console.log(createUserValue);
     if (createUserValue.ok) {
       setOpenCreate(false);
       router.refresh();

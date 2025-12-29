@@ -24,10 +24,8 @@ export function RolePermissionsController() {
   async function searchRole(data) {
     try {
       setLoading(true);
-      const roleValue = await getRole(data?.searchModality, data?.searchParam);
-      console.log(roleValue);
+      const roleValue = await getRole(data);
       const rolePermissionsValue = await getRolePermissions({ id: roleValue?.role[0]?.id });
-      console.log(rolePermissionsValue);
       if (Array.isArray(rolePermissionsValue?.permissions)) {
         setRolePermissions(rolePermissionsValue?.permissions);
       } else {
@@ -49,17 +47,14 @@ export function RolePermissionsController() {
   }
 
   async function sendPermissions(data) {
-    console.log(data?.permissions);
     await postRolePermissions(roleInfo?.id, data?.permissions);
     const rolePermissionsValue = await getRolePermissions({ id: roleInfo?.id });
-    console.log(rolePermissionsValue);
     setRolePermissions(rolePermissionsValue?.permissions);
   }
 
   async function removePermissions(data) {
     await deleteRolePermissions(roleInfo?.id, data?.permissions);
     const rolePermissionsValue = await getRolePermissions({ id: roleInfo?.id });
-    console.log(rolePermissionsValue);
     setRolePermissions(rolePermissionsValue?.permissions);
   }
 

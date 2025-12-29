@@ -48,7 +48,7 @@ export async function getRole(data) {
       ok: responseResult?.ok,
       status: responseResult?.status,
       message: responseResult?.message,
-      role: [...responseValue],
+      role: responseResult?.ok ? [...responseValue] : responseValue?.message,
     };
   } catch (err) {
     console.error(err);
