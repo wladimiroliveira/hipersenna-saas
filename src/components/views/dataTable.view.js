@@ -75,12 +75,12 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto border-primaria text-primaria">
+            <Button variant="outline" className="ml-auto text-primaria">
               Colunas
               <Columns3Icon />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="border-primaria">
+          <DropdownMenuContent align="end">
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
@@ -143,11 +143,11 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="overflow-hidden rounded-md border border-primaria">
+      <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroupe) => (
-              <TableRow key={headerGroupe.id} className="border-primaria">
+              <TableRow key={headerGroupe.id}>
                 {headerGroupe.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
@@ -161,17 +161,15 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="border-primaria">
+                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="border-primaria">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
+                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center border-primaria">
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>
@@ -187,10 +185,10 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
             value={String(table.getState().pagination.pageSize)}
             onValueChange={(value) => table.setPageSize(Number(value))}
           >
-            <SelectTrigger className="w-[80px] border-primaria text-primaria focus:ring-primaria">
+            <SelectTrigger className="text-primaria">
               <SelectValue placeholder="Qtd" />
             </SelectTrigger>
-            <SelectContent className="border-primaria">
+            <SelectContent>
               {[5, 10, 20, 50].map((size) => (
                 <SelectItem key={size} value={String(size)}>
                   {size}
@@ -204,7 +202,7 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
-            className="border-primaria text-primaria"
+            className="text-primaria"
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
@@ -219,7 +217,7 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
 
           <Button
             variant="outline"
-            className="border-primaria text-primaria"
+            className="text-primaria"
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}

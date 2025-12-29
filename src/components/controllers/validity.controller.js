@@ -12,6 +12,7 @@ export function ValidityAnylises() {
   const [prodDesc, setProdDesc] = useState("Consulte o produto...");
   const [prodCod, setProdCod] = useState();
   const [loadingProdDesc, setLoadingProdDesc] = useState(false);
+  const [mainLoading, setMainLoading] = useState(false);
   const [prodList, setProdList] = useState([]);
 
   function flatList(products) {
@@ -72,7 +73,15 @@ export function ValidityAnylises() {
   }
 
   async function handleSubmit(data) {
-    const responseValue = await getValidity(data);
+    setMainLoading(true);
+    try {
+      console.log;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    } finally {
+      setMainLoading(false);
+    }
   }
 
   async function handleInputsClear() {
@@ -87,6 +96,7 @@ export function ValidityAnylises() {
         onSearchProd={handleSearchProdDesc}
         onSubmitData={handleSubmit}
         loading={loadingProdDesc}
+        mainLoading={mainLoading}
       />
       <DataTable
         columns={columns}

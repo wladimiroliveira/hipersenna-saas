@@ -12,8 +12,9 @@ import { PopoverContent } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "../ui/spinner";
 
-export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSubmitData }) {
+export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, mainLoading, onSubmitData }) {
   const [openDtInsert, setDtOpenInsert] = useState(false);
   const [openDtValidity, setDtOpenValidity] = useState(false);
   const [modality, setModality] = useState("validityDt");
@@ -21,6 +22,7 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
   const [prodIdent, setProdIdent] = useState("");
   const [dateRangeInsert, setDateRangeInsert] = useState(false);
   const [dateRangeValidity, setDateRangeValidity] = useState(false);
+
   const {
     register,
     handleSubmit: onSubmit,
@@ -60,9 +62,9 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
     <div>
       <div className="max-w-[880px]">
         <form onSubmit={onSubmit(handleSubmit)} className="flex flex-col gap-4">
-          <h2 className="text-2xl font-semibold text-primaria w-52">Consultar Validades</h2>
-          <div className="flex flex-row pt-4 pb-8 items-center">
-            <FieldSet className="flex-row w-full flex-wrap justify-start gap-2">
+          <h2 className="text-2xl font-semibold text-primaria">Consultar Validades</h2>
+          <div className="flex flex-col pt-4 pb-8 justify-center items-center lg:flex-row">
+            <FieldSet className="flex-row w-full flex-wrap justify-between lg:justify-start gap-2 ">
               <div className="flex flex-col max-w-55 w-full h-full gap-2">
                 <FieldGroup className="gap-0">
                   <FieldLabel htmlFor="consultby">Consultar validades por</FieldLabel>
@@ -77,10 +79,10 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                         }}
                         value={field.value}
                       >
-                        <SelectTrigger className="w-full border-1 border-primaria">
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Selecionar modalidade" />
                         </SelectTrigger>
-                        <SelectContent className="border-1 border-primaria">
+                        <SelectContent>
                           <SelectItem value="validityDt">Intervalo de Datas</SelectItem>
                           <SelectItem value="daysQt">Qt. dias para vencer</SelectItem>
                         </SelectContent>
@@ -99,11 +101,7 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                     <div className="flex flex-col">
                       <Popover open={openDtValidity} onOpenChange={setDtOpenValidity}>
                         <PopoverTrigger asChild>
-                          <Button
-                            variant="outline"
-                            id="dateRange"
-                            className="justify-between font-normal hover:bg-transparent border-1 border-primaria"
-                          >
+                          <Button variant="outline" id="dateRange" className="justify-between font-normal">
                             {dateRangeValidity.from && dateRangeValidity.to ? (
                               <span className="flex items-center gap-2">
                                 {format(dateRangeValidity.from, "dd/MM/yyyy")}
@@ -122,6 +120,8 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                           <Calendar
                             mode="range"
                             numberOfMonths={2}
+                            fromYear={new Date().getFullYear() - 10}
+                            toYear={new Date().getFullYear() + 10}
                             selected={dateRangeValidity}
                             onSelect={(range) => {
                               if (!range?.from) {
@@ -131,7 +131,7 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                               setDateRangeValidity(range);
                             }}
                             captionLayout="dropdown"
-                            className="border-1 border-primaria rounded-md"
+                            className="rounded-md"
                           />
                         </PopoverContent>
                       </Popover>
@@ -162,10 +162,10 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                     control={control}
                     render={({ field }) => (
                       <Select onValueChange={field.onChange} value={field.value} modal={false}>
-                        <SelectTrigger className="w-full border-1 border-primaria">
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Selecione a Filial" />
                         </SelectTrigger>
-                        <SelectContent className="border-1 border-primaria">
+                        <SelectContent className="border-1">
                           <SelectItem value="0">Todas</SelectItem>
                           <SelectItem value="1">Matriz</SelectItem>
                           <SelectItem value="2">Faruk</SelectItem>
@@ -182,13 +182,13 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                 </FieldGroup>
                 <FieldGroup className="flex flex-col w-full gap-0">
                   <FieldLabel htmlFor="dateRangeInsert">Data de Inserção</FieldLabel>
-                  <div className="flex flex-col gap-3 ">
+                  <div className="flex flex-col gap-3">
                     <Popover open={openDtInsert} onOpenChange={setDtOpenInsert}>
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
                           id="dateRangeInsert"
-                          className="w-full justify-between font-normal hover:bg-transparent border-1 border-primaria text-primaria"
+                          className="w-full justify-between font-normal hover:bg-transparent text-primaria"
                         >
                           {dateRangeInsert.from && dateRangeInsert.to ? (
                             <span className="flex items-center gap-2">
@@ -217,7 +217,7 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                             setDateRangeInsert(range);
                           }}
                           captionLayout="dropdown"
-                          className="border-1 border-primaria rounded-md"
+                          className="rounded-md"
                         />
                       </PopoverContent>
                     </Popover>
@@ -243,10 +243,10 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                           value={field.value}
                           modal={false}
                         >
-                          <SelectTrigger className="border-1 border-primaria">
+                          <SelectTrigger>
                             <FilterIcon />
                           </SelectTrigger>
-                          <SelectContent className="border-1 border-primaria">
+                          <SelectContent>
                             <SelectItem value="codprod">Código</SelectItem>
                             <SelectItem value="codauxiliar">C. Barras</SelectItem>
                             <SelectItem value="descricao">Desc.</SelectItem>
@@ -272,41 +272,26 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                       })}
                     />
                     <Button
+                      disabled={loading}
                       className="cursor-pointer"
                       onClick={(e) => {
                         e.preventDefault();
                         handleSearchProdDesc();
                       }}
                     >
-                      <SearchIcon
-                        className={clsx({
-                          block: loading === false,
-                          hidden: loading === true,
-                        })}
-                      />
-                      <svg
-                        className={clsx(
-                          "size-4 animate-spin border-3 border-secundaria border-t-primaria rounded-[50%]",
-                          {
-                            block: loading === true,
-                            hidden: loading === false,
-                          },
-                        )}
-                        viewBox="0 0 24 24"
-                      ></svg>
+                      {loading ? <Spinner /> : <SearchIcon />}
                     </Button>
                   </div>
                   <div>
                     <FieldLabel>Descrição</FieldLabel>
-                    <span className="bg-primaria w-full block text-sm text-gray-300 p-2 rounded-md">{prodDesc}</span>
+                    <span className="w-full block text-sm border-1 border-input text-gray-300 p-2 rounded-md">
+                      {prodDesc}
+                    </span>
                   </div>
                 </div>
               </FieldGroup>
             </FieldSet>
-            <div className="flex flex-col pt-5 gap-2">
-              <Button className="bg-primaria hover:bg-hover-primaria hover:cursor-pointer" type="submit">
-                <Search /> Consultar
-              </Button>
+            <div className="flex pt-5 gap-2 lg:flex-col-reverse">
               <Button
                 variant="outline"
                 className="border-terciaria text-terciaria hover:bg-hover-terciaria hover:cursor-pointer"
@@ -314,7 +299,6 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                   e.preventDefault();
                   onClear();
                   reset({
-                    consultby: "",
                     branch_id: "0",
                     dias: "",
                     prod: "",
@@ -326,6 +310,15 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, onSub
                 }}
               >
                 <BrushCleaningIcon /> Limpar
+              </Button>
+              <Button disabled={mainLoading} className="hover:cursor-pointer" type="submit">
+                {mainLoading ? (
+                  <Spinner />
+                ) : (
+                  <>
+                    <Search /> Consultar
+                  </>
+                )}
               </Button>
             </div>
           </div>
