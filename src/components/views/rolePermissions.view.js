@@ -91,7 +91,6 @@ export function SearchRolePermissions({ onSearchPermissions, loading }) {
             render={({ field }) => (
               <Select
                 onValueChange={(e) => {
-                  console.log(e);
                   field.onChange(e);
                   setSearchModality(e);
                   resetField("searchParam");
