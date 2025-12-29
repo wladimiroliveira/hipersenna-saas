@@ -7,14 +7,14 @@ export function ModulesContainer({ modules, title }) {
   const permissions = user?.permissions;
   if (!(role && permissions)) {
     return (
-      <div className="bg-gray-200 p-8 rounded-2xl mb-[200px] m-auto">
+      <div className="bg-gray-200 p-8 rounded-2xl m-auto">
         <h2 className="text-center text-xl font-semibold text-primaria mt-4 mb-10">{title || ""}</h2>
         <div className="flex flex-wrap justify-center gap-8"></div>
       </div>
     );
   }
   return (
-    <div className="bg-gray-200 p-8 rounded-2xl mb-[200px] m-auto">
+    <div className="bg-gray-200 p-8 rounded-2xl m-auto">
       <div className="flex flex-wrap justify-center gap-8">
         {modules
           .filter((module) => {

@@ -1,38 +1,38 @@
 "use client";
 
-import { useForm, Controller } from "react-hook-form";
 import { useState } from "react";
-import { FieldGroup, FieldSet } from "@/components/ui/field";
-import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
+import { FieldGroup, FieldSet } from "../ui/field";
+import { Controller, useForm } from "react-hook-form";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "../ui/select";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
   FilterIcon,
+  MoveLeftIcon,
   SearchIcon,
   SquareChevronLeftIcon,
   SquareChevronRightIcon,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import clsx from "clsx";
-import permissions from "@/files/permissions.json";
 import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
+import clsx from "clsx";
+import { Label } from "../ui/label";
+import { Checkbox } from "../ui/checkbox";
 
-export function PermissionsView({
-  onSearchUser,
+export function RolePermissionsView({
+  onSearchRole,
   onSendPermissions,
   onRemovePermissions,
   loading,
   permissions,
-  userPermissions,
-  username,
+  rolePermissions,
+  roleName,
   showPermissions,
-  permissionMessage,
+  permissionsMessage,
 }) {
-  async function searchUser(data) {
-    onSearchUser([data]);
+  async function searchRolePermissions(data) {
+    onSearchRole(data);
   }
 
   async function sendPermissions(data) {
@@ -42,24 +42,84 @@ export function PermissionsView({
   async function removePermissions(data) {
     onRemovePermissions(data);
   }
-
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <SearchUserPermission onSubmitData={searchUser} loading={loading} />
+        <SearchRolePermissions onSearchPermissions={searchRolePermissions} loading={loading} />
       </div>
       <div>
         <PermissionsContainer
           permissions={permissions}
-          userPermissions={userPermissions}
-          username={username ? username : ""}
+          userPermissions={rolePermissions}
+          username={roleName ? roleName : ""}
           showPermissions={showPermissions}
-          onSendPermission={sendPermissions}
-          onRemovePermission={removePermissions}
-          permissionMessage={permissionMessage}
+          onSendPermissions={sendPermissions}
+          onRemovePermissions={removePermissions}
+          permissionsMessage={permissionsMessage}
         />
       </div>
     </div>
+  );
+}
+
+export function SearchRolePermissions({ onSearchPermissions, loading }) {
+  const [searchModality, setSearchModality] = useState("id");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+    resetField,
+  } = useForm({
+    defaultValues: {
+      searchModality: "id",
+    },
+  });
+
+  const searchRole = (data) => {
+    onSearchPermissions(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(searchRole)}>
+      <FieldSet className="gap-2 flex-row sm:max-w-[40%]">
+        <FieldGroup className="flex-row gap-2">
+          <Controller
+            name="searchModality"
+            control={control}
+            render={({ field }) => (
+              <Select
+                onValueChange={(e) => {
+                  console.log(e);
+                  field.onChange(e);
+                  setSearchModality(e);
+                  resetField("searchParam");
+                }}
+                value={field.value}
+                modal={false}
+              >
+                <SelectTrigger>
+                  <FilterIcon />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="id">ID do Usuário</SelectItem>
+                  <SelectItem value="name">Nome do Cargo</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+          />
+          <Input
+            id="searchParam"
+            type={searchModality === "id" ? "number" : "text"}
+            placeholder={searchModality === "id" ? "ID do cargo" : "Nome do cargo"}
+            {...register("searchParam")}
+            required
+          />
+        </FieldGroup>
+        <Button disabled={loading}>{loading ? <Spinner /> : <SearchIcon />}</Button>
+      </FieldSet>
+    </form>
   );
 }
 
@@ -69,8 +129,8 @@ export function PermissionsContainer({
   permissionMessage,
   username,
   showPermissions,
-  onSendPermission,
-  onRemovePermission,
+  onSendPermissions,
+  onRemovePermissions,
 }) {
   const { control: sendControl, watch: watchSend, reset } = useForm();
   const { control: removeControl, watch: watchRemove } = useForm();
@@ -85,7 +145,7 @@ export function PermissionsContainer({
       return Number(id[1]);
     });
     if (trueKeys.length > 0) {
-      onSendPermission({ direction: "leftToRight", permissions: numbers });
+      onSendPermissions({ direction: "leftToRight", permissions: numbers });
       reset();
     }
   }
@@ -100,7 +160,7 @@ export function PermissionsContainer({
       return Number(id[1]);
     });
     if (trueKeys.length > 0) {
-      onRemovePermission({ direction: "rightToLeft", permissions: numbers });
+      onRemovePermissions({ direction: "rightToLeft", permissions: numbers });
     }
   }
   function findPermissionName(id, array) {
@@ -119,7 +179,7 @@ export function PermissionsContainer({
       </div>
       <div className="flex flex-row h-100">
         <form className="flex flex-row flex-1 min-h-0 w-full">
-          <div className="flex flex-col border-1 gap-2 rounded-md p-2 pt-4 pb-4 overflow-y-scroll min-h-0 flex-1">
+          <div className="flex flex-col border-1  gap-2 rounded-md p-2 pt-4 pb-4 overflow-y-scroll min-h-0 flex-1">
             {permissions ? (
               permissions.map((permission) => (
                 <Controller
@@ -182,65 +242,5 @@ export function PermissionsContainer({
         </form>
       </div>
     </div>
-  );
-}
-
-export function SearchUserPermission({ onSubmitData, loading }) {
-  const [userModality, setUserModality] = useState("id");
-
-  const {
-    register,
-    handleSubmit: onSubmit,
-    formState: { errors },
-    control,
-    resetField,
-  } = useForm({
-    defaultValues: {
-      modalityUser: "id",
-    },
-  });
-
-  const searchUser = (data) => {
-    onSubmitData(data);
-  };
-
-  return (
-    <form onSubmit={onSubmit(searchUser)}>
-      <FieldSet className="gap-2 flex-row sm:max-w-[40%]">
-        <FieldGroup className="flex-row gap-2">
-          <Controller
-            name="modalityUser"
-            control={control}
-            render={({ field }) => (
-              <Select
-                onValueChange={(e) => {
-                  field.onChange(e);
-                  setUserModality(e);
-                  resetField("userId");
-                }}
-                value={field.value}
-                modal={false}
-              >
-                <SelectTrigger>
-                  <FilterIcon />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="id">ID do Usuário</SelectItem>
-                  <SelectItem value="winthor_id">Matrícula</SelectItem>
-                </SelectContent>
-              </Select>
-            )}
-          />
-          <Input
-            id="userId"
-            type="number"
-            placeholder={userModality === "id" ? "Id do usuário" : "Matrícula do usuário"}
-            {...register("userId")}
-            required
-          />
-        </FieldGroup>
-        <Button disabled={loading}>{loading ? <Spinner /> : <SearchIcon />}</Button>
-      </FieldSet>
-    </form>
   );
 }
