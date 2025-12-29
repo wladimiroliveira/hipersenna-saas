@@ -5,12 +5,20 @@ import { useState } from "react";
 import { FieldGroup, FieldSet } from "@/components/ui/field";
 import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { FilterIcon, SearchIcon, SquareChevronLeftIcon, SquareChevronRightIcon } from "lucide-react";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  FilterIcon,
+  SearchIcon,
+  SquareChevronLeftIcon,
+  SquareChevronRightIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
 import permissions from "@/files/permissions.json";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { Spinner } from "../ui/spinner";
 
 export function PermissionsView({
   onSearchUser,
@@ -107,11 +115,11 @@ export function PermissionsContainer({
       })}
     >
       <div className="h-auto pt-2 pb-2">
-        <h2 className="text-lg font-semibold">{username}</h2>
+        <h2 className="text-lg font-semibold capitalize">{username}</h2>
       </div>
       <div className="flex flex-row h-100">
         <form className="flex flex-row flex-1 min-h-0 w-full">
-          <div className="flex flex-col border-1 border-primaria gap-2 rounded-l-md p-2 pt-4 pb-4 overflow-y-scroll min-h-0 flex-1">
+          <div className="flex flex-col border-1 gap-2 rounded-md p-2 pt-4 pb-4 overflow-y-scroll min-h-0 flex-1">
             {permissions ? (
               permissions.map((permission) => (
                 <Controller
@@ -134,18 +142,18 @@ export function PermissionsContainer({
             )}
           </div>
           <div className="flex flex-col justify-center gap-4 h-full p-2">
-            <button type="button" onClick={handleSend}>
-              <SquareChevronRightIcon className="transition-colors cursor-pointer text-primaria hover:text-light-primaria" />
-            </button>
+            <Button variant="outline" type="button" onClick={handleSend}>
+              <ArrowRightIcon />
+            </Button>
           </div>
         </form>
         <form className="flex flex-row flex-1 min-h-0 w-full">
           <div className="flex flex-col justify-center gap-4 h-full p-2">
-            <button type="button" onClick={handleRemove}>
-              <SquareChevronLeftIcon className="transition-colors cursor-pointer text-primaria hover:text-light-primaria" />
-            </button>
+            <Button variant="outline" type="button" onClick={handleRemove}>
+              <ArrowLeftIcon />
+            </Button>
           </div>
-          <div className="flex flex-col border-1 border-primaria gap-2 rounded-r-md p-2 pt-4 pb-4 overflow-y-scroll min-h-0 flex-1">
+          <div className="flex flex-col border-1 gap-2 rounded-md p-2 pt-4 pb-4 overflow-y-scroll min-h-0 flex-1">
             {Array.isArray(userPermissions) && userPermissions.length > 0 ? (
               userPermissions
                 .sort((a, b) => a - b)
@@ -213,10 +221,10 @@ export function SearchUserPermission({ onSubmitData, loading }) {
                 value={field.value}
                 modal={false}
               >
-                <SelectTrigger className="border-primaria">
+                <SelectTrigger>
                   <FilterIcon />
                 </SelectTrigger>
-                <SelectContent className="border-primaria">
+                <SelectContent>
                   <SelectItem value="id">ID do Usuário</SelectItem>
                   <SelectItem value="winthor_id">Matrícula</SelectItem>
                 </SelectContent>
@@ -231,32 +239,7 @@ export function SearchUserPermission({ onSubmitData, loading }) {
             required
           />
         </FieldGroup>
-        <Button
-          className={clsx("flex w-10 p-0", {
-            "pointer-events-none bg-gray-600": loading === true,
-            "pointer-events-auto": loading === false,
-          })}
-        >
-          <div
-            className={clsx({
-              hidden: loading === false,
-              block: loading === true,
-            })}
-          >
-            <svg
-              className="size-5 animate-spin border-3 border-secundaria border-t-primaria rounded-[50%]"
-              viewBox="0 0 24 24"
-            ></svg>
-          </div>
-          <div
-            className={clsx(`flex w-[55%] justify-center`, {
-              block: loading === false,
-              hidden: loading === true,
-            })}
-          >
-            <SearchIcon />
-          </div>
-        </Button>
+        <Button disabled={loading}>{loading ? <Spinner /> : <SearchIcon />}</Button>
       </FieldSet>
     </form>
   );

@@ -28,6 +28,34 @@ export async function getRoles() {
   }
 }
 
+export async function getRole(data) {
+  try {
+    const token = await getToken();
+    const responseResult = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/roles?${data?.searchModality}=${data?.searchParam}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    const responseValue = await responseResult.json();
+    if (responseResult?.status === 401) {
+      await deleteToken();
+    }
+    return {
+      ok: responseResult?.ok,
+      status: responseResult?.status,
+      message: responseResult?.message,
+      role: [...responseValue],
+    };
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
 export async function createRole(data) {
   try {
     const token = await getToken();
