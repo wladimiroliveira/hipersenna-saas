@@ -23,7 +23,6 @@ export function ValidityAnylises() {
         validity_id: prod.validity_id,
         branch_id: item.branch_id,
         created_at: item.created_at,
-        modified_at: item.modified_at,
         request_id: item.request_id,
         employee_id: item.employee_id,
         prod_id: prod.id,
