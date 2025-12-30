@@ -1,12 +1,14 @@
 "use client";
 import { useState } from "react";
 import { ValidityFilter } from "@/components/views/filterValidity.view";
-import { DataTable } from "@/components/views/dataTable.view";
+import { DataTable } from "@/app/(pages)/(main)/modulos/vencimento/analise/datatable";
 import { columns } from "@/app/(pages)/(main)/modulos/vencimento/analise/columns";
 import validities from "@/files/validityData.json";
 import { DownloadTable } from "@/components/services/xlsxHandler.service";
 import { searchProd } from "@/components/services/searchProd.service";
-import { getValidity } from "@/components/services/validity.service";
+import { getValidities, getValidity } from "@/components/services/validity.service";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { BadgeInfoIcon } from "lucide-react";
 
 export function ValidityAnylises() {
   const [prodDesc, setProdDesc] = useState("Consulte o produto...");
@@ -73,9 +75,12 @@ export function ValidityAnylises() {
   }
 
   async function handleSubmit(data) {
-    setMainLoading(true);
     try {
-      console.log;
+      setMainLoading(true);
+      const validityValue = await getValidities(data);
+      if (validityValue?.ok) {
+        setProdList(validityValue?.validities);
+      }
     } catch (err) {
       console.error(err);
       throw err;
@@ -85,6 +90,7 @@ export function ValidityAnylises() {
   }
 
   async function handleInputsClear() {
+    setProdList([]);
     setProdDesc("Consulte um produto...");
   }
 

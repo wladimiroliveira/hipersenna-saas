@@ -284,9 +284,7 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, mainL
                   </div>
                   <div>
                     <FieldLabel>Descrição</FieldLabel>
-                    <span className="w-full block text-sm border-1 border-input text-gray-300 p-2 rounded-md">
-                      {prodDesc}
-                    </span>
+                    <span className="w-full block text-sm border-1 italic border-input p-2 rounded-md">{prodDesc}</span>
                   </div>
                 </div>
               </FieldGroup>
@@ -303,10 +301,10 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, mainL
                     dias: "",
                     prod: "",
                   });
-                  setProdModality("codigo");
+                  setProdModality("codprod");
                   setModality("validityDt");
-                  setDateRangeInsert({ from: undefined, to: undefined });
-                  setDateRangeValidity({ from: undefined, to: undefined });
+                  setDateRangeInsert(false);
+                  setDateRangeValidity(false);
                 }}
               >
                 <BrushCleaningIcon /> Limpar
