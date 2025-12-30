@@ -1,17 +1,20 @@
 "use client";
 import { useState } from "react";
 import { ValidityFilter } from "@/components/views/filterValidity.view";
-import { DataTable } from "@/components/views/dataTable.view";
+import { DataTable } from "@/app/(pages)/(main)/modulos/vencimento/analise/datatable";
 import { columns } from "@/app/(pages)/(main)/modulos/vencimento/analise/columns";
 import validities from "@/files/validityData.json";
 import { DownloadTable } from "@/components/services/xlsxHandler.service";
 import { searchProd } from "@/components/services/searchProd.service";
-import { getValidity } from "@/components/services/validity.service";
+import { getValidities, getValidity } from "@/components/services/validity.service";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { BadgeInfoIcon } from "lucide-react";
 
 export function ValidityAnylises() {
   const [prodDesc, setProdDesc] = useState("Consulte o produto...");
   const [prodCod, setProdCod] = useState();
   const [loadingProdDesc, setLoadingProdDesc] = useState(false);
+  const [mainLoading, setMainLoading] = useState(false);
   const [prodList, setProdList] = useState([]);
 
   function flatList(products) {
@@ -72,10 +75,22 @@ export function ValidityAnylises() {
   }
 
   async function handleSubmit(data) {
-    const responseValue = await getValidity(data);
+    try {
+      setMainLoading(true);
+      const validityValue = await getValidities(data);
+      if (validityValue?.ok) {
+        setProdList(validityValue?.validities);
+      }
+    } catch (err) {
+      console.error(err);
+      throw err;
+    } finally {
+      setMainLoading(false);
+    }
   }
 
   async function handleInputsClear() {
+    setProdList([]);
     setProdDesc("Consulte um produto...");
   }
 
@@ -87,6 +102,7 @@ export function ValidityAnylises() {
         onSearchProd={handleSearchProdDesc}
         onSubmitData={handleSubmit}
         loading={loadingProdDesc}
+        mainLoading={mainLoading}
       />
       <DataTable
         columns={columns}
