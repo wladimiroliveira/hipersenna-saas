@@ -5,6 +5,21 @@ import { ArrowUpDown } from "lucide-react";
 
 export const columns = [
   {
+    accessorKey: "validity_id",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Id da Validade
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const value = row.getValue("product_id");
+      return <div className="pl-7">{value}</div>;
+    },
+  },
+  {
     accessorKey: "product_id",
     header: ({ column }) => {
       return (
