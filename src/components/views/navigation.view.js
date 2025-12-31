@@ -35,14 +35,13 @@ export function Navigation() {
                 const hasPermission = user?.permissions
                   ? path?.permissions.some((p) => user?.permissions.includes(p))
                   : false;
-                const hasRole = user?.role_id ? path?.roles.includes(user?.role_id) : false;
                 let isPublic;
-                if (path?.roles.length === 0 && path?.permissions.length === 0) {
+                if (path?.permissions.length === 0) {
                   isPublic = true;
                 } else {
                   isPublic = false;
                 }
-                return isPublic || hasRole || hasPermission;
+                return isPublic || hasPermission;
               })
               .map((path) => (
                 <li key={path?.id}>
