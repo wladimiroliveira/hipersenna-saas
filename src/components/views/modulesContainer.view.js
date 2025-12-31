@@ -3,9 +3,8 @@ import Link from "next/link";
 
 export function ModulesContainer({ modules, title }) {
   const user = useUserStore((state) => state.user);
-  const role = user?.role_id;
   const permissions = user?.permissions;
-  if (!(role && permissions)) {
+  if (!permissions) {
     return (
       <div className="bg-gray-200 p-8 rounded-2xl m-auto">
         <h2 className="text-center text-xl font-semibold text-primaria mt-4 mb-10">{title || ""}</h2>
@@ -19,14 +18,13 @@ export function ModulesContainer({ modules, title }) {
         {modules
           .filter((module) => {
             const hasPermission = permissions ? module.permissions.some((p) => permissions.includes(p)) : false;
-            const hasRole = role ? module.roles.includes(role) : false;
             let isPublic;
-            if (module.roles.length === 0 && module.permissions.length === 0) {
+            if (module.permissions.length === 0) {
               isPublic = true;
             } else {
               isPublic = false;
             }
-            return isPublic || hasRole || hasPermission;
+            return isPublic || hasPermission;
           })
           .map((module) => (
             <Module

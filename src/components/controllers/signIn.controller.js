@@ -23,14 +23,15 @@ export function SignInController() {
           title: "Sucesso",
           desc: signInValue.message,
         });
+        console.log(signInValue?.user?.allPermissions);
         useUserStore.getState().setUser({
-          id: signInValue.id,
-          name: signInValue.name,
-          username: signInValue.username,
-          winthor_id: signInValue.winthor_id,
-          branch_id: signInValue.branch_id,
-          role_id: signInValue.role_id,
-          permissions: signInValue.hsusers_permissions,
+          id: signInValue?.id,
+          name: signInValue?.name,
+          username: signInValue?.username,
+          winthor_id: signInValue?.winthor_id,
+          branch_id: signInValue?.branch_id,
+          role_id: signInValue?.role_id,
+          permissions: signInValue?.user?.allPermissions,
         });
         setAlertKey((prev) => prev + 1);
         redirect("/modulos/admin-sorteios");
