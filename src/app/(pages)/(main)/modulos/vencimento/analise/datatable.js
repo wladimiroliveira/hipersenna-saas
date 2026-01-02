@@ -24,15 +24,26 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BadgeInfoIcon, Columns3Icon, DownloadIcon, MoveLeft, MoveRightIcon } from "lucide-react";
+import {
+  BadgeInfoIcon,
+  Columns3Icon,
+  DownloadIcon,
+  Fullscreen,
+  MaximizeIcon,
+  MinimizeIcon,
+  MoveLeft,
+  MoveRightIcon,
+} from "lucide-react";
 import clsx from "clsx";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function DataTable({ columns, data, searchColumn, downloadTable, downloadable }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
   const [downloadState, setDownloadState] = React.useState(downloadable ? true : false);
+  const [fullScreen, setFullScreen] = React.useState(false);
 
   const table = useReactTable({
     data,
@@ -55,8 +66,17 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
     table.setPageSize(10);
   }, [table]);
 
+  function handleFullScreen() {
+    console.log(fullScreen);
+    setFullScreen(fullScreen ? false : true);
+  }
+
   return (
-    <div>
+    <div
+      className={clsx("transition-all", {
+        "absolute top-15 left-0 w-full h-full p-4 backdrop-blur-sm bg-secundaria": fullScreen,
+      })}
+    >
       <div className="flex justify-between w-full py-4">
         <div className="flex gap-4">
           <Button
@@ -173,6 +193,14 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="outline" className="cursor-pointer" onClick={handleFullScreen}>
+                {fullScreen ? <MinimizeIcon /> : <MaximizeIcon />}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{fullScreen ? "Minimizar" : "Tela Cheia"}</TooltipContent>
+          </Tooltip>
         </div>
       </div>
       <div className="overflow-hidden rounded-md border">

@@ -23,11 +23,5 @@
     "id": "admin-sorteios",
     "path": "/modulos/admin-sorteios",
     "permissions": []
-  },
-  {
-    "name": "Conhecimento",
-    "id": "conhecimento",
-    "path": "/modulos/conhecimento",
-    "permissions": []
   }
 ]
