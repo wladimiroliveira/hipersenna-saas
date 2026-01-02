@@ -3,6 +3,7 @@
 import { DataTable } from "./datatable";
 import { columns } from "@/app/(pages)/(main)/modulos/admin/users/list/columns";
 import { getAllUsers } from "@/components/services/users.service";
+import { updateRolesStore } from "@/components/views/roles.view";
 import { Suspense, useEffect, useState } from "react";
 
 export default function Page() {
@@ -14,6 +15,7 @@ export default function Page() {
       setUsers(users);
     }
     handleGetUsers();
+    updateRolesStore();
   }, []);
 
   return (

@@ -24,6 +24,7 @@ import { deleteUser } from "@/components/services/users.service";
 import { ErrorAlert, SuccessAlert } from "./alert.view";
 import { useRouter } from "next/navigation";
 import { getRoles } from "../services/role.service";
+import { Spinner } from "../ui/spinner";
 
 export function EditUserMenu({ user }) {
   const [openEdit, setOpenEdit] = useState(false);
@@ -32,6 +33,7 @@ export function EditUserMenu({ user }) {
   const [alert, setAlert] = useState({});
   const [alertKey, setAlertKey] = useState(0);
   const [roles, setRoles] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
@@ -93,25 +95,32 @@ export function EditUserMenu({ user }) {
 
   // ✅ Função de exclusão
   const handleDelete = async () => {
-    const deleteUserValue = await deleteUser(user.id);
-    setOpenDelete(false);
-    if (deleteUserValue.ok) {
-      setAlert({
-        type: "success",
-        statusCode: deleteUserValue.status,
-        title: "Sucesso",
-        desc: "Usuário deletado com sucesso!",
-      });
-      setAlertKey((prev) => prev + 1);
-      router.refresh();
-    } else {
-      setAlert({
-        type: "error",
-        statusCode: deleteUserValue.status,
-        title: "Erro",
-        desc: "Erro ao deletar usuário.",
-      });
-      setAlertKey((prev) => prev + 1);
+    try {
+      setLoading(true);
+      const deleteUserValue = await deleteUser(user.id);
+      setOpenDelete(false);
+      if (deleteUserValue.ok) {
+        setAlert({
+          type: "success",
+          statusCode: deleteUserValue.status,
+          title: "Sucesso",
+          desc: "Usuário deletado com sucesso!",
+        });
+        setAlertKey((prev) => prev + 1);
+        router.refresh();
+      } else {
+        setAlert({
+          type: "error",
+          statusCode: deleteUserValue.status,
+          title: "Erro",
+          desc: "Erro ao deletar usuário.",
+        });
+        setAlertKey((prev) => prev + 1);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -156,7 +165,7 @@ export function EditUserMenu({ user }) {
             <Input type="password" placeholder="********" {...register("password")} />
 
             <div className="flex gap-4">
-              <div className="flex-1">
+              <div className="flex flex-col gap-2 flex-1">
                 <Label>Filial</Label>
                 <Controller
                   name="branch_id"
@@ -177,7 +186,7 @@ export function EditUserMenu({ user }) {
                   )}
                 />
               </div>
-              <div className="flex-1">
+              <div className="flex flex-col gap-2 flex-1">
                 <Label>Cargo</Label>
                 <Controller
                   name="role_id"
@@ -226,9 +235,14 @@ export function EditUserMenu({ user }) {
             <Button onClick={() => setOpenDelete(false)} variant="outline" className=" text-primaria">
               Cancelar
             </Button>
-            <Button onClick={handleDelete} className="bg-red-600 hover:bg-red-700 text-white">
-              Confirmar Exclusão
-              <Trash2 size={16} />
+            <Button disabled={loading} onClick={handleDelete} className="bg-red-600 hover:bg-red-700 text-white">
+              {loading ? (
+                <Spinner />
+              ) : (
+                <>
+                  Excluir <Trash2 size={16} />
+                </>
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -5,21 +5,32 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
-import { Select, SelectContent, SelectTrigger, SelectValue } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { ErrorAlert, SuccessAlert } from "./alert.view";
-import { createRole, deleteRole, patchRole } from "../services/role.service";
+import { createRole, deleteRole, getRoles, patchRole } from "../services/role.service";
 import { useRouter } from "next/navigation";
+import { Spinner } from "../ui/spinner";
+import { useRolesStore } from "@/store/roles.store";
+
+export async function updateRolesStore() {
+  try {
+    const rolesValue = await getRoles();
+    useRolesStore.getState().clearRoles();
+    useRolesStore.getState().setRoles(rolesValue?.roles);
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 export function EditRoleMenu({ role }) {
-  const router = useRouter();
   const [openEdit, setOpenEdit] = useState(false);
   const [alert, setAlert] = useState({});
   const [alertKey, setAlertKey] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, control } = useForm({
+  const { register, handleSubmit } = useForm({
     defaultValues: {
       id: role.id,
       name: role.name,
@@ -28,26 +39,32 @@ export function EditRoleMenu({ role }) {
   });
 
   async function onSubmitForm(data) {
-    const editRoleValue = await patchRole(data);
-    if (editRoleValue.ok) {
-      setOpenEdit(false);
-      router.refresh();
-      setAlert({
-        type: "success",
-        statusCode: editRoleValue.status,
-        title: "Sucesso",
-        desc: "Cargo editado com sucesso!",
-      });
-      setAlertKey((prev) => prev + 1);
-    } else {
-      setOpenEdit(false);
-      setAlert({
-        type: "error",
-        statusCode: editRoleValue.status,
-        title: "Erro",
-        desc: "Erro ao editar cargo",
-      });
-      setAlertKey((prev) => prev + 1);
+    try {
+      setLoading(true);
+      const editRoleValue = await patchRole(data);
+      if (editRoleValue.ok) {
+        setOpenEdit(false);
+        setAlert({
+          type: "success",
+          statusCode: editRoleValue.status,
+          title: "Sucesso",
+          desc: "Cargo editado com sucesso!",
+        });
+        setAlertKey((prev) => prev + 1);
+      } else {
+        setOpenEdit(false);
+        setAlert({
+          type: "error",
+          statusCode: editRoleValue.status,
+          title: "Erro",
+          desc: "Erro ao editar cargo",
+        });
+        setAlertKey((prev) => prev + 1);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -73,8 +90,14 @@ export function EditRoleMenu({ role }) {
             <Label>Descrição</Label>
             <Textarea {...register("description")} />
             <DialogFooter className="flex justify-between pt-4">
-              <Button type="submit" className="bg-primaria">
-                Salvar <SaveIcon />
+              <Button disabled={loading} type="submit" className="bg-primaria">
+                {loading ? (
+                  <Spinner />
+                ) : (
+                  <>
+                    Salvar <SaveIcon />
+                  </>
+                )}
               </Button>
             </DialogFooter>
           </form>
@@ -92,6 +115,7 @@ export function DeleteRoleMenu({ role }) {
   const [openEdit, setOpenEdit] = useState(false);
   const [alert, setAlert] = useState({});
   const [alertKey, setAlertKey] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -104,26 +128,33 @@ export function DeleteRoleMenu({ role }) {
   });
 
   async function onSubmitForm(data) {
-    const deleteRoleValue = await deleteRole(data);
-    if (deleteRoleValue.ok) {
-      setOpenEdit(false);
-      router.refresh();
-      setAlert({
-        type: "success",
-        statusCode: deleteRoleValue.status,
-        title: "Sucesso",
-        desc: "Cargo deletado com sucesso!",
-      });
-      setAlertKey((prev) => prev + 1);
-    } else {
-      setOpenEdit(false);
-      setAlert({
-        type: "error",
-        statusCode: deleteRoleValue.status,
-        title: "Erro",
-        desc: "Erro ao deletar cargo",
-      });
-      setAlertKey((prev) => prev + 1);
+    try {
+      setLoading(true);
+      const deleteRoleValue = await deleteRole(data);
+      if (deleteRoleValue.ok) {
+        setOpenEdit(false);
+        router.refresh();
+        setAlert({
+          type: "success",
+          statusCode: deleteRoleValue.status,
+          title: "Sucesso",
+          desc: "Cargo deletado com sucesso!",
+        });
+        setAlertKey((prev) => prev + 1);
+      } else {
+        setOpenEdit(false);
+        setAlert({
+          type: "error",
+          statusCode: deleteRoleValue.status,
+          title: "Erro",
+          desc: "Erro ao deletar cargo",
+        });
+        setAlertKey((prev) => prev + 1);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -136,7 +167,7 @@ export function DeleteRoleMenu({ role }) {
           setOpenEdit(true);
         }}
       >
-        <Trash2Icon className="text-red-700" />
+        <Trash2Icon className="text-red-500" />
       </Button>
       <Dialog open={openEdit} onOpenChange={setOpenEdit}>
         <DialogContent className="sm:max-w-[425px] text-primaria">
@@ -150,8 +181,14 @@ export function DeleteRoleMenu({ role }) {
               </p>
             </div>
             <DialogFooter className="flex justify-between pt-4">
-              <Button type="submit" className="bg-red-700 cursor-pointer hover:bg-red-800">
-                Excluir <Trash2Icon />
+              <Button disabled={loading} type="submit" className="bg-red-500 cursor-pointer hover:bg-red-800">
+                {loading ? (
+                  <Spinner />
+                ) : (
+                  <>
+                    Excluir <Trash2Icon />
+                  </>
+                )}
               </Button>
             </DialogFooter>
           </form>
@@ -169,6 +206,7 @@ export function CreateRoleMenu() {
   const [openCreate, setOpenCreate] = useState(false);
   const [alert, setAlert] = useState({});
   const [alertKey, setAlertKey] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -180,26 +218,33 @@ export function CreateRoleMenu() {
   });
 
   async function onSubmitForm(data) {
-    const createRoleValue = await createRole(data);
-    if (createRoleValue.ok) {
-      setOpenCreate(false);
-      router.refresh();
-      setAlert({
-        type: "success",
-        statusCode: createRoleValue.status,
-        title: "Sucesso",
-        desc: "Cargo criado com sucesso!",
-      });
-      setAlertKey((prev) => prev + 1);
-    } else {
-      setOpenCreate(false);
-      setAlert({
-        type: "error",
-        statusCode: createRoleValue.status,
-        title: "Erro",
-        desc: "Erro ao criar cargo",
-      });
-      setAlertKey((prev) => prev + 1);
+    try {
+      setLoading(true);
+      const createRoleValue = await createRole(data);
+      if (createRoleValue.ok) {
+        setOpenCreate(false);
+        router.refresh();
+        setAlert({
+          type: "success",
+          statusCode: createRoleValue.status,
+          title: "Sucesso",
+          desc: "Cargo criado com sucesso!",
+        });
+        setAlertKey((prev) => prev + 1);
+      } else {
+        setOpenCreate(false);
+        setAlert({
+          type: "error",
+          statusCode: createRoleValue.status,
+          title: "Erro",
+          desc: "Erro ao criar cargo",
+        });
+        setAlertKey((prev) => prev + 1);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -225,8 +270,18 @@ export function CreateRoleMenu() {
             <Label>Descrição</Label>
             <Textarea {...register("description")} placeholder="Digite a descrição do cargo" />
             <DialogFooter className="flex justify-between pt-4">
-              <Button type="submit" className="bg-quartenaria cursor-pointer hover:bg-hover-quartenaria">
-                Criar <SaveIcon />
+              <Button
+                disabled={loading}
+                type="submit"
+                className="bg-quartenaria cursor-pointer hover:bg-hover-quartenaria"
+              >
+                {loading ? (
+                  <Spinner />
+                ) : (
+                  <>
+                    Criar <SaveIcon />
+                  </>
+                )}
               </Button>
             </DialogFooter>
           </form>

@@ -25,9 +25,6 @@ export function SignInController() {
           title: "Sucesso",
           desc: signInValue.message,
         });
-        const rolesValue = await getRoles();
-        useRolesStore.getState().clearRoles();
-        useRolesStore.getState().setRoles(rolesValue?.roles);
         useUserStore.getState().setUser({
           id: signInValue?.id,
           name: signInValue?.name,
