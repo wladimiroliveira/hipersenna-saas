@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MoreHorizontal, Save, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,12 +18,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Controller, useForm } from "react-hook-form";
 
 import branches from "@/files/branches.json";
-import roles from "@/files/roles.json";
 
 import { editUser } from "@/components/services/users.service";
 import { deleteUser } from "@/components/services/users.service";
 import { ErrorAlert, SuccessAlert } from "./alert.view";
 import { useRouter } from "next/navigation";
+import { getRoles } from "../services/role.service";
 
 export function EditUserMenu({ user }) {
   const [openEdit, setOpenEdit] = useState(false);
@@ -31,6 +31,7 @@ export function EditUserMenu({ user }) {
   const [clickSubmit, setClickSubmit] = useState(false);
   const [alert, setAlert] = useState({});
   const [alertKey, setAlertKey] = useState(0);
+  const [roles, setRoles] = useState(false);
 
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
@@ -40,6 +41,14 @@ export function EditUserMenu({ user }) {
       role_id: String(user.role_id),
     },
   });
+
+  useEffect(() => {
+    async function handleGetRoles() {
+      const rolesValue = await getRoles();
+      setRoles(rolesValue?.roles);
+    }
+    handleGetRoles();
+  }, []);
 
   const router = useRouter();
 
@@ -179,11 +188,15 @@ export function EditUserMenu({ user }) {
                         <SelectValue placeholder="Selecionar" />
                       </SelectTrigger>
                       <SelectContent>
-                        {roles.map((r) => (
-                          <SelectItem key={r.id} value={`${r.id}`}>
-                            {r.name}
-                          </SelectItem>
-                        ))}
+                        {roles ? (
+                          roles.map((r) => (
+                            <SelectItem key={r.id} value={`${r.id}`}>
+                              {r.name}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <></>
+                        )}
                       </SelectContent>
                     </Select>
                   )}
