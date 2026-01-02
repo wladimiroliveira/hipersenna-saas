@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { columns } from "./columns";
 import { DataTable } from "./datatable";
 import { getRoles } from "@/components/services/role.service";
+import { updateRolesStore } from "@/components/views/roles.view";
 
 async function getData() {
   const roles = await getRoles();

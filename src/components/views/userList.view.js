@@ -27,6 +27,7 @@ export function CreateUserModal() {
 
   async function onSubmitForm(data) {
     try {
+      setLoading(true);
       const createUserValue = await signUpModel({
         ...data,
         branch_id: Number(data?.branch_id),
