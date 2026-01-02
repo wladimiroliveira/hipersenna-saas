@@ -6,6 +6,8 @@ import { ArrowUpDown } from "lucide-react";
 import branches from "@/files/branches.json";
 import { useEffect, useState } from "react";
 import { getRoles } from "@/components/services/role.service";
+import { useRolesStore } from "@/store/roles.store";
+const { roles } = useRolesStore.getState("roles");
 
 export const columns = [
   {
@@ -39,14 +41,6 @@ export const columns = [
     accessorKey: "hsusers_roles",
     header: "Cargo",
     cell: ({ row }) => {
-      useEffect(() => {
-        async function handleGetRoles() {
-          const rolesValue = await getRoles();
-          setRoles(rolesValue?.roles);
-        }
-        handleGetRoles();
-      }, []);
-      const [roles, setRoles] = useState(false);
       const value = row.getValue("hsusers_roles");
       const name = () => {
         const item = roles && roles.find((role) => role?.id === value);
