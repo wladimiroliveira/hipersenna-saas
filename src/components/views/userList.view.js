@@ -12,50 +12,51 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { getRoles } from "../services/role.service";
 import branches from "@/files/branches.json";
 import { Spinner } from "../ui/spinner";
-import { createUser } from "../services/createUser.service";
 import { ErrorAlert, SuccessAlert } from "./alert.view";
 import { signUpModel } from "../services/signUp.service";
+import { useRolesStore } from "@/store/roles.store";
 
 export function CreateUserModal() {
   const [openCreate, setOpenCreate] = useState(false);
-  const [roles, setRoles] = useState(false);
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({});
   const [alertKey, setAlertKey] = useState(0);
   const [inputType, setInputType] = useState("password");
   const router = useRouter();
-
-  async function handleGetRoles() {
-    const rolesValue = await getRoles();
-    setRoles(rolesValue?.roles);
-  }
+  const { roles } = useRolesStore.getState();
 
   async function onSubmitForm(data) {
-    const createUserValue = await signUpModel({
-      ...data,
-      branch_id: Number(data?.branch_id),
-      role_id: Number(data?.role_id),
-      winthor_id: Number(data?.winthor_id),
-    });
-    if (createUserValue.ok) {
-      setOpenCreate(false);
-      router.refresh();
-      setAlert({
-        type: "success",
-        statusCode: createUserValue.status,
-        title: "Sucesso",
-        desc: "Usuário criado com sucesso!",
+    try {
+      const createUserValue = await signUpModel({
+        ...data,
+        branch_id: Number(data?.branch_id),
+        role_id: Number(data?.role_id),
+        winthor_id: Number(data?.winthor_id),
       });
-      setAlertKey((prev) => prev + 1);
-    } else {
-      setOpenCreate(false);
-      setAlert({
-        type: "error",
-        statusCode: createUserValue?.status,
-        title: "Erro",
-        desc: createUserValue?.message,
-      });
-      setAlertKey((prev) => prev + 1);
+      if (createUserValue.ok) {
+        setOpenCreate(false);
+        router.refresh();
+        setAlert({
+          type: "success",
+          statusCode: createUserValue.status,
+          title: "Sucesso",
+          desc: "Usuário criado com sucesso!",
+        });
+        setAlertKey((prev) => prev + 1);
+      } else {
+        setOpenCreate(false);
+        setAlert({
+          type: "error",
+          statusCode: createUserValue?.status,
+          title: "Erro",
+          desc: createUserValue?.message,
+        });
+        setAlertKey((prev) => prev + 1);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -82,7 +83,6 @@ export function CreateUserModal() {
         type="button"
         onClick={() => {
           setOpenCreate(true);
-          handleGetRoles();
         }}
         className="bg-quartenaria text-secundaria hover:text-secundaria hover:bg-hover-quartenaria cursor-pointer"
       >

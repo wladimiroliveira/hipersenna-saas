@@ -6,6 +6,8 @@ import { SignInForm } from "@/components/views/signIn.view";
 import { signIn } from "@/components/services/signIn.service";
 import { ErrorAlert, SuccessAlert } from "@/components/views/alert.view";
 import { useUserStore } from "@/store/user.store";
+import { getRoles } from "../services/role.service";
+import { useRolesStore } from "@/store/roles.store";
 
 export function SignInController() {
   const [loading, setLoading] = useState(false);
@@ -23,7 +25,9 @@ export function SignInController() {
           title: "Sucesso",
           desc: signInValue.message,
         });
-        console.log(signInValue?.user?.allPermissions);
+        const rolesValue = await getRoles();
+        useRolesStore.getState().clearRoles();
+        useRolesStore.getState().setRoles(rolesValue?.roles);
         useUserStore.getState().setUser({
           id: signInValue?.id,
           name: signInValue?.name,
