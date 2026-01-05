@@ -4,17 +4,12 @@ import { Navbar } from "@/components/views/navbar.view";
 import { TimelineContainer } from "@/components/views/timeline.view";
 import { useRafflesStore } from "@/store/raffles.store";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Page() {
   const { raffles } = useRafflesStore();
+  setNumsGerados(raffles?.numbers);
   const [numsGerados, setNumsGerados] = useState([]);
-
-  useEffect(() => {
-    if (Array.isArray(raffles)) {
-      setNumsGerados(raffles.numbers);
-    }
-  }, [raffles]);
 
   return (
     <div>
