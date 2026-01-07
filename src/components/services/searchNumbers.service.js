@@ -86,7 +86,11 @@ export function SearchNumbers() {
         {clientRaffles ? <h3 className="text-center font-semibold">Este são seus números da sorte</h3> : ""}
         <div>
           {clientRaffles ? (
-            clientRaffles.map((raffle) => <span className="block text-center">{raffle.raffle_number}</span>)
+            clientRaffles.map((raffle, id) => (
+              <span key={id} className="block text-center">
+                {raffle.raffle_number}
+              </span>
+            ))
           ) : (
             <span>...</span>
           )}

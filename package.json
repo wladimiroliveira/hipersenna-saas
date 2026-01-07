@@ -8,6 +8,7 @@
     "start": "next start",
     "lint:prettier:check": "prettier --check .",
     "lint:prettier:fix": "prettier --write .",
+    "lint:eslint:check": "eslint .",
     "test": "jest --runInBand",
     "test:watch": "jest --watchAll --runInBand",
     "services:up": "docker compose -f src/infra/compose.yml up -d",
@@ -55,6 +56,8 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "^16.1.1",
     "jest": "^30.2.0",
     "prettier": "^3.6.2",
     "tailwindcss": "^4",

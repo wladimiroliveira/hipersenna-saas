@@ -4,7 +4,6 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 
 import * as React from "react";
 import {
-  columnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -111,7 +110,9 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
                     <CardTitle className="flex items-center gap-2">
                       <BadgeInfoIcon size="20" /> Tratativas
                     </CardTitle>
-                    <CardDescription>Confira os Id's de todas as tratativas disponíveis no sistema</CardDescription>
+                    <CardDescription>
+                      Confira os Id`&apos;`s de todas as tratativas disponíveis no sistema
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <ul>
