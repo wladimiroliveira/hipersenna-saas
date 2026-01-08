@@ -97,7 +97,7 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
           />
         </div>
         <div className="flex gap-4">
-          <DropdownMenu>
+          <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <Button>
                 <BadgeInfoIcon /> Tratativas
