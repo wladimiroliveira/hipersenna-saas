@@ -1,8 +1,9 @@
 "use client";
 
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import * as React from "react";
+import { useState, useEffect, isValidElement } from "react";
+
 import {
   flexRender,
   getCoreRowModel,
@@ -27,6 +28,8 @@ import {
   BadgeInfoIcon,
   Columns3Icon,
   DownloadIcon,
+  FileDownIcon,
+  FileTextIcon,
   Fullscreen,
   MaximizeIcon,
   MinimizeIcon,
@@ -37,12 +40,11 @@ import clsx from "clsx";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
-export function DataTable({ columns, data, searchColumn, downloadTable, downloadable }) {
-  const [sorting, setSorting] = React.useState([]);
-  const [columnFilters, setColumnFilters] = React.useState([]);
-  const [columnVisibility, setColumnVisibility] = React.useState({});
-  const [downloadState, setDownloadState] = React.useState(downloadable ? true : false);
-  const [fullScreen, setFullScreen] = React.useState(false);
+export function DataTable({ columns, data, searchColumn, downloadTable, generateReport }) {
+  const [sorting, setSorting] = useState([]);
+  const [columnFilters, setColumnFilters] = useState([]);
+  const [columnVisibility, setColumnVisibility] = useState({});
+  const [fullScreen, setFullScreen] = useState(false);
 
   const table = useReactTable({
     data,
@@ -61,7 +63,7 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     table.setPageSize(10);
   }, [table]);
 
@@ -76,24 +78,21 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
         "absolute top-15 left-0 w-full h-full p-4 backdrop-blur-sm bg-secundaria": fullScreen,
       })}
     >
-      <div className="flex justify-between w-full py-4">
-        <div className="flex gap-4">
-          <Button
-            variant="outline"
-            className={clsx("cursor-pointer", {
-              hidden: downloadState === false,
-              flex: downloadState === true,
-            })}
-            onClick={downloadTable}
-          >
-            <DownloadIcon />
-            Baixar Planilha
+      <div className="flex justify-between w-full gap-2 py-4">
+        <div className="flex flex-1 gap-2">
+          <Button variant="outline" className="cursor-pointer" onClick={downloadTable}>
+            <FileDownIcon />
+            Exportar
+          </Button>
+          <Button variant="outline" className="cursor-pointer" onClick={generateReport}>
+            <FileTextIcon />
+            Gerar Relatório
           </Button>
           <Input
             placeholder={`Filtre por descrição...`}
             value={table.getColumn(searchColumn)?.getFilterValue() ?? ""}
             onChange={(event) => table.getColumn(searchColumn)?.setFilterValue(event.target.value)}
-            className="w-md"
+            className="max-w-md"
           />
         </div>
         <div className="flex gap-4">
@@ -166,7 +165,7 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
                     }
                   }
                   // 🔹 Se ainda for JSX simples (<div>Texto</div>)
-                  if (React.isValidElement(headerLabel)) {
+                  if (isValidElement(headerLabel)) {
                     const children = headerLabel.props.children;
                     if (typeof children === "string") {
                       headerLabel = children;
@@ -177,7 +176,7 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
                     }
                   }
                   if (!headerLabel) headerLabel = column.id;
-                  if (React.isValidElement(headerLabel)) {
+                  if (isValidElement(headerLabel)) {
                     headerLabel = headerLabel.props;
                     children || column.id;
                   }
