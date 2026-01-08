@@ -6,8 +6,6 @@ import { SignInForm } from "@/components/views/signIn.view";
 import { signIn } from "@/components/services/signIn.service";
 import { ErrorAlert, SuccessAlert } from "@/components/views/alert.view";
 import { useUserStore } from "@/store/user.store";
-import { getRoles } from "../services/role.service";
-import { useRolesStore } from "@/store/roles.store";
 
 export function SignInController() {
   const [loading, setLoading] = useState(false);
@@ -35,7 +33,7 @@ export function SignInController() {
           permissions: signInValue?.user?.allPermissions,
         });
         setAlertKey((prev) => prev + 1);
-        redirect("/modulos/admin-sorteios");
+        redirect("/home");
       } else {
         setAlert({
           type: "error",
