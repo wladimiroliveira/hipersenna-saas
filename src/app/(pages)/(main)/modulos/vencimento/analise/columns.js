@@ -20,6 +20,10 @@ export const columns = [
     },
   },
   {
+    accessorKey: "branch_id",
+    header: "Filial",
+  },
+  {
     accessorKey: "employee_id",
     header: "Id Colab.",
   },
