@@ -13,15 +13,18 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "../ui/spinner";
+import { searchProd } from "../services/searchProd.service";
 
-export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, mainLoading, onSubmitData }) {
+export function ValidityFilter({ onClear, mainLoading, onSubmitData }) {
   const [openDtInsert, setDtOpenInsert] = useState(false);
   const [openDtValidity, setDtOpenValidity] = useState(false);
   const [modality, setModality] = useState("validityDt");
   const [prodModality, setProdModality] = useState("codprod");
   const [prodIdent, setProdIdent] = useState("");
+  const [prodDesc, setProdDesc] = useState("...");
   const [dateRangeInsert, setDateRangeInsert] = useState(false);
   const [dateRangeValidity, setDateRangeValidity] = useState(false);
+  const [searchProdLoading, setSearchProdLoading] = useState(false);
 
   const {
     register,
@@ -38,10 +41,21 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, mainL
     },
   });
 
-  const handleSearchProdDesc = () => {
-    onSearchProd([{ id: prodIdent, type: prodModality }]);
-  };
-
+  async function handleSearchProdDesc(data) {
+    try {
+      setSearchProdLoading(true);
+      if (!data?.id || !data?.type) {
+        return;
+      }
+      const queryValue = await searchProd(data?.id, data?.type);
+      queryValue[0].descricao ? setProdDesc(queryValue[0].descricao) : setProdDesc("Produto não encontrado");
+    } catch (err) {
+      console.error(err);
+      throw err;
+    } finally {
+      setSearchProdLoading(false);
+    }
+  }
   const handleSubmit = (data) => {
     const validityDate = dateRangeValidity
       ? {
@@ -248,8 +262,8 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, mainL
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="codprod">Código</SelectItem>
-                            <SelectItem value="codauxiliar">C. Barras</SelectItem>
-                            <SelectItem value="descricao">Desc.</SelectItem>
+                            <SelectItem value="codauxiliar">Código de barras</SelectItem>
+                            <SelectItem value="descricao">Descrição</SelectItem>
                           </SelectContent>
                         </Select>
                       )}
@@ -261,8 +275,8 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, mainL
                         prodModality === "descricao"
                           ? "Descrição"
                           : prodModality === "codprod"
-                            ? "Código do Produto"
-                            : "Código de Barras"
+                            ? "Código"
+                            : "Código de barras"
                       }
                       className="min-w-26"
                       {...register("prod", {
@@ -272,14 +286,13 @@ export function ValidityFilter({ prodDesc, onClear, onSearchProd, loading, mainL
                       })}
                     />
                     <Button
-                      disabled={loading}
-                      className="cursor-pointer"
+                      disabled={searchProdLoading}
                       onClick={(e) => {
                         e.preventDefault();
-                        handleSearchProdDesc();
+                        handleSearchProdDesc({ id: prodIdent, type: prodModality });
                       }}
                     >
-                      {loading ? <Spinner /> : <SearchIcon />}
+                      {searchProdLoading ? <Spinner /> : <SearchIcon />}
                     </Button>
                   </div>
                   <div>
