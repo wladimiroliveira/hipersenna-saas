@@ -1,38 +1,38 @@
 [
   {
     "id": 1,
-    "description": "pendente"
+    "description": "Pendente"
   },
   {
     "id": 2,
-    "description": "colocar em promoção"
+    "description": "Colocar em promoção"
   },
   {
     "id": 3,
-    "description": "trocar com o fornecedor"
+    "description": "Trocar com o fornecedor"
   },
   {
     "id": 4,
-    "description": "transferência interna"
+    "description": "Transferência interna"
   },
   {
     "id": 5,
-    "description": "bloqueio para venda"
+    "description": "Bloqueio para venda"
   },
   {
     "id": 6,
-    "description": "doação"
+    "description": "Doação"
   },
   {
     "id": 7,
-    "description": "vencido"
+    "description": "Vencido"
   },
   {
     "id": 8,
-    "description": "produto vendável dentro do prazo"
+    "description": "Produto vendável dentro do prazo"
   },
   {
     "id": 9,
-    "description": "inserção tardia"
+    "description": "Inserção tardia"
   }
 ]
