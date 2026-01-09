@@ -6,6 +6,7 @@ import {
   getFilteredRowModel,
   useReactTable,
   getPaginationRowModel,
+  getSortedRowModel,
 } from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -16,6 +17,7 @@ import { useState } from "react";
 import { CreatePermissionsMenu } from "@/components/views/permissions.view";
 
 export function DataTable({ columns, data }) {
+  const [sorting, setSorting] = useState([{ id: "id", desc: false }]);
   const [columnFilters, setColumnFilters] = useState([]);
 
   const table = useReactTable({
@@ -25,7 +27,10 @@ export function DataTable({ columns, data }) {
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
     state: {
+      sorting,
       columnFilters,
     },
   });

@@ -4,8 +4,6 @@ import { EditUserMenu } from "@/components/views/editUser.view";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import branches from "@/files/branches.json";
-import { useEffect, useState } from "react";
-import { getRoles } from "@/components/services/role.service";
 import { useRolesStore } from "@/store/roles.store";
 const { roles } = useRolesStore.getState("roles");
 
@@ -13,12 +11,7 @@ export const columns = [
   {
     accessorKey: "id",
     header: ({ column }) => {
-      return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          id
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+      return <p className="pl-7">ID</p>;
     },
     cell: ({ row }) => {
       const value = row.getValue("id");

@@ -28,7 +28,7 @@ import clsx from "clsx";
 import { CreateUserModal } from "@/components/views/userList.view";
 
 export function DataTable({ columns, data, searchColumn, downloadTable, downloadable }) {
-  const [sorting, setSorting] = React.useState([]);
+  const [sorting, setSorting] = React.useState([{ id: "id", desc: false }]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
 
