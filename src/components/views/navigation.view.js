@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { LogOut, UserCircle2Icon } from "lucide-react";
+import { LogOut, UserCircle2Icon, UserIcon } from "lucide-react";
 import { useUserStore } from "@/store/user.store";
 import { usePathname } from "next/navigation";
 
@@ -64,19 +64,19 @@ export function Navigation() {
         <div>
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 text-secundaria hover:text-primaria">
-                <UserCircle2Icon className="size-6" />
+              <Button className="size-8 cursor-pointer bg-white text-primaria hover:bg-gray-400">
+                <UserIcon className="size-6" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="border-primaria" align="end">
+            <DropdownMenuContent align="end">
               <DropdownMenuLabel className="flex items-end justify-center gap-2">
                 {user?.username || "usuario"}
               </DropdownMenuLabel>
-              <DropdownMenuSeparator className="bg-primaria" />
+              <DropdownMenuSeparator />
               <DropdownMenuItem className="flex justify-center">
-                <SignOutButton className="flex justify-center p-1 rounded-md transition-colors cursor-pointer gap-2 text-terciaria hover:bg-hover-terciaria w-full">
-                  <LogOut className="text-terciaria" />
+                <SignOutButton className="flex items-center justify-between w-full cursor-pointer">
                   Sair
+                  <LogOut className="text-terciaria size-4" />
                 </SignOutButton>
               </DropdownMenuItem>
             </DropdownMenuContent>
