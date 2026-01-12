@@ -25,6 +25,23 @@ export function CreateUserModal() {
   const router = useRouter();
   const { roles } = useRolesStore.getState();
 
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+  } = useForm({
+    defaultValues: {
+      name: "",
+      username: "",
+      password: "",
+      branch_id: "",
+      winthor_id: "",
+      role_id: "",
+    },
+  });
+
   async function onSubmitForm(data) {
     try {
       setLoading(true);
@@ -44,8 +61,8 @@ export function CreateUserModal() {
           desc: "Usuário criado com sucesso!",
         });
         setAlertKey((prev) => prev + 1);
+        reset();
       } else {
-        setOpenCreate(false);
         setAlert({
           type: "error",
           statusCode: createUserValue?.status,
@@ -60,23 +77,6 @@ export function CreateUserModal() {
       setLoading(false);
     }
   }
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-    reset,
-  } = useForm({
-    defaultValues: {
-      name: "",
-      username: "",
-      password: "",
-      branch_id: "",
-      winthor_id: "",
-      role_id: "",
-    },
-  });
 
   return (
     <div>
