@@ -86,6 +86,14 @@
         "permissions": [28]
       },
       {
+        "id": "req_vistoria",
+        "name": "Requisição de Vistoria",
+        "description": "Gerenciar requisições de vistorias   ",
+        "path": "/modulos/vencimento/request",
+        "buttonText": "Acessar",
+        "permissions": [28]
+      },
+      {
         "id": "tratamento",
         "name": "Inserção de Tratamentos",
         "description": "Insira aqui todos as atualizações de tratamento de vencimentos",
