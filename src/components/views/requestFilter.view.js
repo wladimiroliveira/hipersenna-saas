@@ -8,9 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, Controller } from "react-hook-form";
 import {
-  BoxesIcon,
+  BarcodeIcon,
+  Binary,
+  BinaryIcon,
   Building2Icon,
   CalendarDaysIcon,
+  CaseSensitiveIcon,
   SearchIcon,
   SlidersHorizontalIcon,
   Trash2Icon,
@@ -32,6 +35,7 @@ export function RequestFilter() {
   const { register, handleSubmit, reset, control } = useForm({
     defaultValues: {
       diasVencer: "",
+      depart: "",
       branch_id: "0",
       prod: "",
       buyer_id: "",
@@ -39,8 +43,39 @@ export function RequestFilter() {
     },
   });
 
+  const fetchBonus = (data) => {
+    console.log({
+      ...data,
+      prodMod,
+      insertDate: {
+        from: new Date(insertDate?.from).toLocaleDateString("pt-br", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }),
+        to: new Date(insertDate?.to).toLocaleDateString("pt-br", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }),
+      },
+      validityDate: {
+        from: new Date(insertDate?.from).toLocaleDateString("pt-br", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }),
+        to: new Date(insertDate?.to).toLocaleDateString("pt-br", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        }),
+      },
+    });
+  };
+
   return (
-    <form className="flex flex-col">
+    <form onSubmit={handleSubmit(fetchBonus)} className="flex flex-col">
       <p className="text-xs tracking-[4px] pt-2 pb-2 text-gray-400 uppercase ">Filtrar Bônus</p>
       <div className="flex flex-wrap gap-2">
         <div className="flex  gap-2 bg-gray-50 p-2 rounded-sm">
@@ -75,7 +110,7 @@ export function RequestFilter() {
               <PopoverContent>
                 <Calendar
                   mode="range"
-                  numberOfMunts={2}
+                  numberOfMonths={1}
                   fromYear={new Date().getFullYear() - 10}
                   toYear={new Date().getFullYear() + 10}
                   selected={insertDate}
@@ -128,7 +163,7 @@ export function RequestFilter() {
               <PopoverContent>
                 <Calendar
                   mode="range"
-                  numberOfMunts={2}
+                  numberOfMonths={1}
                   fromYear={new Date().getFullYear() - 10}
                   toYear={new Date().getFullYear() + 10}
                   selected={validityDate}
@@ -156,7 +191,6 @@ export function RequestFilter() {
               className="bg-white bg-[url(/request_validity/clock-alert.svg)]  bg-no-repeat bg-[position:.7rem_center] bg-[length:16px_16px] pl-8 text-right"
               onChange={(e) => {
                 setDiasVencer(e.target.value ?? undefined);
-                console.log(e.target.value);
               }}
             />
           </div>
@@ -209,16 +243,60 @@ export function RequestFilter() {
           <div className="flex flex-col items-start">
             <Label>Produto</Label>
             <div className="flex gap-2">
-              <Button variant="outline" type="button" className="cursor-pointer">
-                <SlidersHorizontalIcon />{" "}
-              </Button>
+              <Popover>
+                <PopoverTrigger>
+                  <Button size="icon" variant="outline" type="button" className="cursor-pointer">
+                    <SlidersHorizontalIcon />{" "}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-fit">
+                  <ul className="flex flex-col gap-2">
+                    <li>
+                      <Button
+                        onClick={() => {
+                          setProdMod("cod");
+                          reset();
+                        }}
+                        variant={prodMod === "cod" ? "default" : "outline"}
+                        className="w-full cursor-pointer justify-start"
+                      >
+                        <BinaryIcon /> Código
+                      </Button>
+                    </li>
+                    <li>
+                      <Button
+                        onClick={() => {
+                          setProdMod("barras");
+                          reset();
+                        }}
+                        variant={prodMod === "barras" ? "default" : "outline"}
+                        className="w-full cursor-pointer justify-start"
+                      >
+                        <BarcodeIcon /> Código de Barras
+                      </Button>
+                    </li>
+                    <li>
+                      <Button
+                        onClick={() => {
+                          setProdMod("desc");
+                          reset();
+                        }}
+                        variant={prodMod === "desc" ? "default" : "outline"}
+                        className="w-full cursor-pointer justify-start"
+                      >
+                        <CaseSensitiveIcon /> Descrição
+                      </Button>
+                    </li>
+                  </ul>
+                </PopoverContent>
+              </Popover>
               <Input
                 {...register("prod")}
                 type={prodMod === "desc" ? "text" : "number"}
                 placeholder={prodMod === "cod" ? "2010" : prodMod === "barras" ? "7546895231465" : "coca cola 250ml"}
                 className="bg-white"
               />
-              <Button variant="outline" type="button" className="cursor-pointer">
+              <Button size="icon" variant="outline" type="button" className="cursor-pointer">
                 <SearchIcon />{" "}
               </Button>
             </div>
@@ -252,7 +330,19 @@ export function RequestFilter() {
           <SearchIcon />
           Consultar
         </Button>
-        <Button type="submit" variant="outline" className="bg-red-100 cursor-pointer hover:bg-red-200">
+        <Button
+          size="icon"
+          type="button"
+          variant="destructive"
+          className="cursor-pointer"
+          onClick={() => {
+            reset();
+            setInsertDate({ from: false, to: false });
+            setValidityDate({ from: false, to: false });
+            setProdMod("cod");
+            setDiasVencer(false);
+          }}
+        >
           <Trash2Icon />
         </Button>
       </div>
