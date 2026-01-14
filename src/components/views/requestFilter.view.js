@@ -29,7 +29,15 @@ export function RequestFilter() {
     to: false,
   });
 
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, control } = useForm({
+    defaultValues: {
+      diasVencer: "",
+      branch_id: "0",
+      prod: "",
+      buyer_id: "",
+      fornec_id: "",
+    },
+  });
 
   return (
     <form className="flex flex-col">
@@ -141,6 +149,7 @@ export function RequestFilter() {
           <div className="flex flex-col items-start w-18">
             <Label>D/ vencer</Label>
             <Input
+              {...register("diasVencer")}
               type="number"
               disabled={validityDate?.to || validityDate?.from}
               placeholder="00"
@@ -156,30 +165,42 @@ export function RequestFilter() {
           {/* Filial */}
           <div>
             <Label>Filial</Label>
-            <Select>
-              <SelectTrigger className="bg-white">
-                <SelectValue placeholder="Filial" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="0">
-                  <Building2Icon />
-                  Todas
-                </SelectItem>
-                <SelectItem value="1">Matriz</SelectItem>
-                <SelectItem value="2">Faruk</SelectItem>
-                <SelectItem value="3">Carajás</SelectItem>
-                <SelectItem value="4">VS10</SelectItem>
-                <SelectItem value="5">Xinguara</SelectItem>
-                <SelectItem value="6">DP6</SelectItem>
-                <SelectItem value="7">Cd Jardim</SelectItem>
-                <SelectItem value="8">Canaã</SelectItem>
-              </SelectContent>
-            </Select>
+            <Controller
+              name="branch_id"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                  }}
+                  value={field.value}
+                >
+                  <SelectTrigger className="bg-white">
+                    <SelectValue placeholder="Filial" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="0">
+                      <Building2Icon />
+                      Todas
+                    </SelectItem>
+                    <SelectItem value="1">Matriz</SelectItem>
+                    <SelectItem value="2">Faruk</SelectItem>
+                    <SelectItem value="3">Carajás</SelectItem>
+                    <SelectItem value="4">VS10</SelectItem>
+                    <SelectItem value="5">Xinguara</SelectItem>
+                    <SelectItem value="6">DP6</SelectItem>
+                    <SelectItem value="7">Cd Jardim</SelectItem>
+                    <SelectItem value="8">Canaã</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
           </div>
           {/* Departamento */}
           <div className="flex flex-col items-start w-20">
             <Label>Depart</Label>
             <Input
+              {...register("depart")}
               type="number"
               placeholder="00"
               className="bg-white bg-[url(/request_validity/boxes.svg)]  bg-no-repeat bg-[position:.7rem_center] bg-[length:16px_16px] pl-8 text-right"
@@ -188,15 +209,16 @@ export function RequestFilter() {
           <div className="flex flex-col items-start">
             <Label>Produto</Label>
             <div className="flex gap-2">
-              <Button variant="outline">
+              <Button variant="outline" type="button" className="cursor-pointer">
                 <SlidersHorizontalIcon />{" "}
               </Button>
               <Input
+                {...register("prod")}
                 type={prodMod === "desc" ? "text" : "number"}
                 placeholder={prodMod === "cod" ? "2010" : prodMod === "barras" ? "7546895231465" : "coca cola 250ml"}
                 className="bg-white"
               />
-              <Button variant="outline">
+              <Button variant="outline" type="button" className="cursor-pointer">
                 <SearchIcon />{" "}
               </Button>
             </div>
@@ -207,6 +229,7 @@ export function RequestFilter() {
           <div className="w-20">
             <Label>Mtr. Compr.</Label>
             <Input
+              {...register("buyer_id")}
               type="number"
               placeholder="00"
               className="bg-white bg-[url(/request_validity/bag-business.svg)]  bg-no-repeat bg-[position:.7rem_center] bg-[length:16px_16px] pl-8 text-right"
@@ -216,6 +239,7 @@ export function RequestFilter() {
           <div className="w-20">
             <Label>Mtr. Fornec.</Label>
             <Input
+              {...register("fornec_id")}
               type="number"
               placeholder="00"
               className="bg-white bg-[url(/request_validity/box.svg)] bg-no-repeat bg-[position:.7rem_center] bg-[length:16px_16px] pl-8 text-right"
