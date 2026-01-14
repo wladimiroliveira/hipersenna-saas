@@ -93,7 +93,7 @@ export function RequestFilter() {
             <Input
               type="number"
               placeholder="00"
-              className="bg-[url(/request_validity/clock-alert.svg)]  bg-no-repeat  bg-[.7rem] text-right"
+              className="bg-white bg-[url(/request_validity/clock-alert.svg)]  bg-no-repeat bg-[position:.7rem_center] bg-[length:16px_16px] pl-8 text-right"
             />
           </div>
         </div>
@@ -102,7 +102,7 @@ export function RequestFilter() {
           <div>
             <Label>Filial</Label>
             <Select>
-              <SelectTrigger>
+              <SelectTrigger className="bg-white">
                 <SelectValue placeholder="Filial" />
               </SelectTrigger>
               <SelectContent>
@@ -127,7 +127,7 @@ export function RequestFilter() {
             <Input
               type="number"
               placeholder="00"
-              className="bg-[url(/request_validity/clock-alert.svg)]  bg-no-repeat  bg-[.7rem] text-right"
+              className="bg-white bg-[url(/request_validity/clock-alert.svg)]  bg-no-repeat bg-[position:.7rem_center] bg-[length:16px_16px] pl-8 text-right"
             />
           </div>
           <div className="flex flex-col items-start">
@@ -139,6 +139,7 @@ export function RequestFilter() {
               <Input
                 type={prodMod === "desc" ? "text" : "number"}
                 placeholder={prodMod === "cod" ? "2010" : prodMod === "barras" ? "7546895231465" : "coca cola 250ml"}
+                className="bg-white"
               />
               <Button variant="outline">
                 <SearchIcon />{" "}
@@ -153,7 +154,7 @@ export function RequestFilter() {
             <Input
               type="number"
               placeholder="00"
-              className="bg-[url(/request_validity/bag-business.svg)]  bg-no-repeat  bg-[.7rem] text-right"
+              className="bg-white bg-[url(/request_validity/bag-business.svg)]  bg-no-repeat bg-[position:.7rem_center] bg-[length:16px_16px] pl-8 text-right"
             />
           </div>
           {/* Matr. Comprador */}
@@ -162,7 +163,7 @@ export function RequestFilter() {
             <Input
               type="number"
               placeholder="00"
-              className="bg-[url(/request_validity/box.svg)]  bg-no-repeat  bg-[.7rem] text-right"
+              className="bg-white bg-[url(/request_validity/box.svg)] bg-no-repeat bg-[position:.7rem_center] bg-[length:16px_16px] pl-8 text-right"
             />
           </div>
         </div>
