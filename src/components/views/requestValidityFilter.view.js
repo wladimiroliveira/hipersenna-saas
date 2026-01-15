@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, Controller } from "react-hook-form";
+import { toast } from "sonner";
 import {
   BarcodeIcon,
-  Binary,
   BinaryIcon,
   Building2Icon,
   CalendarDaysIcon,
@@ -17,10 +17,14 @@ import {
   SearchIcon,
   SlidersHorizontalIcon,
   Trash2Icon,
+  XIcon,
 } from "lucide-react";
 import { Calendar } from "../ui/calendar";
+import { getBonus } from "../services/bonus.service";
+import { Spinner } from "../ui/spinner";
 
-export function RequestFilter() {
+export function RequestValidityFilter({ handleFetch }) {
+  const [loading, setLoading] = useState(false);
   const [prodMod, setProdMod] = useState("cod");
   const [diasVencer, setDiasVencer] = useState(false);
   const [insertDate, setInsertDate] = useState({
@@ -43,35 +47,47 @@ export function RequestFilter() {
     },
   });
 
-  const fetchBonus = (data) => {
-    console.log({
-      ...data,
-      prodMod,
-      insertDate: {
-        from: new Date(insertDate?.from).toLocaleDateString("pt-br", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }),
-        to: new Date(insertDate?.to).toLocaleDateString("pt-br", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }),
-      },
-      validityDate: {
-        from: new Date(insertDate?.from).toLocaleDateString("pt-br", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }),
-        to: new Date(insertDate?.to).toLocaleDateString("pt-br", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }),
-      },
-    });
+  const formatDate = (data) => {
+    if (!data) return null;
+    return new Date(data).toISOString().split("T")[0];
+  };
+
+  const fetchBonus = async (data) => {
+    try {
+      setLoading(true);
+      const params = new URLSearchParams();
+
+      if (data?.prod) {
+        params.append("codprod", data?.prod);
+      }
+      if (insertDate?.from && insertDate?.to) {
+        params.append("dtbonusstart", formatDate(insertDate?.from));
+        params.append("dtbonusend", formatDate(insertDate?.to));
+      }
+      if (validityDate?.from && validityDate?.to) {
+        params.append("dtvalidstart", formatDate(validityDate?.from));
+        params.append("dtvalidend", formatDate(validityDate?.to));
+      }
+      if (data?.branch_id > 0) {
+        params.append("filial", data?.branch_id);
+      }
+      if (data?.depart) {
+        params.append("dpart", data?.depart);
+      }
+
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/bonus?${params.toString()}`;
+
+      const responseValue = await getBonus(url);
+
+      if (responseValue?.ok) {
+        toast.success("Consulta realizada com sucesso!");
+        handleFetch(responseValue?.bonus);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -84,27 +100,33 @@ export function RequestFilter() {
             <Label htmlFor="dtInsert">Data de Inserção</Label>
             <Popover>
               <PopoverTrigger>
-                <Button variant="outline" type="button" className="flex items-center cursor-pointer">
+                <Button
+                  variant="outline"
+                  type="button"
+                  className="flex w-48 items-center justify-between cursor-pointer"
+                >
                   <CalendarDaysIcon />
-                  <p className="font-normal">
-                    {insertDate?.from
-                      ? new Date(insertDate?.from).toLocaleDateString("pt-BR", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "2-digit",
-                        })
-                      : "De"}
-                  </p>
-                  <p className="font-normal text-border">|</p>
-                  <p className="font-normal">
-                    {insertDate?.to
-                      ? new Date(insertDate?.to).toLocaleDateString("pt-BR", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "2-digit",
-                        })
-                      : "Até"}
-                  </p>
+                  <div className="flex w-full justify-between gap-2">
+                    <p className="font-normal w-full text-right">
+                      {insertDate?.from
+                        ? new Date(insertDate?.from).toLocaleDateString("pt-BR", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "2-digit",
+                          })
+                        : "De"}
+                    </p>
+                    <p className="font-normal text-border w-full">|</p>
+                    <p className="font-normal w-full text-left">
+                      {insertDate?.to
+                        ? new Date(insertDate?.to).toLocaleDateString("pt-BR", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "2-digit",
+                          })
+                        : "Até"}
+                    </p>
+                  </div>
                 </Button>
               </PopoverTrigger>
               <PopoverContent>
@@ -136,28 +158,30 @@ export function RequestFilter() {
                   variant="outline"
                   disabled={diasVencer}
                   type="button"
-                  className="flex items-center cursor-pointer"
+                  className="flex w-48 items-center cursor-pointer"
                 >
                   <CalendarDaysIcon />
-                  <p className="font-normal">
-                    {validityDate?.from
-                      ? new Date(validityDate?.from).toLocaleDateString("pt-BR", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "2-digit",
-                        })
-                      : "De"}
-                  </p>
-                  <p className="font-normal text-border">|</p>
-                  <p className="font-normal">
-                    {validityDate?.to
-                      ? new Date(validityDate?.to).toLocaleDateString("pt-BR", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "2-digit",
-                        })
-                      : "Até"}
-                  </p>
+                  <div className="flex w-full justify-between gap-2">
+                    <p className="font-normal w-full text-right">
+                      {validityDate?.from
+                        ? new Date(validityDate?.from).toLocaleDateString("pt-BR", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "2-digit",
+                          })
+                        : "De"}
+                    </p>
+                    <p className="font-normal text-border w-full">|</p>
+                    <p className="font-normal w-full text-left">
+                      {validityDate?.to
+                        ? new Date(validityDate?.to).toLocaleDateString("pt-BR", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "2-digit",
+                          })
+                        : "Até"}
+                    </p>
+                  </div>
                 </Button>
               </PopoverTrigger>
               <PopoverContent>
@@ -326,8 +350,8 @@ export function RequestFilter() {
         </div>
       </div>
       <div className="p-2 flex gap-2">
-        <Button type="submit" variant="outline" className="cursor-pointer">
-          <SearchIcon />
+        <Button disabled={loading} type="submit" variant="outline" className="cursor-pointer">
+          {loading ? <Spinner /> : <SearchIcon />}
           Consultar
         </Button>
         <Button
