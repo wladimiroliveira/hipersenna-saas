@@ -1,8 +1,27 @@
+import { Checkbox } from "@/components/ui/checkbox";
+
 function limitarCasas(number, casas) {
   return Number.isInteger(number) ? number : Number(number.toFixed(casas));
 }
 
 export const columns = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={table.getIsAllRowsSelected() || (table.getIsSomeRowsSelected() && "indeterminate")}
+        onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
+        aria-label="Selecionar tudo"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Selecionar linha"
+      />
+    ),
+  },
   {
     accessorKey: "branchId",
     header: "Filial",
@@ -13,7 +32,7 @@ export const columns = [
   },
   {
     accessorKey: "productCode",
-    header: "Cód. Produto",
+    header: "Cód. Prod.",
   },
   {
     accessorKey: "description",

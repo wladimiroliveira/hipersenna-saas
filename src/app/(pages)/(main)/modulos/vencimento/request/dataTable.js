@@ -8,8 +8,8 @@ import {
   getPaginationRowModel,
 } from "@tanstack/react-table";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   DropdownMenu,
@@ -21,15 +21,17 @@ import { isValidElement, useEffect, useState } from "react";
 
 export function DataTable({ columns, data }) {
   const [columnVisibility, setColumnVisibility] = useState({});
-
+  const [rowSelection, setRowSelection] = useState({});
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
     state: {
       columnVisibility,
+      rowSelection,
     },
   });
 
@@ -39,7 +41,7 @@ export function DataTable({ columns, data }) {
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex items-center justify-end py-4">
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Button variant="outline" className="ml-auto">
