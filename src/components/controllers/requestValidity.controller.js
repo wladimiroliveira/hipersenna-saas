@@ -12,7 +12,7 @@ export function RequestValidityController() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <RequestValidityFilter handleFetch={handleFetch} />
       <DataTable columns={columns} data={data} />
     </div>
