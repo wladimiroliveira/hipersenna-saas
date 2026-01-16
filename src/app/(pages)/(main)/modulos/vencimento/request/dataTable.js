@@ -18,10 +18,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { isValidElement, useEffect, useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { RequestValidityAction } from "@/components/views/requestValidity.view";
 
 export function DataTable({ columns, data }) {
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
+  const [openDialog, setOpenDialog] = useState(false);
   const table = useReactTable({
     data,
     columns,
@@ -39,9 +42,34 @@ export function DataTable({ columns, data }) {
     table.setPageSize(10);
   }, [table]);
 
+  const selectedRows = () => {
+    const rowsSelectedResult = table.getFilteredSelectedRowModel().rows;
+    try {
+      const branch_id = rowsSelectedResult[0].original.branchId;
+      rowsSelectedResult.map((row) => {
+        if (row.original.branchId !== branch_id) throw new Error("Mais de uma filial selecionada");
+      });
+      const payloadRequestValidity = {
+        branch_id: rowsSelectedResult[0].original.branchId,
+        conferee_id: 1000,
+        products: rowsSelectedResult.map((row) => ({
+          product_code: row?.original?.productCode,
+          // auxiliary_code: row?.original?.auxiliaryCode,
+          validity_date: row?.original?.validityDate,
+        })),
+      };
+      return payloadRequestValidity;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div>
-      <div className="flex items-center justify-end py-4">
+      <div className="flex items-center justify-between py-4">
+        <div>
+          <RequestValidityAction data={selectedRows} />
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Button variant="outline" className="ml-auto">
