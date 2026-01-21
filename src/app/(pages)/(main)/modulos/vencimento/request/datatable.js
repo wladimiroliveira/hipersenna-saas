@@ -23,7 +23,6 @@ import { RequestValidityAction } from "@/components/views/requestValidity.view";
 export function DataTable({ columns, data }) {
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
-  const [openDialog, setOpenDialog] = useState(false);
   const table = useReactTable({
     data,
     columns,
@@ -40,6 +39,10 @@ export function DataTable({ columns, data }) {
   useEffect(() => {
     table.setPageSize(10);
   }, [table]);
+
+  useEffect(() => {
+    table.resetRowSelection();
+  }, [data]);
 
   const selectedRows = async () => {
     const rowsSelectedResult = table.getFilteredSelectedRowModel().rows;

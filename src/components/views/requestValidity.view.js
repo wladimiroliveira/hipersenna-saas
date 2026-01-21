@@ -1,22 +1,23 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { Button } from "../ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "../ui/field";
+import branches from "@/files/branches.json";
 import { BinaryIcon, CaseSensitiveIcon, PlusCircleIcon, SlidersHorizontalIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { toast } from "sonner";
+import { TagIcon } from "lucide-react";
+import { UserIcon } from "lucide-react";
 
 export function RequestValidityAction({ getSelectedRows, rowSelection }) {
   const [open, setOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState(false);
   const [departSearchMod, setDepartSearchMod] = useState("cod");
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
+  const [colabSearchMod, setColabSearchMod] = useState("matricula");
 
   const { handleSubmit, register, reset } = useForm();
 
@@ -27,10 +28,9 @@ export function RequestValidityAction({ getSelectedRows, rowSelection }) {
   const handleAction = async () => {
     try {
       const data = await getSelectedRows();
-      if (date) {
-        console.log(date);
+      if (data) {
+        console.log(data);
         setSelectedRows(data);
-        setShowAlert(false);
         setOpen(true);
       }
     } catch (err) {
@@ -61,19 +61,24 @@ export function RequestValidityAction({ getSelectedRows, rowSelection }) {
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Solicitar Vistoria</DialogTitle>
+            <DialogDescription>Selecione o colaborador que deverá realizar esta vistoria</DialogDescription>
+          </DialogHeader>
           <form onSubmit={handleSubmit(onSubmitForm)}>
             <FieldGroup>
               <FieldSet>
-                <FieldLegend>Solicitar Vistoria</FieldLegend>
-                <FieldDescription>Selecione o conferente que ficará reponsável por esta vistoria</FieldDescription>
-              </FieldSet>
-              <FieldGroup>
                 <Field>
                   <FieldLabel htmlFor="branch_id">Filial</FieldLabel>
+                  <div className="border p-2 rounded-md shadow-xs bg-border text-sm">
+                    <p>
+                      {selectedRows?.branch_id} - {branches[selectedRows?.branch_id - 1]?.name}
+                    </p>
+                  </div>
                 </Field>
                 <Field>
                   <FieldLabel htmlFor="depart">Departamento</FieldLabel>
-                  <div className="flex gap-4">
+                  <div className="flex gap-2">
                     <Popover>
                       <PopoverTrigger>
                         <Button variant="outline" size="icon" className="cursor-pointer">
@@ -109,10 +114,67 @@ export function RequestValidityAction({ getSelectedRows, rowSelection }) {
                       id="depart"
                       type={departSearchMod !== "cod" ? "text" : "number"}
                       placeholder={departSearchMod === "cod" ? "00" : "frios"}
+                      {...register("department")}
+                      required
                     />
                   </div>
                 </Field>
-              </FieldGroup>
+                <Field>
+                  <FieldLabel htmlFor="colab">Colaborador(a)</FieldLabel>
+                  <div className="flex gap-2">
+                    <Popover>
+                      <PopoverTrigger>
+                        <Button variant="outline" size="icon" className="cursor-pointer">
+                          <SlidersHorizontalIcon />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="flex flex-col gap-2 w-full">
+                        <Button
+                          variant={colabSearchMod === "matricula" ? "default" : "outline"}
+                          className="flex justify-between cursor-pointer"
+                          type="button"
+                          onClick={() => {
+                            setColabSearchMod("matricula");
+                          }}
+                        >
+                          <TagIcon />
+                          Matrícula
+                        </Button>
+                        <Button
+                          variant={colabSearchMod === "name" ? "default" : "outline"}
+                          className="flex justify-between cursor-pointer"
+                          type="button"
+                          onClick={() => {
+                            setColabSearchMod("name");
+                          }}
+                        >
+                          <UserIcon />
+                          Nome
+                        </Button>
+                      </PopoverContent>
+                    </Popover>
+                    <Input
+                      id="colab"
+                      type={colabSearchMod !== "name" ? "text" : "number"}
+                      placeholder={colabSearchMod === "name" ? "Carlos Silva" : "1234"}
+                      {...register("colab")}
+                      required
+                    />
+                  </div>
+                </Field>
+              </FieldSet>
+              <Field orientation="horizontal">
+                <Button type="submit">Enviar</Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                >
+                  Cancelar
+                </Button>
+              </Field>
             </FieldGroup>
           </form>
         </DialogContent>

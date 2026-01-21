@@ -1,6 +1,4 @@
 import { RequestValidityController } from "@/components/controllers/requestValidity.controller";
-import { Label } from "@/components/ui/label";
-import { RequestFilter } from "@/components/views/requestValidityFilter.view";
 
 export default function Page() {
   return (
