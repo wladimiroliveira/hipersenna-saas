@@ -4,25 +4,17 @@ import { redirect } from "next/navigation";
 import { useState } from "react";
 import { SignInForm } from "@/components/views/signIn.view";
 import { signIn } from "@/components/services/signIn.service";
-import { ErrorAlert, SuccessAlert } from "@/components/views/alert.view";
 import { useUserStore } from "@/store/user.store";
+import { toast } from "sonner";
 
 export function SignInController() {
   const [loading, setLoading] = useState(false);
-  const [alert, setAlert] = useState({});
-  const [alertKey, setAlertKey] = useState(0);
 
   async function handleSubmit(data) {
     try {
       setLoading(true);
       const signInValue = await signIn(data);
       if (signInValue.ok) {
-        setAlert({
-          type: "success",
-          statusCode: signInValue.status,
-          title: "Sucesso",
-          desc: signInValue.message,
-        });
         useUserStore.getState().setUser({
           id: signInValue?.id,
           name: signInValue?.name,
@@ -32,9 +24,14 @@ export function SignInController() {
           role_id: signInValue?.role_id,
           permissions: signInValue?.user?.allPermissions,
         });
-        setAlertKey((prev) => prev + 1);
         redirect("/home");
       } else {
+        toast.error("Erro", {
+          description: signInValue?.message,
+          action: {
+            label: "Ok",
+          },
+        });
         setAlert({
           type: "error",
           statusCode: signInValue.status,
@@ -54,13 +51,11 @@ export function SignInController() {
   return (
     <div className="flex flex-row items-center justify-center min-h-lvh h-full">
       <div className="flex flex-col items-center justify-center gap-15 w-full pb-40">
-        <h1 className="text-4xl font-bold text-primaria">GHS Sistema</h1>
+        <div className="flex items-center">
+          <h1 className="text-4xl font-bold">GHS Sistema</h1>
+        </div>
         <SignInForm onSubmitData={handleSubmit} loading={loading} />
       </div>
-      {alert?.type === "success" && <SuccessAlert key={alertKey} title={alert.title} desc={alert.desc} />}
-      {alert?.type === "error" && (
-        <ErrorAlert key={alertKey} statusCode={alert.statusCode} title={alert.title} desc={alert.desc} />
-      )}
     </div>
   );
 }

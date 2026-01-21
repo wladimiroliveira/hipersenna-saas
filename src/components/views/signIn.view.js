@@ -8,6 +8,7 @@ import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "../ui/spinner";
+import { EyeClosedIcon, EyeIcon } from "lucide-react";
 
 export function SignInForm({ onSubmitData, loading }) {
   const [inputType, setInputType] = useState("password");
@@ -32,39 +33,32 @@ export function SignInForm({ onSubmitData, loading }) {
                 placeholder="Nome de Usuário"
                 {...register("username")}
                 className="bg-[url(/signin/user.svg)] bg-no-repeat bg-[.7rem] pl-8 pr-8"
+                required
               />
             </Field>
             <Field className="gap-0">
               <FieldLabel htmlFor="password" className="font-normal text-base text-primaria">
                 Senha
               </FieldLabel>
-              <div className="flex flex-row border-1  rounded-md">
+              <div className="flex flex-row gap-4 rounded-md">
                 <Input
                   id="password"
                   type={inputType}
                   placeholder="********"
                   {...register("password")}
-                  className="bg-[url(/signin/lock.svg)] bg-no-repeat bg-[.7rem] pl-8 pr-8 border-0"
+                  className="bg-[url(/signin/lock.svg)] bg-no-repeat bg-[.7rem] pl-8 pr-8"
+                  required
                 />
-                <button
+                <Button
                   type="button"
                   tabIndex={-1}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (inputType === "password") {
-                      setInputType("text");
-                    } else {
-                      setInputType("password");
-                    }
+                  variant="outline"
+                  onClick={() => {
+                    inputType === "password" ? setInputType("text") : setInputType("password");
                   }}
-                  className={clsx(
-                    "bg-no-repeat bg-center w-[36px] h-[36px] bg-transparent hover:bg-transparent cursor-pointer",
-                    {
-                      "bg-[url(/signin/open-eye.svg)] bg-no-repeat bg-center": inputType === "text",
-                      "bg-[url(/signin/close-eye.svg)] bg-no-repeat bg-center": inputType === "password",
-                    },
-                  )}
-                ></button>
+                >
+                  {inputType === "password" ? <EyeClosedIcon /> : <EyeIcon />}
+                </Button>
               </div>
             </Field>
           </FieldGroup>

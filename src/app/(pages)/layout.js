@@ -6,10 +6,18 @@ export const metadata = {
   description: "Em construção",
 };
 
+import { ThemeProvider } from "next-themes";
+import { Toaster } from "sonner";
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-BR">
-      <body className={`${roboto.className} antialiased`}>{children}</body>
+    <html lang="pt-BR" suppressHydrationWarning>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <body className={`${roboto.className} antialiased`}>
+          <main>{children}</main>
+          <Toaster position="top-center" />
+        </body>
+      </ThemeProvider>
     </html>
   );
 }
