@@ -1,8 +1,0 @@
-.label {
-  display: grid;
-  grid-template-areas: "stack";
-}
-
-.label > * {
-  grid-area: stack;
-}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { RequestValidityFilter } from "../views/requestValidityFilter.view";
-import { DataTable } from "@/app/(pages)/(main)/modulos/vencimento/request/dataTable";
+import { DataTable } from "@/app/(pages)/(main)/modulos/vencimento/request/datatable";
 import { columns } from "@/app/(pages)/(main)/modulos/vencimento/request/columns";
 
 export function RequestValidityController() {

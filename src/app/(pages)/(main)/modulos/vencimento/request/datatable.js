@@ -18,9 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { isValidElement, useEffect, useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { RequestValidityAction } from "@/components/views/requestValidity.view";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function DataTable({ columns, data }) {
   const [columnVisibility, setColumnVisibility] = useState({});

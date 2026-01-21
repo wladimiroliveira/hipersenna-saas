@@ -23,7 +23,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Columns3Icon, DownloadIcon, MoveLeft, MoveRightIcon } from "lucide-react";
+import { Columns3Icon, DownloadIcon, MoveLeft, MoveLeftIcon, MoveRightIcon } from "lucide-react";
 import clsx from "clsx";
 import { CreateUserModal } from "@/components/views/userList.view";
 
@@ -190,14 +190,8 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
 
         {/* 🔹 Controles de paginação */}
         <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            className=" text-primaria"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <MoveLeft className="text-primaria" />
+          <Button size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+            <MoveLeftIcon />
             Anterior
           </Button>
 
@@ -205,15 +199,9 @@ export function DataTable({ columns, data, searchColumn, downloadTable, download
             Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
           </span>
 
-          <Button
-            variant="outline"
-            className=" text-primaria"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
+          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
             Próxima
-            <MoveRightIcon className="text-primaria" />
+            <MoveRightIcon />
           </Button>
         </div>
       </div>
