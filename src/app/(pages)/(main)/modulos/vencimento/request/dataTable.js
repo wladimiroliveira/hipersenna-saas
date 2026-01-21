@@ -20,6 +20,7 @@ import {
 import { isValidElement, useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { RequestValidityAction } from "@/components/views/requestValidity.view";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function DataTable({ columns, data }) {
   const [columnVisibility, setColumnVisibility] = useState({});
@@ -42,33 +43,37 @@ export function DataTable({ columns, data }) {
     table.setPageSize(10);
   }, [table]);
 
-  const selectedRows = () => {
+  const selectedRows = async () => {
     const rowsSelectedResult = table.getFilteredSelectedRowModel().rows;
-    try {
-      const branch_id = rowsSelectedResult[0].original.branchId;
-      rowsSelectedResult.map((row) => {
-        if (row.original.branchId !== branch_id) throw new Error("Mais de uma filial selecionada");
-      });
-      const payloadRequestValidity = {
-        branch_id: rowsSelectedResult[0].original.branchId,
-        conferee_id: 1000,
-        products: rowsSelectedResult.map((row) => ({
-          product_code: row?.original?.productCode,
-          // auxiliary_code: row?.original?.auxiliaryCode,
-          validity_date: row?.original?.validityDate,
-        })),
-      };
-      return payloadRequestValidity;
-    } catch (err) {
-      console.error(err);
+
+    if (rowsSelectedResult.length === 0) {
+      throw new Error("Nenhuma filial selecionada");
     }
+
+    const branch_id = rowsSelectedResult[0].original.branchId;
+
+    // Validação de mais de uma filial selecionada
+    for (const row of rowsSelectedResult) {
+      if (row.original.branchId !== branch_id) {
+        throw new Error("Selecione os registros de apenas uma filial!");
+      }
+    }
+
+    const payloadRequestValidity = {
+      branch_id: branch_id,
+      products: rowsSelectedResult.map((row) => ({
+        product_code: row?.original?.productCode,
+        validity_date: row?.original?.validityDate,
+      })),
+    };
+    return payloadRequestValidity;
   };
 
   return (
     <div>
       <div className="flex items-center justify-between py-4">
         <div>
-          <RequestValidityAction data={selectedRows} />
+          <RequestValidityAction getSelectedRows={selectedRows} rowSelection={rowSelection} />
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger>
