@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
     <html lang="pt-BR" suppressHydrationWarning>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
         <body className={`${roboto.className} antialiased`}>
-          <main>{children}</main>
+          {children}
           <Toaster position="top-center" />
         </body>
       </ThemeProvider>

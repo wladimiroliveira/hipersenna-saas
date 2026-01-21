@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { LogOut, UserCircle2Icon, UserIcon } from "lucide-react";
+import { LogOut, UserIcon } from "lucide-react";
 import { useUserStore } from "@/store/user.store";
 import { usePathname } from "next/navigation";
 
@@ -23,10 +23,10 @@ export function Navigation() {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-row gap-10 items-center justify-center bg-primaria pl-8 pr-8 pt-4 pb-4">
-      <div className="flex w-full max-w-7xl items-center justify-between">
-        <Link href="" className="flex flex-row items-center gap-2">
-          <Image src="/navbar/logo-hipersenna.svg" width={37} height={26} alt="Logo Hipersenna" />
+    <div className="flex flex-row gap-10 items-center justify-center bg-primaria px-8 bg-foreground py-4">
+      <div className="flex w-full max-w-7xl px-8 items-center justify-between">
+        <Link href="" className="flex flex-row dark:bg-background py-1 pl-1 pr-2 rounded-sm items-center gap-2">
+          <Image src="/navbar/logo-hipersenna.svg" className="size-7" width={37} height={26} alt="Logo Hipersenna" />
         </Link>
         <ul className="flex flex-row items-center gap-8">
           {pathnames ? (
@@ -47,8 +47,8 @@ export function Navigation() {
                 <li key={path?.id}>
                   <Link href={path?.path} className="flex flex-row mt-1 items-center justify-center gap-2">
                     <span
-                      className={clsx("transition-colors text-sm text-secundaria  hover:text-gray-400 pb-0", {
-                        "shadow-underline hover:shadow-underline-hover":
+                      className={clsx("transition-colors text-sm text-background  hover:text-gray-400 pb-0", {
+                        "shadow-background hover:shadow-underline-hover":
                           pathname.split("/")[2] === path?.id || pathname.split("/")[1] === path?.id,
                       })}
                     >
@@ -64,7 +64,7 @@ export function Navigation() {
         <div>
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-              <Button className="size-8 cursor-pointer bg-white text-primaria hover:bg-gray-400">
+              <Button className="size-8 cursor-pointer bg-background text-primaria hover:bg-gray-400">
                 <UserIcon className="size-6" />
               </Button>
             </DropdownMenuTrigger>

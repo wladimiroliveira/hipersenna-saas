@@ -9,7 +9,7 @@ export default function Layout({ children }) {
           <Navigation />
         </nav>
       </header>
-      <div className="pt-16 pl-8 pr-8 max-w-7xl m-auto">{children}</div>
+      <main className="pt-16 pb-4 px-8 max-w-7xl m-auto">{children}</main>
     </>
   );
 }
