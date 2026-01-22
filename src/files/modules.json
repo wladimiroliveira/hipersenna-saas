@@ -86,6 +86,14 @@
         "permissions": [28]
       },
       {
+        "id": "insercao",
+        "name": "Inserção de Vencimento",
+        "description": "Inserir Vencimentos",
+        "path": "/modulos/vencimento/insercao",
+        "buttonText": "Acessar",
+        "permissions": [7, 29]
+      },
+      {
         "id": "tratamento",
         "name": "Inserção de Tratamentos",
         "description": "Insira aqui todos as atualizações de tratamento de vencimentos",
