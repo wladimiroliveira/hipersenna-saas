@@ -1,3 +1,4 @@
+import { Toaster } from "sonner";
 import "../globals.css";
 import { roboto } from "@/components/fonts";
 
@@ -9,7 +10,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-      <body className={`${roboto.className} antialiased`}>{children}</body>
+      <body className={`${roboto.className} antialiased`}>
+        <Toaster position="top-center" />
+        <main>
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
