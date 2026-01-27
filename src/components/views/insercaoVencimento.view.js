@@ -26,7 +26,7 @@ import { Spinner } from "../ui/spinner";
 
 export function InsercaoVencimentoForm({ handleSubmitInfos, handleSearchProd, prod, prodList, loadings }) {
   const [prodMod, setProdMod] = useState("codprod");
-  const [codprod, setCodprod] = useState(false);
+  const [codprod, setcodprod] = useState(false);
 
   const {
     register,
@@ -37,7 +37,7 @@ export function InsercaoVencimentoForm({ handleSubmitInfos, handleSearchProd, pr
   } = useForm({
     defaultValues: {
       prodMod: "prodMod",
-      codProd: "",
+      codprod: "",
       quant: "",
     },
   });
@@ -47,7 +47,7 @@ export function InsercaoVencimentoForm({ handleSubmitInfos, handleSearchProd, pr
   }
 
   function submitInfos(data) {
-    resetField("codProd");
+    resetField("codprod");
     resetField("prodMod");
     resetField("quant");
     resetField("dataValidade");
@@ -108,7 +108,7 @@ export function InsercaoVencimentoForm({ handleSubmitInfos, handleSearchProd, pr
                         onValueChange={(value) => {
                           field.onChange(value);
                           setProdMod(value);
-                          resetField("codProd");
+                          resetField("codprod");
                         }}
                         value={field.value}
                       >
@@ -130,9 +130,9 @@ export function InsercaoVencimentoForm({ handleSubmitInfos, handleSearchProd, pr
                     placeholder={
                       prodMod === "desc" ? "queijo mussa..." : prodMod === "codprod" ? "4558" : "7568954125689"
                     }
-                    {...register("codProd", {
+                    {...register("codprod", {
                       onChange: (e) => {
-                        setCodprod(e.target.value);
+                        setcodprod(e.target.value);
                       },
                     })}
                     required

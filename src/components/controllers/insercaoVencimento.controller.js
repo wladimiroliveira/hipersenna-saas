@@ -55,7 +55,7 @@ export function InsercaoVencimentoController() {
         setData([
           {
             branch_id: currentData?.branch_id,
-            codprod: currentData?.codProd,
+            codprod: currentData?.codprod,
             description: prod?.descricao,
             validity_date: new Date(currentData?.dataValidade).toLocaleDateString("pt-br", {
               day: "2-digit",
@@ -70,9 +70,9 @@ export function InsercaoVencimentoController() {
           ...data,
           {
             branch_id: currentData?.branch_id,
-            codprod: currentData?.codProd,
+            codprod: currentData?.codprod,
             description: prod?.descricao,
-            validity_date: new Date(currentData?.date).toLocaleDateString("pt-br", {
+            validity_date: new Date(currentData?.dataValidade).toLocaleDateString("pt-br", {
               day: "2-digit",
               month: "2-digit",
               year: "numeric",
@@ -81,6 +81,7 @@ export function InsercaoVencimentoController() {
           },
         ]);
       }
+      console.log(data);
     } catch (err) {
       console.error(err);
     } finally {
