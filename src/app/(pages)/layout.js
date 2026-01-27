@@ -12,9 +12,7 @@ export default function RootLayout({ children }) {
     <html lang="pt-BR">
       <body className={`${roboto.className} antialiased`}>
         <Toaster position="top-center" />
-        <main>
-          {children}
-        </main>
+        <main>{children}</main>
       </body>
     </html>
   );

@@ -16,10 +16,10 @@ export function InsercaoVencimentoController() {
         toast.error("Erro", {
           description: "Insira algum código no campo produto",
           action: {
-            label: "Ok"
-          }
-        })
-        return
+            label: "Ok",
+          },
+        });
+        return;
       }
       const responseValue = await searchProd(codprod, prodMod);
       if (Array.isArray(responseValue) && responseValue?.length > 0) {
@@ -32,9 +32,9 @@ export function InsercaoVencimentoController() {
       if (Array.isArray(responseValue) && responseValue?.length === 0) {
         toast.warning("Produto não encontrado", {
           action: {
-            label: "Ok"
-          }
-        })
+            label: "Ok",
+          },
+        });
       }
     } catch (err) {
       console.error(err);
