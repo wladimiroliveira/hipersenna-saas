@@ -43,6 +43,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 export function DataTable({ columns, data, searchColumn, downloadTable, generateReport }) {
   const [sorting, setSorting] = useState([{ id: "id", desc: false }]);
   const [columnFilters, setColumnFilters] = useState([]);
+  const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState({});
   const [fullScreen, setFullScreen] = useState(false);
 
@@ -56,10 +57,12 @@ export function DataTable({ columns, data, searchColumn, downloadTable, generate
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
+      rowSelection,
     },
   });
 

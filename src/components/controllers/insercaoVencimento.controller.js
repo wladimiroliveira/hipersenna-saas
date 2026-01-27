@@ -5,7 +5,7 @@ import { searchProd } from "../services/searchProd.service";
 import { InsercaoVencimentoForm } from "../views/insercaoVencimento.view";
 import { toast } from "sonner";
 import { DataTable } from "@/app/(pages)/(main)/modulos/vencimento/insercao/datatable";
-import { columns } from "@/app/(pages)/(main)/modulos/vencimento/insercao/column";
+import { columns } from "@/app/(pages)/(main)/modulos/vencimento/insercao/columns";
 
 export function InsercaoVencimentoController() {
   const [searchProdLoading, setSearchProdLoading] = useState(false);
@@ -81,7 +81,6 @@ export function InsercaoVencimentoController() {
           },
         ]);
       }
-      console.log(data);
     } catch (err) {
       console.error(err);
     } finally {
@@ -98,7 +97,7 @@ export function InsercaoVencimentoController() {
         loadings={{ searchProdLoading, insertProdLoading }}
         prodList={data}
       />
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={data} handleRemoveRows={handleRemoveRows} />
     </div>
   );
 }
