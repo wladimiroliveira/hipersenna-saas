@@ -3,7 +3,15 @@
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Field, FieldDescription, FieldGroup, FieldLegend, FieldSet } from "@/components/ui/field";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
@@ -16,16 +24,21 @@ import { FilterIcon } from "lucide-react";
 import { SearchIcon } from "lucide-react";
 import { Spinner } from "../ui/spinner";
 
-export function InsercaoVencimentoForm({ handleSearchProd, prod, loadings }) {
-  const [date, setDate] = useState(false);
+export function InsercaoVencimentoForm({ handleSubmitInfos, handleSearchProd, prod, prodList, loadings }) {
   const [prodMod, setProdMod] = useState("codprod");
   const [codprod, setCodprod] = useState(false);
 
-  const { register, control, handleSubmit, reset, resetField } = useForm({
+  const {
+    register,
+    control,
+    handleSubmit,
+    resetField,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       prodMod: "prodMod",
-      codProd: "codProd",
-      quant: "quant",
+      codProd: "",
+      quant: "",
     },
   });
 
@@ -33,9 +46,17 @@ export function InsercaoVencimentoForm({ handleSearchProd, prod, loadings }) {
     handleSearchProd(prodMod, codprod);
   }
 
+  function submitInfos(data) {
+    resetField("codProd");
+    resetField("prodMod");
+    resetField("quant");
+    resetField("dataValidade");
+    handleSubmitInfos(data);
+  }
+
   return (
-    <div>
-      <form className="max-w-xs">
+    <div className="w-fit">
+      <form onSubmit={handleSubmit(submitInfos)} className="w-xs">
         <FieldGroup>
           <FieldSet>
             <FieldLegend>Inserir Vencimentos</FieldLegend>
@@ -49,6 +70,7 @@ export function InsercaoVencimentoForm({ handleSearchProd, prod, loadings }) {
                 name="branch_id"
                 render={({ field }) => (
                   <Select
+                    disabled={Array.isArray(prodList) && prodList?.length > 0}
                     onValueChange={(value) => {
                       field.onChange(value);
                     }}
@@ -58,14 +80,17 @@ export function InsercaoVencimentoForm({ handleSearchProd, prod, loadings }) {
                       <SelectValue placeholder="Filial" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="1">1 - Matriz</SelectItem>
-                      <SelectItem value="2">2 - Faruk</SelectItem>
-                      <SelectItem value="3">3 - Carajás</SelectItem>
-                      <SelectItem value="4">4 - VS10</SelectItem>
-                      <SelectItem value="5">5 - Xinguara</SelectItem>
-                      <SelectItem value="6">6 - DP6</SelectItem>
-                      <SelectItem value="7">7 - Cidade Jardim</SelectItem>
-                      <SelectItem value="8">8 - Canaã</SelectItem>
+                      <SelectGroup>
+                        <SelectLabel>Filial:</SelectLabel>
+                        <SelectItem value="1">1 - Matriz</SelectItem>
+                        <SelectItem value="2">2 - Faruk</SelectItem>
+                        <SelectItem value="3">3 - Carajás</SelectItem>
+                        <SelectItem value="4">4 - VS10</SelectItem>
+                        <SelectItem value="5">5 - Xinguara</SelectItem>
+                        <SelectItem value="6">6 - DP6</SelectItem>
+                        <SelectItem value="7">7 - Cidade Jardim</SelectItem>
+                        <SelectItem value="8">8 - Canaã</SelectItem>
+                      </SelectGroup>
                     </SelectContent>
                   </Select>
                 )}
@@ -88,7 +113,9 @@ export function InsercaoVencimentoForm({ handleSearchProd, prod, loadings }) {
                         value={field.value}
                       >
                         <SelectTrigger className="bg-white">
-                          <FilterIcon />
+                          <SelectValue>
+                            <FilterIcon />
+                          </SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="codprod">Código Interno</SelectItem>
@@ -108,8 +135,10 @@ export function InsercaoVencimentoForm({ handleSearchProd, prod, loadings }) {
                         setCodprod(e.target.value);
                       },
                     })}
+                    required
                   />
                   <Button
+                    disabled={loadings?.searchProdLoading}
                     size="icon"
                     className="cursor-pointer"
                     type="button"
@@ -134,48 +163,48 @@ export function InsercaoVencimentoForm({ handleSearchProd, prod, loadings }) {
               </div>
             </Field>
             <FieldGroup className="flex-row gap-4">
-              <Field>
-                <Label>Data de validade</Label>
-                <Popover>
-                  <PopoverTrigger>
-                    <Button
-                      variant="outline"
-                      type="button"
-                      className="flex w-full justify-start items-center cursor-pointer"
-                    >
-                      <CalendarDaysIcon />
-                      <div className="flex justify-between gap-2">
-                        <p className="font-normal w-fit text-right">
-                          {date
-                            ? new Date(date).toLocaleDateString("pt-BR", {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                              })
-                            : "Dt de Validade"}
-                        </p>
-                      </div>
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent>
-                    <Calendar
-                      mode="single"
-                      fromYear={new Date().getFullYear() - 10}
-                      toYear={new Date().getFullYear() + 10}
-                      selected={date}
-                      onSelect={setDate}
-                      captionLayout="dropdown"
-                      className="rounded-sm"
-                    />
-                  </PopoverContent>
-                </Popover>
-              </Field>
+              <Controller
+                name="dataValidade"
+                control={control}
+                rules={{ required: "Data de validade é obrigatória" }}
+                render={({ field }) => (
+                  <Field>
+                    <Label>Data de validade</Label>
+                    <Popover>
+                      <PopoverTrigger>
+                        <Button
+                          variant="outline"
+                          type="button"
+                          className="flex w-full justify-start items-center cursor-pointer"
+                        >
+                          <CalendarDaysIcon />
+                          {field.value ? new Date(field.value).toLocaleDateString("pt-BR") : "Dt de Validade"}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <Calendar
+                          mode="single"
+                          fromYear={new Date().getFullYear() - 10}
+                          toYear={new Date().getFullYear() + 10}
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          captionLayout="dropdown"
+                          className="rounded-sm"
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    {errors.dataValidade && <p className="text-sm text-red-300">{errors.dataValidade.message}</p>}
+                  </Field>
+                )}
+              />
               <Field>
                 <Label>Quantidade</Label>
-                <Input type="num" placeholder="00" />
+                <Input type="number" placeholder="00" {...register("quant")} required />
               </Field>
             </FieldGroup>
-            <Button className="cursor-pointer">Inserir</Button>
+            <Button disabled={!prod} type="submit" className="cursor-pointer">
+              {loadings?.insertProdLoading ? <Spinner /> : "Inserir"}
+            </Button>
           </FieldGroup>
         </FieldGroup>
       </form>
