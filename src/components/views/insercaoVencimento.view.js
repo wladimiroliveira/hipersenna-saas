@@ -48,7 +48,6 @@ export function InsercaoVencimentoForm({ handleSubmitInfos, handleSearchProd, pr
 
   function submitInfos(data) {
     resetField("codprod");
-    resetField("prodMod");
     resetField("quant");
     resetField("dataValidade");
     handleSubmitInfos(data);
