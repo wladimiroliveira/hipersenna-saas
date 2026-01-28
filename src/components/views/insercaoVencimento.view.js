@@ -68,6 +68,7 @@ export function InsercaoVencimentoForm({ handleSubmitInfos, handleSearchProd, pr
               <Controller
                 control={control}
                 name="branch_id"
+                rules={{ required: "É necessário selecionar uma filial" }}
                 render={({ field }) => (
                   <Select
                     disabled={Array.isArray(prodList) && prodList?.length > 0}
@@ -92,6 +93,7 @@ export function InsercaoVencimentoForm({ handleSubmitInfos, handleSearchProd, pr
                         <SelectItem value="8">8 - Canaã</SelectItem>
                       </SelectGroup>
                     </SelectContent>
+                    {errors.branch_id && <p className="text-sm text-red-300">{errors.branch_id.message}</p>}
                   </Select>
                 )}
               />
