@@ -45,6 +45,7 @@ export function DataTable({ columns, data, handleRemoveRows }) {
     const selectedRowsIndex = table.getFilteredSelectedRowModel().rows.map((row) => {
       return row.index;
     });
+    table.resetRowSelection();
     handleRemoveRows(selectedRowsIndex);
   }
 

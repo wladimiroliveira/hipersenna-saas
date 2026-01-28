@@ -88,6 +88,11 @@ export function InsercaoVencimentoController() {
     }
   };
 
+  const handleRemoveRows = (idxRemove) => {
+    const result = data.filter((_, index) => !idxRemove.includes(index));
+    setData(result);
+  };
+
   return (
     <div className="flex-1 gap-4 flex w-full">
       <InsercaoVencimentoForm
