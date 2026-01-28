@@ -3,6 +3,24 @@
 import { getToken } from "@/components/services/getToken.service";
 import { deleteToken } from "@/components/services/deleteToken.service";
 
+export async function postValidities(payload) {
+  const token = await getToken();
+  const responseResult = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/validities`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+  const responseValue = await responseResult.json();
+  return {
+    ok: responseResult?.ok,
+    status: responseResult?.status,
+    message: responseResult?.message,
+  };
+}
+
 export async function getValidities(params) {
   try {
     let url = `${process.env.NEXT_PUBLIC_API_URL}/validities?`;

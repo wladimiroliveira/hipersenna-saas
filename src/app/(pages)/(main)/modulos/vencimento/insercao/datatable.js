@@ -22,8 +22,9 @@ import { Input } from "@/components/ui/input";
 import { isValidElement, useState } from "react";
 import { SendIcon, TrashIcon } from "lucide-react";
 import clsx from "clsx";
+import { Spinner } from "@/components/ui/spinner";
 
-export function DataTable({ columns, data, handleRemoveRows }) {
+export function DataTable({ columns, data, handleRemoveRows, handleSendProducts, loadings }) {
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
 
@@ -47,6 +48,13 @@ export function DataTable({ columns, data, handleRemoveRows }) {
     });
     table.resetRowSelection();
     handleRemoveRows(selectedRowsIndex);
+  }
+
+  function sendProducts() {
+    const rows = table.getFilteredRowModel().rows.map((row) => {
+      return row?.original;
+    });
+    handleSendProducts(rows);
   }
 
   return (
@@ -187,9 +195,19 @@ export function DataTable({ columns, data, handleRemoveRows }) {
               Excluir {table.getFilteredSelectedRowModel().rows.length} linha
               {table.getFilteredSelectedRowModel().rows.length > 1 && "s"} <TrashIcon />
             </Button>
-            <Button size="sm" disabled={data?.length === 0} className="cursor-pointer bg-green-600 hover:bg-green-700">
-              Enviar
-              <SendIcon />
+            <Button
+              size="sm"
+              disabled={data?.length === 0 || loadings?.sendProdLoading}
+              className="cursor-pointer bg-green-600 hover:bg-green-700"
+              onClick={sendProducts}
+            >
+              {loadings?.sendProdLoading ? (
+                <Spinner />
+              ) : (
+                <>
+                  Enviar <SendIcon />
+                </>
+              )}
             </Button>
           </div>
         </div>

@@ -29,6 +29,14 @@ export const columns = [
   {
     accessorKey: "codprod",
     header: "CodProd",
+    cell: ({ row }) => {
+      const value = row.getValue("codprod");
+      return <p>{Number(value)}</p>;
+    },
+  },
+  {
+    accessorKey: "auxiliary_code",
+    header: "Cod. Auxiliar",
   },
   {
     accessorKey: "description",
@@ -41,6 +49,18 @@ export const columns = [
   {
     accessorKey: "validity_date",
     header: "Data de Validade",
+    cell: ({ row }) => {
+      const value = row.getValue("validity_date");
+      return (
+        <p>
+          {new Date(value).toLocaleDateString("pt-br", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          })}
+        </p>
+      );
+    },
   },
   {
     accessorKey: "quantity",

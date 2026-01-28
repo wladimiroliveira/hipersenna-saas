@@ -6,10 +6,12 @@ import { InsercaoVencimentoForm } from "../views/insercaoVencimento.view";
 import { toast } from "sonner";
 import { DataTable } from "@/app/(pages)/(main)/modulos/vencimento/insercao/datatable";
 import { columns } from "@/app/(pages)/(main)/modulos/vencimento/insercao/columns";
+import { postValidities } from "../services/validity.service";
 
 export function InsercaoVencimentoController() {
   const [searchProdLoading, setSearchProdLoading] = useState(false);
   const [insertProdLoading, setInsertProdLoading] = useState(false);
+  const [sendProdLoading, setSendProdLoading] = useState(false);
   const [data, setData] = useState([]);
   const [prod, setProd] = useState(false);
 
@@ -56,12 +58,9 @@ export function InsercaoVencimentoController() {
           {
             branch_id: currentData?.branch_id,
             codprod: currentData?.codprod,
+            auxiliary_code: prod?.codAuxiliar,
             description: prod?.descricao,
-            validity_date: new Date(currentData?.dataValidade).toLocaleDateString("pt-br", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-            }),
+            validity_date: new Date(currentData?.dataValidade),
             quantity: currentData?.quant,
           },
         ]);
@@ -71,12 +70,9 @@ export function InsercaoVencimentoController() {
           {
             branch_id: currentData?.branch_id,
             codprod: currentData?.codprod,
+            auxiliary_code: prod?.codAuxiliar,
             description: prod?.descricao,
-            validity_date: new Date(currentData?.dataValidade).toLocaleDateString("pt-br", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-            }),
+            validity_date: new Date(currentData?.dataValidade),
             quantity: currentData?.quant,
           },
         ]);
@@ -93,6 +89,33 @@ export function InsercaoVencimentoController() {
     setData(result);
   };
 
+  const handleSendProducts = async (products) => {
+    try {
+      setSendProdLoading(true);
+      const payload = {
+        branch_id: Number(products[0]?.branch_id),
+        request_id: null,
+        products: products.map((product) => ({
+          product_code: Number(product?.codprod),
+          auxiliary_code: product?.auxiliary_code,
+          quantity: Number(product?.quantity),
+          validity_date: product?.validity_date,
+        })),
+      };
+      const responseValue = await postValidities(payload);
+      if (responseValue?.status === 201) {
+        toast.success("Sucesso", {
+          description: "Vencimento enviado com sucesso",
+        });
+        setData([]);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSendProdLoading(false);
+    }
+  };
+
   return (
     <div className="flex-1 gap-4 flex w-full">
       <InsercaoVencimentoForm
@@ -102,7 +125,13 @@ export function InsercaoVencimentoController() {
         loadings={{ searchProdLoading, insertProdLoading }}
         prodList={data}
       />
-      <DataTable columns={columns} data={data} handleRemoveRows={handleRemoveRows} />
+      <DataTable
+        columns={columns}
+        data={data}
+        handleRemoveRows={handleRemoveRows}
+        handleSendProducts={handleSendProducts}
+        loadings={{ sendProdLoading }}
+      />
     </div>
   );
 }
