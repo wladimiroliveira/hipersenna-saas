@@ -102,21 +102,5 @@
         "permissions": [30]
       }
     ]
-  },
-  {
-    "id": "conhecimento",
-    "name": "Conhecimento",
-    "buttonText": "Acessar",
-    "description": "Se mantenha atualizado com relação aos processos mais importantes do seu setor através do módulo de conhecimento",
-    "path": "/modulos/conhecimento",
-    "permissions": []
-  },
-  {
-    "id": "sorteio",
-    "name": "Sorteio",
-    "buttonText": "Acessar",
-    "description": "Realize sorteios e visualize os resultados dos sorteios",
-    "path": "/modulos/admin-sorteios",
-    "permissions": []
   }
 ]
