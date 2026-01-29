@@ -17,11 +17,5 @@
     "id": "vencimento",
     "path": "/modulos/vencimento",
     "permissions": [1, 28, 29, 30, 31, 32, 33]
-  },
-  {
-    "name": "Sorteio",
-    "id": "admin-sorteios",
-    "path": "/modulos/admin-sorteios",
-    "permissions": []
   }
 ]
